@@ -1,4 +1,4 @@
-Shader "Prototype/Road_S"
+Shader "Prototype/TreeShader_S"
 {
     Properties
     {
@@ -43,8 +43,8 @@ Shader "Prototype/Road_S"
             fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
             o.Albedo = c.rgb;
             // Metallic and smoothness come from slider variables
-            o.Metallic = 0;//_Metallic;
-            o.Smoothness = 0;//_Glossiness;
+            o.Metallic = _Metallic;
+            o.Smoothness = _Glossiness;
             o.Alpha = c.a;
         }
         ENDCG
