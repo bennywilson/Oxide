@@ -67,6 +67,7 @@ namespace SplineMesh {
         }
 
         void OnSceneGUI() {
+            Debug.Log("Ya!");
             // disable game object transform gyzmo
             // if the spline script is active
             if (Selection.activeGameObject == spline.gameObject) {

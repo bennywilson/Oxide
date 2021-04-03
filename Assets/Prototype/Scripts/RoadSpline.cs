@@ -27,8 +27,8 @@ namespace SplineMesh {
     /// </summary>
     [ExecuteInEditMode]
     [SelectionBase]
-    [DisallowMultipleComponent] 
-    public class ExampleTrack : MonoBehaviour {
+    [DisallowMultipleComponent]
+    public class RoadSpline : MonoBehaviour {
         private GameObject generated;
         private Spline spline = null;
         private bool toUpdate = false;
@@ -142,31 +142,5 @@ namespace SplineMesh {
             }
         }
     }
-
-    /// <summary>
-    /// This class store any data associated with a spline segment.
-    /// In this example, a list of meshes.
-    /// It is intended to be edited in the inspector.
-    /// </summary>
-    [Serializable]
-    public class TrackSegment {
-        public List<TransformedMesh> transformedMeshes = new List<TransformedMesh>();
-    }
-
-    /// <summary>
-    /// This class stores all needed data to represent a mesh in situation.
-    /// It is intended to be edited in the inspector.
-    /// </summary>
-    [Serializable]
-    public class TransformedMesh {
-        public TransformedMesh() {
-            scale = Vector3.one;
-        }
-        public Mesh mesh;
-        public Material material;
-        public PhysicMaterial physicMaterial;
-        public Vector3 translation;
-        public Vector3 rotation;
-        public Vector3 scale = Vector3.one;
-    }
 }
+
