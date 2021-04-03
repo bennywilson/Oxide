@@ -22,7 +22,9 @@ public class Vehicle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RB.velocity = new Vector3(0.0f, 0.0f, 4.0f * Gas);
+        Vector3 vel = transform.forward;
+        vel *= MaxSpeed * Gas;
+        RB.velocity = vel;
     }
 
     private void LateUpdate()
