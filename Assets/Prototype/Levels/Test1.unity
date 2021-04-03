@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 24592950}
   m_Layer: 0
   m_Name: Pinky Mobile
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -300,6 +300,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a4437edb6cc724a88ccaad93c59b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TurnRate: 5
+  MaxSpeed: 1
 --- !u!4 &24592949
 Transform:
   m_ObjectHideFlags: 0
@@ -313,7 +315,7 @@ Transform:
   m_Children:
   - {fileID: 1300057415}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &24592950
 BoxCollider:
@@ -3312,7 +3314,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: -12.085, y: 0, z: 0}
 --- !u!114 &691197593
 MonoBehaviour:
@@ -4181,7 +4183,7 @@ Transform:
   - {fileID: 1066921481}
   - {fileID: 90707081}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &895409521
 PrefabInstance:
@@ -6056,6 +6058,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1270623242}
   - component: {fileID: 1270623241}
+  - component: {fileID: 1270623243}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -6089,6 +6092,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1270623243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1270623240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: c403acb2b7019814a800004bfef8b601, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard&Mouse
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1001 &1272000052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8761,7 +8794,7 @@ Transform:
   m_Children:
   - {fileID: 2094196678}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1001 &1793658667
 PrefabInstance:
