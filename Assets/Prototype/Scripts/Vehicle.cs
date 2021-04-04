@@ -17,7 +17,7 @@ public class Vehicle : MonoBehaviour
     float Acceleration = 1.0f;
 
     [SerializeField]
-    float Friction = 1.0f;
+    float TurnFriction = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -29,20 +29,46 @@ public class Vehicle : MonoBehaviour
 
     private void Update()
     {
-        RB.drag = Friction;
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        Vector3 vel = transform.forward;
-        vel *= MaxSpeed * Gas;
-        RB.velocity += transform.forward * Gas * Acceleration;
-
-        if (Mathf.Abs(SteeringVector.x) > 0.1f)
+        // Steer
+        float FacingVelDot = Vector3.Dot(transform.forward, RB.velocity);
+        float SteerAmt = SteeringVector.x * FacingVelDot;
+        if (Mathf.Abs(SteerAmt) > 0.1f)
         {
             transform.rotation *= Quaternion.AngleAxis(SteeringVector.x, transform.up);
         }
+
+        // Gas
+        Vector3 Vel2D = transform.forward;
+        Vel2D.y = 0;
+        Vector3 Dir2D = Vel2D.normalized;
+
+        Vector3 curVec = new Vector3(RB.velocity.x, 0.0f, RB.velocity.z);
+
+
+        if (Gas > 0.0f)
+        {
+            RB.AddForce(transform.forward * Gas * Acceleration, ForceMode.Acceleration);
+            if (curVec.magnitude > MaxSpeed)
+            {
+                curVec = Dir2D * MaxSpeed;
+            }
+            curVec.y = RB.velocity.y;
+            RB.velocity = curVec;
+        }
+
+        // Friction
+        float TotalFriction = TurnFriction * Mathf.Abs(SteeringVector.x);
+        Vector3 FrictionVec = RB.velocity;
+        FrictionVec.y = 0;
+        FrictionVec.Normalize();
+
+        FrictionVec *= TotalFriction;
     }
 
     private void LateUpdate()
