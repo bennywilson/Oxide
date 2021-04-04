@@ -1,30 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace SplineMesh {
-    /// <summary>
-    /// Example of component to bend many meshes along a spline. This component can be used as-is but will most likely be a base for your own component.
-    /// 
-    /// This is a more advanced and real-life SplineMesh component. Use it as a source of inspiration.
-    /// 
-    /// In this script, you will learn to : 
-    ///  - preserve baked lightmap when entering playmode,
-    ///  - better manage the generated content life cycle to avoid useless calculations
-    ///  - create data class to produce richer content along your spline
-    ///  
-    /// This is the most complete Example provided in the asset. For further help, information and ideas, please visit
-    /// the officiel thread on Unity forum.
-    /// 
-    /// And if you like SplineMesh, please review it on the asset store !
-    /// 
-    /// Now you should be able to bend the world to your will.
-    /// 
-    /// Have fun with SplineMesh !
-    /// 
-    /// </summary>
+
     [ExecuteInEditMode]
     [SelectionBase]
     [DisallowMultipleComponent]
@@ -57,9 +36,11 @@ namespace SplineMesh {
             while (segments.Count < spline.nodes.Count) {
                 segments.Add(new TrackSegment());
             }
+
             while (segments.Count > spline.nodes.Count) {
                 segments.RemoveAt(segments.Count - 1);
             }
+
             spline.NodeListChanged += (s, e) => {
                 switch (e.type) {
                     case ListChangeType.Add:
@@ -96,16 +77,24 @@ namespace SplineMesh {
             List<GameObject> used = new List<GameObject>();
 
             for (int i = 0; i < spline.GetCurves().Count; i++) {
+
                 var curve = spline.GetCurves()[i];
-                foreach (var tm in segments[i].transformedMeshes) {
+                TrackSegment CurSeg = segments[i];
+                if (CurSeg.transformedMeshes.Count == 0)
+                {
+                    CurSeg = segments[0];
+                }
+
+                foreach (var tm in CurSeg.transformedMeshes) {
                     if (tm.mesh == null) {
                         // if there is no mesh specified for this segment, we ignore it.
                         continue;
                     }
 
+   
                     // we try to find a game object previously generated. this avoids destroying/creating
                     // game objects at each update, wich is faster.
-                    var childName = "segment " + i + " mesh " + segments[i].transformedMeshes.IndexOf(tm);
+                    var childName = "segment " + i + " mesh " + CurSeg.transformedMeshes.IndexOf(tm);
                     var childTransform = generated.transform.Find(childName);
                     GameObject go;
                     if (childTransform == null) {
@@ -113,14 +102,13 @@ namespace SplineMesh {
                             generated,
                             typeof(MeshFilter),
                             typeof(MeshRenderer),
-                            typeof(MeshBender),
-                            typeof(MeshCollider));
+                            typeof(MeshBender));
                         go.isStatic = true;
                     } else {
                         go = childTransform.gameObject;
                     }
                     go.GetComponent<MeshRenderer>().material = tm.material;
-                    go.GetComponent<MeshCollider>().material = tm.physicMaterial;
+                    // go.GetComponent<MeshCollider>().material = tm.physicMaterial;
 
                     // we update the data in the bender. It will decide itself if the bending must be recalculated.
                     MeshBender mb = go.GetComponent<MeshBender>();

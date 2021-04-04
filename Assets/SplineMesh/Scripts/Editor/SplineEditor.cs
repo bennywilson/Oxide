@@ -29,7 +29,7 @@ namespace SplineMesh {
         private SerializedProperty nodesProp { get { return serializedObject.FindProperty("nodes"); } }
         private Spline spline { get { return (Spline)serializedObject.targetObject; } }
 
-        private GUIStyle nodeButtonStyle, directionButtonStyle, upButtonStyle;
+        private GUIStyle nodeButtonStyle, directionButtonStyle, upButtonStyle, frontNodeButtonStyle;
 
         private void OnEnable() {
             Texture2D t = new Texture2D(1, 1);
@@ -37,6 +37,12 @@ namespace SplineMesh {
             t.Apply();
             nodeButtonStyle = new GUIStyle();
             nodeButtonStyle.normal.background = t;
+
+            t = new Texture2D(1, 1);
+            t.SetPixel(0, 0, Color.green);
+            t.Apply();
+            frontNodeButtonStyle = new GUIStyle();
+            frontNodeButtonStyle.normal.background = t;
 
             t = new Texture2D(1, 1);
             t.SetPixel(0, 0, DIRECTION_BUTTON_COLOR);
@@ -67,7 +73,7 @@ namespace SplineMesh {
         }
 
         void OnSceneGUI() {
-            Debug.Log("Ya!");
+
             // disable game object transform gyzmo
             // if the spline script is active
             if (Selection.activeGameObject == spline.gameObject) {
@@ -179,9 +185,21 @@ namespace SplineMesh {
                         }
                     }
                 } else {
-                    if (Button(guiPos, nodeButtonStyle)) {
-                        selection = n;
-                        selectionType = SelectionType.Node;
+                    if (n == spline.nodes[0])
+                    {
+                        if (Button(guiPos, frontNodeButtonStyle))
+                        {
+                            selection = n;
+                            selectionType = SelectionType.Node;
+                        }
+                    }
+                    else
+                    {
+                        if (Button(guiPos, nodeButtonStyle))
+                        {
+                            selection = n;
+                            selectionType = SelectionType.Node;
+                        }
                     }
                 }
             }
@@ -210,6 +228,7 @@ namespace SplineMesh {
                 Undo.RecordObject(spline, "add spline node");
                 SplineNode newNode = new SplineNode(selection.Direction, selection.Direction + selection.Direction - selection.Position);
                 var index = spline.nodes.IndexOf(selection);
+    
                 if(index == spline.nodes.Count - 1) {
                     spline.AddNode(newNode);
                 } else {
