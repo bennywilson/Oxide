@@ -1,0 +1,182 @@
+Using pre-set license
+Built from '2021.1/release' branch; Version is '2021.1.1f1 (6fdc41dfa55a) revision 7330881'; Using compiler version '192528614'; Build Type 'Release'
+OS: 'Windows 10 Pro; OS build 18363.1440; Version 1909; 64bit' Language: 'en' Physical Memory: 16286 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+ COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2021.1.1f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+C:/projects/Oxide
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+63874
+Successfully changed project path to: C:/projects/Oxide
+C:/projects/Oxide
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 40.44 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2021.1.1f1 (6fdc41dfa55a)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.1.1f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/projects/Oxide/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 1060 with Max-Q Design (ID=0x1c20)
+    Vendor:   NVIDIA
+    VRAM:     6052 MB
+    Driver:   27.21.14.6192
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.1.1f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.1.1f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.1.1f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56196
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.1.1f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.099980 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 25.09 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  3.715 seconds
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.051598 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 25.64 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.931 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.08 seconds
+Refreshing native plugins compatible for Editor in 0.23 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1453 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 71.2 MB.
+System memory in use after: 71.3 MB.
+
+Unloading 11 unused Assets to reduce memory usage. Loaded Objects now: 1913.
+Total: 2.215800 ms (FindLiveObjects: 0.155100 ms CreateObjectMapping: 0.094500 ms MarkObjects: 1.892500 ms  DeleteObjects: 0.072900 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/Prototype/Models/Cars/Car_T.png
+  artifactKey: Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/Car_T.png using Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'abc9a0d7a11fb1e6d56e2d1d4c299274') in 0.081496 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000268 seconds.
+  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
+  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ac91e5f575a950b494b309c34faf8c14') in 0.129909 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 115.175409 seconds.
+  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
+  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6b9ba32312fd8a6fe2209b9674b585b0') in 0.075317 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000782 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.24 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.805 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.23 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1443 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 78.1 MB.
+System memory in use after: 78.2 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1975.
+Total: 2.272300 ms (FindLiveObjects: 0.161100 ms CreateObjectMapping: 0.058500 ms MarkObjects: 2.010500 ms  DeleteObjects: 0.041300 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 22.729970 seconds.
+  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
+  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3e1c37ad1a90bfcf9f00465a2f0625f1') in 0.098533 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 6.859682 seconds.
+  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
+  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '545466ec434f1d4060218b0a632021ed') in 0.033553 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 5.802120 seconds.
+  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
+  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'abb1eb5c8bd93fee07ac6fd2c25ae552') in 0.043741 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 13.520730 seconds.
+  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
+  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e002c842bbb5516606a53b47c5ab9c46') in 0.056815 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001011 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.40 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.318 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.35 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1442 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 78.1 MB.
+System memory in use after: 78.2 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1979.
+Total: 3.410300 ms (FindLiveObjects: 0.214000 ms CreateObjectMapping: 0.118400 ms MarkObjects: 3.054500 ms  DeleteObjects: 0.022100 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 99.916697 seconds.
+  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
+  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f8119a1096a72400285876c25a9b5bea') in 0.158561 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 135.920036 seconds.
+  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
+  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e0302313e810cce6ce73092a96ce2605') in 0.043222 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.054641 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.23 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  4.003 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.24 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1442 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 78.2 MB.
+System memory in use after: 78.3 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1983.
+Total: 1.846500 ms (FindLiveObjects: 0.127100 ms CreateObjectMapping: 0.040100 ms MarkObjects: 1.665700 ms  DeleteObjects: 0.012900 ms)
+
