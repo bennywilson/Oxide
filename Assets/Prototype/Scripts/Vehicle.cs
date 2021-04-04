@@ -44,16 +44,15 @@ public class Vehicle : MonoBehaviour
         }
 
         // Gas
-        Vector3 Vel2D = transform.forward;
-        Vel2D.y = 0;
-        Vector3 Dir2D = Vel2D.normalized;
-
-        Vector3 curVec = new Vector3(RB.velocity.x, 0.0f, RB.velocity.z);
-
+        Vector3 Dir2D = transform.forward;
+        Dir2D.y = 0;
+        Dir2D.Normalize();
 
         if (Gas > 0.0f)
         {
             RB.AddForce(transform.forward * Gas * Acceleration, ForceMode.Acceleration);
+
+            Vector3 curVec = new Vector3(RB.velocity.x, 0.0f, RB.velocity.z);
             if (curVec.magnitude > MaxSpeed)
             {
                 curVec = Dir2D * MaxSpeed;
