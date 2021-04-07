@@ -1,5 +1,5 @@
 {
-    "name": "OxideA",
+    "name": "Oxide",
     "maps": [
         {
             "name": "Player",
@@ -25,6 +25,14 @@
                     "name": "Gas",
                     "type": "Button",
                     "id": "628bce87-20b9-415e-8c66-d64f8bd17b01",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Prrr",
+                    "type": "Button",
+                    "id": "c398e81f-c9c1-4f8d-8470-9dadc84cf22a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -248,6 +256,28 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "Gas",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9339a43-62bc-468b-97f7-22b394fe98c2",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Prrr",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f9dbf759-bfdc-49ca-86ec-2bbb8b44a129",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Prrr",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

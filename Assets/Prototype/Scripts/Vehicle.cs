@@ -19,6 +19,9 @@ public class Vehicle : MonoBehaviour
     [SerializeField]
     float TurnFriction = 0.0f;
 
+    [SerializeField]
+    private GameObject Driver;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -85,5 +88,11 @@ public class Vehicle : MonoBehaviour
     {
     //    RB.lin
         Gas = Value.Get<float>();
+    }
+    public void OnPrrr(InputValue Value)
+    {
+        Animation anim = Driver.GetComponentInChildren<Animation>();
+        anim.enabled = true;
+        anim.Play();
     }
 }

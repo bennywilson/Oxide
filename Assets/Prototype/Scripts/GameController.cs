@@ -44,4 +44,14 @@ public class GameController : MonoBehaviour
 
         Debug.Log(Time.time + " : " + input.Get<float>());
     }
+
+    public void OnPrrr(InputValue Input)
+    {
+        if (PlayerVehicle == null)
+        {
+            return;
+        }
+
+        PlayerVehicle.OnPrrr(Input);
+    }
 }

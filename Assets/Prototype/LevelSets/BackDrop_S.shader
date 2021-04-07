@@ -6,7 +6,7 @@ Shader "Prototype/BackDrop_S"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent " }
+        Tags { "RenderType"="Transparent" }
 				//ZWrite Off
 				Blend SrcAlpha OneMinusSrcAlpha
 
