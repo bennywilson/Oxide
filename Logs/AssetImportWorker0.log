@@ -15,11 +15,11 @@ C:/projects/Oxide
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-51544
+51372
 Successfully changed project path to: C:/projects/Oxide
 C:/projects/Oxide
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 26.32 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 33.18 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2021.1.1f1 (6fdc41dfa55a)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.1.1f1/Editor/Data/Resources/UnitySubsystems
@@ -35,25 +35,25 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.1.1f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.1.1f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.1.1f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56896
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56800
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.1.1f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.001749 seconds.
+Registered in 0.001707 seconds.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 27.51 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 25.91 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.112 seconds
+- Completed reload, in  1.082 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.000659 seconds.
+Registered in 0.000675 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 36.13 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 25.54 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  0.936 seconds
+- Completed reload, in  0.848 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
@@ -65,184 +65,468 @@ System memory in use before: 71.2 MB.
 System memory in use after: 71.3 MB.
 
 Unloading 11 unused Assets to reduce memory usage. Loaded Objects now: 1913.
-Total: 2.046400 ms (FindLiveObjects: 0.148600 ms CreateObjectMapping: 0.076600 ms MarkObjects: 1.750000 ms  DeleteObjects: 0.070200 ms)
+Total: 2.149000 ms (FindLiveObjects: 0.147500 ms CreateObjectMapping: 0.093500 ms MarkObjects: 1.825700 ms  DeleteObjects: 0.081200 ms)
 
 ========================================================================
 Received Import Request.
-  path: Assets/Prototype/Models/Environment/Roads/Road1.psd
-  artifactKey: Guid(22148542cddb4894ea27165417a7e47a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Environment/Roads/Road1.psd using Guid(22148542cddb4894ea27165417a7e47a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '47a3e3be8fee389c0dfe7d639f294785') in 0.072280 seconds 
+  path: Assets/Prototype/Models/Cars/Car_T.png
+  artifactKey: Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/Car_T.png using Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6a2b99839ba2d8318d6f69695e1fa6ea') in 0.102480 seconds 
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000331 seconds.
-  path: Assets/Prototype/Models/Environment/Roads/Road.fbx
-  artifactKey: Guid(7b2da4afea8847f4fad5bda73db8fecd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Environment/Roads/Road.fbx using Guid(7b2da4afea8847f4fad5bda73db8fecd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a2dd643b0ca8c27c567d7d670d24f275') in 0.160581 seconds 
+  Time since last request: 0.000285 seconds.
+  path: Assets/Prototype/Models/Cars/Wheel_T.png
+  artifactKey: Guid(517f630230d8e6348b2236f2432ec018) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/Wheel_T.png using Guid(517f630230d8e6348b2236f2432ec018) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c5a7c2ba73ec45322265646b081030d1') in 0.017984 seconds 
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000267 seconds.
+  Time since last request: 7.715779 seconds.
   path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
   artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '68c7deae40f078d4cbf0399846651116') in 0.045599 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000295 seconds.
-  path: Assets/Prototype/Models/Environment/Roads/Road2.psd
-  artifactKey: Guid(a7aeba18a55fcf343bfb847125b44d20) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Environment/Roads/Road2.psd using Guid(a7aeba18a55fcf343bfb847125b44d20) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '24e7d923d6b4a5bcfdccabdb0905c778') in 0.031493 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000296 seconds.
-  path: Assets/Prototype/Models/Environment/Roads/Grass.psd
-  artifactKey: Guid(987e396476fbf4446b0ab42193607057) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Environment/Roads/Grass.psd using Guid(987e396476fbf4446b0ab42193607057) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8635020da5162ebd03a69aacaf5c0a42') in 0.016888 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 4.244427 seconds.
-  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
-  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a9b717a44cd3b95ccc8f179fdf4d2f54') in 0.028853 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 77.307111 seconds.
-  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
-  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7b14954ec7d32d47f9ee28fe21ae8970') in 0.027972 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 139.271702 seconds.
-  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
-  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9389324bc2ae8f734acf6964a7c9a86e') in 0.027007 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 805.035772 seconds.
-  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
-  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ddde48b88c79acea9545468e2ba1fa05') in 0.041564 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 26.790367 seconds.
-  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
-  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '569e518407dd88e03e97813d09b56894') in 0.026530 seconds 
+Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6494bdfe6d37ae518e6d112a3b297d37') in 0.133267 seconds 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.000762 seconds.
+Registered in 0.000885 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
 Refreshing native plugins compatible for Editor in 0.23 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  0.823 seconds
+- Completed reload, in  0.806 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.27 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 0.24 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1445 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 77.1 MB.
-System memory in use after: 77.2 MB.
+Unloading 1444 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 81.2 MB.
+System memory in use after: 81.3 MB.
 
-Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 2006.
-Total: 1.969500 ms (FindLiveObjects: 0.145000 ms CreateObjectMapping: 0.060700 ms MarkObjects: 1.741600 ms  DeleteObjects: 0.021000 ms)
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1990.
+Total: 1.820300 ms (FindLiveObjects: 0.133100 ms CreateObjectMapping: 0.057400 ms MarkObjects: 1.611000 ms  DeleteObjects: 0.017900 ms)
 
-========================================================================
-Received Import Request.
-  Time since last request: 238.915685 seconds.
-  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
-  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '23cec5e61055ea776ace582394fcfb98') in 0.086890 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 442.787878 seconds.
-  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
-  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7607b800f352fde233b661b1fc065f16') in 0.030595 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 11.556632 seconds.
-  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
-  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '52e9d2bae089b40fd9b6f9a5baaf64ef') in 0.026181 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 38.548850 seconds.
-  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
-  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8f865bd0e3f42df9cbafdaa1a5eb8a15') in 0.025058 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 70.158570 seconds.
-  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
-  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00dd72c5cb9d3e47c0b5b7fcb4542db0') in 0.027727 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 104.473167 seconds.
-  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
-  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '90714bf420cdd18c9b15a8529e89c3de') in 0.030769 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 342.143505 seconds.
-  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
-  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4dcad4491a98f995a9cf6340fc0bd94f') in 0.032509 seconds 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.001892 seconds.
+Registered in 0.000673 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.22 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.773 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.27 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1442 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 81.2 MB.
+System memory in use after: 81.3 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 1993.
+Total: 2.453900 ms (FindLiveObjects: 0.164400 ms CreateObjectMapping: 0.073500 ms MarkObjects: 2.198400 ms  DeleteObjects: 0.016700 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 3664.265509 seconds.
+  path: Assets/Prototype/Models/Cars/Car_T.png
+  artifactKey: Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/Car_T.png using Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '97d1ab3ccc82d016064ae3c5794a8079') in 0.059687 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000288 seconds.
+  path: Assets/Prototype/Models/Cars/Wheel_T.png
+  artifactKey: Guid(517f630230d8e6348b2236f2432ec018) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/Wheel_T.png using Guid(517f630230d8e6348b2236f2432ec018) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dfc80cae6e3368aec7ca6d72076b3d2e') in 0.009097 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000436 seconds.
+  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
+  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0868072b9dde36ddd152648a1525adb7') in 0.073570 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000688 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.24 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.796 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.24 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1442 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 82.0 MB.
+System memory in use after: 82.1 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 2025.
+Total: 1.842300 ms (FindLiveObjects: 0.138400 ms CreateObjectMapping: 0.059400 ms MarkObjects: 1.627700 ms  DeleteObjects: 0.016200 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 41.185979 seconds.
+  path: Assets/Prototype/Models/Cars/Car_T.png
+  artifactKey: Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/Car_T.png using Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f72861772163a8e00de8bfdaa1d069b0') in 0.044434 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000842 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.40 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.248 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.79 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1442 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 82.4 MB.
+System memory in use after: 82.5 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 2042.
+Total: 3.340900 ms (FindLiveObjects: 0.251800 ms CreateObjectMapping: 0.134600 ms MarkObjects: 2.930700 ms  DeleteObjects: 0.022300 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000865 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.23 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.785 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.26 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1442 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 82.4 MB.
+System memory in use after: 82.5 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 2045.
+Total: 1.907500 ms (FindLiveObjects: 0.156100 ms CreateObjectMapping: 0.083100 ms MarkObjects: 1.655000 ms  DeleteObjects: 0.011900 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 174.578222 seconds.
+  path: Assets/Prototype/Models/Cars/Car_T.png
+  artifactKey: Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/Car_T.png using Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8180647248732b485c2293d422f8a1c9') in 0.037327 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 20.369315 seconds.
+  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
+  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9953aacd27146bb9609122e423826e88') in 0.119143 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000713 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.23 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.796 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.24 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1442 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 82.8 MB.
+System memory in use after: 83.0 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 2063.
+Total: 1.846500 ms (FindLiveObjects: 0.142300 ms CreateObjectMapping: 0.044800 ms MarkObjects: 1.644000 ms  DeleteObjects: 0.014700 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 55.444333 seconds.
+  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
+  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b0d47d1de4d3e12575a5975586481771') in 0.090945 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000616 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.22 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.803 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.26 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1442 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 82.9 MB.
+System memory in use after: 83.0 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 2067.
+Total: 1.994200 ms (FindLiveObjects: 0.168300 ms CreateObjectMapping: 0.058000 ms MarkObjects: 1.754000 ms  DeleteObjects: 0.012800 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000896 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.22 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.785 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.32 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1442 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 82.9 MB.
+System memory in use after: 83.0 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 2070.
+Total: 1.934400 ms (FindLiveObjects: 0.175100 ms CreateObjectMapping: 0.062700 ms MarkObjects: 1.683100 ms  DeleteObjects: 0.012800 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 365.447764 seconds.
+  path: Assets/Prototype/Models/Cars/Car_T.png
+  artifactKey: Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/Car_T.png using Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7b6fdc2f5e2aa53b8f3ab6aef705b5d5') in 0.039612 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000851 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
 Refreshing native plugins compatible for Editor in 0.25 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  0.899 seconds
+- Completed reload, in  0.790 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.47 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 0.28 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 1442 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 77.1 MB.
-System memory in use after: 77.2 MB.
+System memory in use before: 83.3 MB.
+System memory in use after: 83.4 MB.
 
-Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 2010.
-Total: 2.279200 ms (FindLiveObjects: 0.191200 ms CreateObjectMapping: 0.084000 ms MarkObjects: 1.980400 ms  DeleteObjects: 0.022300 ms)
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 2087.
+Total: 2.417400 ms (FindLiveObjects: 0.193900 ms CreateObjectMapping: 0.084300 ms MarkObjects: 2.123300 ms  DeleteObjects: 0.014200 ms)
 
 ========================================================================
 Received Import Request.
-  Time since last request: 226.132333 seconds.
-  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
-  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd0d7dbf8d57703317a6dc635965cc1f2') in 0.103031 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 326.012481 seconds.
-  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
-  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '04ba13b3eebd2760b38a3396bd91e832') in 0.033132 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 28.085087 seconds.
+  Time since last request: 50.049254 seconds.
   path: Assets/Prototype/Models/Cars/Car_T.png
   artifactKey: Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Prototype/Models/Cars/Car_T.png using Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5c963cb299db4eb67ac217cb07dcd040') in 0.044661 seconds 
+Start importing Assets/Prototype/Models/Cars/Car_T.png using Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e9f2cafb358a5cd4a435a464be7a2e7d') in 0.045139 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000335 seconds.
+  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
+  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9e99f0ac6808edb99ff96f20f66c83cb') in 0.095352 seconds 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.000656 seconds.
+Registered in 0.000647 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.27 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 0.23 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  0.884 seconds
+- Completed reload, in  0.775 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.27 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1442 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 83.7 MB.
+System memory in use after: 83.8 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 2105.
+Total: 1.877400 ms (FindLiveObjects: 0.131300 ms CreateObjectMapping: 0.075000 ms MarkObjects: 1.629600 ms  DeleteObjects: 0.040800 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 100.179131 seconds.
+  path: Assets/Prototype/Models/Cars/PinkyMobile.fbx
+  artifactKey: Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/PinkyMobile.fbx using Guid(8aebd827844932d4385ae6fb1cc1aca6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'eed0c0cf3495a9a3bd4400ee324cfffb') in 0.090942 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000914 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.23 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.858 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.24 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1442 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 83.7 MB.
+System memory in use after: 83.8 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 2109.
+Total: 2.083400 ms (FindLiveObjects: 0.146700 ms CreateObjectMapping: 0.042600 ms MarkObjects: 1.876500 ms  DeleteObjects: 0.016800 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 42.867654 seconds.
+  path: Assets/Prototype/Models/Cars/Car_T.png
+  artifactKey: Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/Car_T.png using Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f4327c4895f9821c4682031f37809e9c') in 0.035825 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000890 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.26 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.837 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.24 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1442 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 84.1 MB.
+System memory in use after: 84.2 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 2126.
+Total: 2.083000 ms (FindLiveObjects: 0.171600 ms CreateObjectMapping: 0.061300 ms MarkObjects: 1.834900 ms  DeleteObjects: 0.014000 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 25.954008 seconds.
+  path: Assets/Prototype/Models/Cars/Car_T.png
+  artifactKey: Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/Car_T.png using Guid(da987e72486db2e42a6610622e7c1096) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4337c604617c57438d4a4f9b637eb505') in 0.037113 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000937 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.30 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.011 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.23 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1442 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 84.5 MB.
+System memory in use after: 84.6 MB.
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 2143.
+Total: 2.086800 ms (FindLiveObjects: 0.153300 ms CreateObjectMapping: 0.081300 ms MarkObjects: 1.836300 ms  DeleteObjects: 0.015000 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 131.288631 seconds.
+  path: Assets/Prototype/Models/Cars/Window.mat
+  artifactKey: Guid(92660c522cd85c34cbc113dfe6df1caf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/Window.mat using Guid(92660c522cd85c34cbc113dfe6df1caf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '307862e9c3cc1dc70bcd78b32a939e40') in 0.065768 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 15.516519 seconds.
+  path: Assets/Prototype/Models/Cars/Wheels.mat
+  artifactKey: Guid(cb95f7378b53edc4db26055eb96231bb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/Wheels.mat using Guid(cb95f7378b53edc4db26055eb96231bb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fc0e42614df2651446a250c74f49e263') in 0.019859 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 20.967436 seconds.
+  path: Assets/Prototype/Models/Cars/CarShader_S.shader
+  artifactKey: Guid(66b2804caf5e3fd4aa13e2fa9e3ee64d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/CarShader_S.shader using Guid(66b2804caf5e3fd4aa13e2fa9e3ee64d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aa1386f1cf1229b3490cd77603c49049') in 0.020086 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 74.347473 seconds.
+  path: Assets/Prototype/Models/Cars/WindowShader.shader
+  artifactKey: Guid(6d8eef4b61623224bb218b78f4bce8fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/WindowShader.shader using Guid(6d8eef4b61623224bb218b78f4bce8fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '47482d679fed99c525c5f955781c0832') in 0.010390 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 98.811657 seconds.
+  path: Assets/Prototype/Models/Cars/WindowShader.shader
+  artifactKey: Guid(6d8eef4b61623224bb218b78f4bce8fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/WindowShader.shader using Guid(6d8eef4b61623224bb218b78f4bce8fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0a4510d29daa3b094fcb1426626414d6') in 0.003821 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000829 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.29 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.272 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.37 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1443 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 84.9 MB.
+System memory in use after: 85.0 MB.
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 2147.
+Total: 3.484000 ms (FindLiveObjects: 0.337400 ms CreateObjectMapping: 0.177800 ms MarkObjects: 2.894600 ms  DeleteObjects: 0.072500 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000712 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.24 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.795 seconds
 Platform modules already initialized, skipping
 Refreshing native plugins compatible for Editor in 0.23 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 1443 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 80.3 MB.
-System memory in use after: 80.4 MB.
+System memory in use before: 84.9 MB.
+System memory in use after: 85.0 MB.
 
-Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 2029.
-Total: 1.851600 ms (FindLiveObjects: 0.130700 ms CreateObjectMapping: 0.073700 ms MarkObjects: 1.634000 ms  DeleteObjects: 0.012500 ms)
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 2150.
+Total: 2.166800 ms (FindLiveObjects: 0.153700 ms CreateObjectMapping: 0.087200 ms MarkObjects: 1.872600 ms  DeleteObjects: 0.052400 ms)
 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.000708 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.35 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.123 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.29 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1443 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 84.9 MB.
+System memory in use after: 85.0 MB.
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 2153.
+Total: 3.375200 ms (FindLiveObjects: 0.268000 ms CreateObjectMapping: 0.093900 ms MarkObjects: 2.810100 ms  DeleteObjects: 0.200000 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 210.787828 seconds.
+  path: Assets/Prototype/Models/Cars/PinkyMobile_M.mat
+  artifactKey: Guid(b590b45a30fcaba41a4dd49318a0cc6e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/PinkyMobile_M.mat using Guid(b590b45a30fcaba41a4dd49318a0cc6e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'af915ea86e3d639e082846f5f6634bff') in 0.063253 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000322 seconds.
+  path: Assets/Prototype/Models/Cars/Wheels.mat
+  artifactKey: Guid(cb95f7378b53edc4db26055eb96231bb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/Wheels.mat using Guid(cb95f7378b53edc4db26055eb96231bb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cad9afd57e5fa7404791b40f77dc4752') in 0.014153 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000354 seconds.
+  path: Assets/Prototype/Models/Cars/Window.mat
+  artifactKey: Guid(92660c522cd85c34cbc113dfe6df1caf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prototype/Models/Cars/Window.mat using Guid(92660c522cd85c34cbc113dfe6df1caf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3b557a2be1f3d566c718eb5661696eae') in 0.016516 seconds 
