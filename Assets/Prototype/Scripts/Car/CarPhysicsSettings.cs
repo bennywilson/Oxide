@@ -4,7 +4,8 @@ public struct CarPhysicsSettings
     // Single-gear at the moment
     public float Acceleration;
     public float TopSpeed;
-    public float TurnSpeed;
+    public float TurnAngle;
     public float SteeringSpeed;
-    public float WheelFriction;
+    public float DriftFriction;
+    public float CarRotationSpeedPerUnitOfOffset;
 }
