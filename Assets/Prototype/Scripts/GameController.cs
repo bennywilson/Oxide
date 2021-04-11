@@ -5,53 +5,75 @@ using UnityEngine.InputSystem;
 
 public class GameController : MonoBehaviour
 {
-    Vehicle PlayerVehicle;
+    VehicleBase PlayerVehicle;
+    OxideInput _oxideInput;
+
+    VehicleInput GetInput()
+    {
+        if (PlayerVehicle != null)
+            return PlayerVehicle.Input;
+
+        return default;
+    }
+
+    void SetInput(VehicleInput input)
+    {
+        if (PlayerVehicle == null)
+            return;
+
+        PlayerVehicle.Input = input;
+    }
+
+    bool GetCanUseInput()
+    {
+        return PlayerVehicle != null && PlayerVehicle.gameObject.activeInHierarchy;
+    }
+
+    void Awake()
+    {
+        _oxideInput = new OxideInput();
+
+        _oxideInput.Player.Prrr.performed += c =>
+        {
+            if (!GetCanUseInput())
+                return;
+
+            var vInput = GetInput();
+            vInput.WantsToPurr = true;
+            SetInput(vInput);
+        };
+    }
+
+    void OnEnable()
+    {
+        _oxideInput.Enable();
+    }
+
+    void OnDisable()
+    {
+        if (_oxideInput != null)
+        {
+            _oxideInput.Disable();
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        PlayerVehicle = FindObjectOfType<Vehicle>();
+        PlayerVehicle = FindObjectOfType<VehicleBase>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-
-    }
-
-    public void OnMove(InputValue input)
-    {
-        Debug.Log("Here!");
-        if (PlayerVehicle == null)
-        {
+        if (!GetCanUseInput())
             return;
-        }
 
-        PlayerVehicle.OnMoveInput(input);
+        var playerInput = _oxideInput.Player;
+        var vInput = GetInput();
 
-    }
-
-    public void OnGas(InputValue input)
-    {
-        Debug.Log("Woah!");
-
-        if (PlayerVehicle == null)
-        {
-            return;
-        }
-
-        PlayerVehicle.OnGas(input);
-
-        Debug.Log(Time.time + " : " + input.Get<float>());
-    }
-
-    public void OnPrrr(InputValue Input)
-    {
-        if (PlayerVehicle == null)
-        {
-            return;
-        }
-
-        PlayerVehicle.OnPrrr(Input);
+        vInput.Steering = playerInput.Move.ReadValue<Vector2>().x;
+        vInput.Gas = playerInput.Gas.ReadValue<float>();
+        
+        SetInput(vInput);
     }
 }
