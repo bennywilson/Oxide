@@ -50,7 +50,8 @@ MonoBehaviour:
   _settings:
     Acceleration: 3
     TopSpeed: 4
-    TurnAngle: 2
+    TurnAngleLowSpeed: 5
+    TurnAngleTopSpeed: 1
     SteeringSpeed: 4
     DriftFriction: 2
     CarRotationSpeedPerUnitOfOffset: 90

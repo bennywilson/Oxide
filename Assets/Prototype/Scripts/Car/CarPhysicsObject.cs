@@ -25,18 +25,20 @@ public class CarPhysicsObject : VehicleBase
 
         // As a -1 to 1 ratio relative to turn angle, which way do our wheels point now?
         _currentSteering = Mathf.MoveTowards(_currentSteering, Mathf.Clamp(Input.Steering, -1, 1), _settings.SteeringSpeed * deltaTime);
-        var wheelTurnRotation = Quaternion.AngleAxis(_currentSteering*_settings.TurnAngle, Vector3.up);
 
         // Cache some values so we can modify them without expensive side-effects.
         var rotation = _body.rotation;
         var velocity = _body.velocity;
         var up = rotation * Vector3.up;
         var angularVelocity = _body.angularVelocity;
-        var steeringForward = rotation * wheelTurnRotation * Vector3.forward;
 
         // Figure out what part of our velocity can be affected by our wheels.
         var horizontalVelocity = Vector3.ProjectOnPlane(velocity, up);
         velocity -= horizontalVelocity;
+
+        float maxWheelAngle = Mathf.Lerp(_settings.TurnAngleLowSpeed, _settings.TurnAngleTopSpeed, horizontalVelocity.magnitude / _settings.TopSpeed);
+        var wheelTurnRotation = Quaternion.AngleAxis(_currentSteering * maxWheelAngle, Vector3.up);
+        var steeringForward = rotation * wheelTurnRotation * Vector3.forward;
 
         // Figure out velocity relative to where our wheels are facing now.
         var forwardVelocity = Vector3.Project(horizontalVelocity, steeringForward);
