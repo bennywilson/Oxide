@@ -5,53 +5,62 @@ using UnityEngine.InputSystem;
 
 public class GameController : MonoBehaviour
 {
-    Vehicle PlayerVehicle;
+    VehicleBase PlayerVehicle;
+
+    VehicleInput GetInput()
+    {
+        if (PlayerVehicle != null)
+            return PlayerVehicle.Input;
+
+        return default;
+    }
+
+    void SetInput(VehicleInput input)
+    {
+        if (PlayerVehicle == null)
+            return;
+
+        PlayerVehicle.Input = input;
+    }
+
+    bool GetCanUseInput()
+    {
+        return PlayerVehicle != null && PlayerVehicle.gameObject.activeInHierarchy;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        PlayerVehicle = FindObjectOfType<Vehicle>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        PlayerVehicle = FindObjectOfType<VehicleBase>();
     }
 
     public void OnMove(InputValue input)
     {
-        Debug.Log("Here!");
-        if (PlayerVehicle == null)
-        {
+        if (!GetCanUseInput())
             return;
-        }
 
-        PlayerVehicle.OnMoveInput(input);
-
+        var vInput = GetInput();
+        vInput.Steering = input.Get<Vector2>().x;
+        SetInput(vInput);
     }
 
     public void OnGas(InputValue input)
     {
-        Debug.Log("Woah!");
-
-        if (PlayerVehicle == null)
-        {
+        if (!GetCanUseInput())
             return;
-        }
 
-        PlayerVehicle.OnGas(input);
-
-        Debug.Log(Time.time + " : " + input.Get<float>());
+        var vInput = GetInput();
+        vInput.Gas = input.Get<float>();
+        SetInput(vInput);
     }
 
     public void OnPrrr(InputValue Input)
     {
-        if (PlayerVehicle == null)
-        {
+        if (!GetCanUseInput())
             return;
-        }
 
-        PlayerVehicle.OnPrrr(Input);
+        var vInput = GetInput();
+        vInput.WantsToPurr = true;
+        SetInput(vInput);
     }
 }
