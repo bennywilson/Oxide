@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class Vehicle : MonoBehaviour
+public class Vehicle : VehicleBase
 {
     Rigidbody RB;
     Vector2 SteeringVector;
@@ -30,14 +29,24 @@ public class Vehicle : MonoBehaviour
         RB.hideFlags = HideFlags.NotEditable;
     }
 
-    private void Update()
+    void Update()
     {
-
+        if (Input.WantsToPurr)
+        {
+            Input.WantsToPurr = false;
+            
+            var anim = Driver.GetComponentInChildren<Animation>();
+            anim.enabled = true;
+            anim.Play();
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        Gas = Input.Gas;
+        SteeringVector.x = Input.Steering;
+
         // Steer
         float FacingVelDot = Vector3.Dot(transform.forward, RB.velocity);
         float SteerAmt = SteeringVector.x * FacingVelDot;
@@ -71,28 +80,5 @@ public class Vehicle : MonoBehaviour
         FrictionVec.Normalize();
 
         FrictionVec *= TotalFriction;
-    }
-
-    private void LateUpdate()
-    {
-
-       // this.transform.Rotate(0.0f, SteeringVector.x * TurnRate, 0.0f, Space.World);
-    }
-
-    public void OnMoveInput(InputValue Value)
-    {
-        SteeringVector = Value.Get<Vector2>();
-    }
-
-    public void OnGas(InputValue Value)
-    {
-    //    RB.lin
-        Gas = Value.Get<float>();
-    }
-    public void OnPrrr(InputValue Value)
-    {
-        Animation anim = Driver.GetComponentInChildren<Animation>();
-        anim.enabled = true;
-        anim.Play();
     }
 }
