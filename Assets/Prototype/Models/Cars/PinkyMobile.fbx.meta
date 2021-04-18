@@ -12,6 +12,12 @@ ModelImporter:
   - first:
       74: 2264077025236624520
     second: Armature.001|Armature.001Action
+  - first:
+      74: 4744943540912437042
+    second: Armature.001|Rotate_Wheels
+  - first:
+      74: -4492159890959595321
+    second: Armature.001|Turn_Wheels
   externalObjects: {}
   materials:
     materialImportMode: 2
