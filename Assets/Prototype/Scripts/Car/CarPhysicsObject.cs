@@ -8,6 +8,18 @@ public class CarPhysicsObject : VehicleBase
 
     float _currentSteering;
 
+    public struct CarVisualData
+    {
+        public Transform leftFrontWheel;
+        public Transform rightFrontWheel;
+        public Transform leftBackWheel;
+        public Transform rightBackWheel;
+        public float wheelSteering;
+        public float wheelSpin;
+    }
+
+    CarVisualData _visualData;
+
     void Start()
     {
         _body = GetComponent<Rigidbody>();
@@ -17,6 +29,11 @@ public class CarPhysicsObject : VehicleBase
             enabled = false;
             Debug.LogErrorFormat("{0} needs a Rigidbody component to function!", name);
         }
+
+        _visualData.leftFrontWheel = GameObject.Find("LWheel").transform;
+        _visualData.rightFrontWheel = GameObject.Find("RWheel").transform;
+        _visualData.leftBackWheel = GameObject.Find("LBack").transform;
+        _visualData.rightBackWheel = GameObject.Find("RBack").transform;
     }
 
     void FixedUpdate()
@@ -70,5 +87,23 @@ public class CarPhysicsObject : VehicleBase
         // Finally apply all of it back to the Rigidbody.
         _body.velocity = velocity;
         _body.angularVelocity = angularVelocity;
+
+        UpdateVisuals(deltaTime, velocity);
+    }
+
+    void UpdateVisuals(float deltaTime, Vector3 velocity)
+    {
+        _visualData.wheelSteering = Mathf.MoveTowards(_visualData.wheelSteering, Mathf.Clamp(Input.Steering, -1, 1), deltaTime * 5.0f);
+
+        float wheelYaw = _visualData.wheelSteering * 25.0f;
+        _visualData.rightFrontWheel.localEulerAngles = new Vector3(-wheelYaw, 0, wheelYaw);
+        _visualData.leftFrontWheel.localEulerAngles = new Vector3(-wheelYaw, 0, -wheelYaw);
+
+        _visualData.wheelSpin += deltaTime * -velocity.magnitude * 500;
+        _visualData.rightFrontWheel.Rotate(new Vector3(0.0f, _visualData.wheelSpin, 0.0f));
+        _visualData.leftFrontWheel.Rotate(new Vector3(0.0f, _visualData.wheelSpin, 0.0f));
+
+        _visualData.leftBackWheel.Rotate(new Vector3(0.0f, _visualData.wheelSpin, 0.0f));
+        _visualData.rightBackWheel.Rotate(new Vector3(0.0f, _visualData.wheelSpin, 0.0f));
     }
 }
