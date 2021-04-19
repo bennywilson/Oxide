@@ -123,7 +123,7 @@ MonoBehaviour:
   segments:
   - transformedMeshes:
     - mesh: {fileID: -8634060567236447461, guid: 7b2da4afea8847f4fad5bda73db8fecd, type: 3}
-      material: {fileID: 2100000, guid: eeb1eab8085e27e4f9f3599613c76c67, type: 2}
+      material: {fileID: 2100000, guid: 2cbb2857ed967844488edac2b1cfe52f, type: 2}
       physicMaterial: {fileID: 13400000, guid: a9d8b0fbd8818d74ca2636f565214232, type: 2}
       translation: {x: 0, y: 0, z: 0}
       rotation: {x: -90, y: 0, z: 0}
@@ -191,7 +191,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eeb1eab8085e27e4f9f3599613c76c67, type: 2}
+  - {fileID: 2100000, guid: 2cbb2857ed967844488edac2b1cfe52f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
