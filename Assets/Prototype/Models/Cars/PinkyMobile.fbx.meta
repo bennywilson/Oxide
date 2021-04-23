@@ -18,6 +18,9 @@ ModelImporter:
   - first:
       74: -4492159890959595321
     second: Armature.001|Turn_Wheels
+  - first:
+      74: -4547156405256384183
+    second: Armature.001|Shader NodetreeAction
   externalObjects: {}
   materials:
     materialImportMode: 2
