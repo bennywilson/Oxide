@@ -195,6 +195,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stiltz
       objectReference: {fileID: 0}
+    - target: {fileID: 4261389940121702909, guid: 63d8c9a514f89744fae365d7b27422ee, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 16d0f75287a6f9340bf4d479933da191, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63d8c9a514f89744fae365d7b27422ee, type: 3}
 --- !u!4 &24592949 stripped
@@ -278,7 +282,7 @@ SkinnedMeshRenderer:
   - {fileID: 2100000, guid: ed557de19712cac4f9dd144d887d5755, type: 2}
   - {fileID: 2100000, guid: ed557de19712cac4f9dd144d887d5755, type: 2}
   - {fileID: 2100000, guid: ed557de19712cac4f9dd144d887d5755, type: 2}
-  - {fileID: 2100000, guid: ed557de19712cac4f9dd144d887d5755, type: 2}
+  - {fileID: 2100000, guid: 828969fb3ed784d4e94338fa4a5aaf87, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -345,6 +349,43 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5562666858674161166, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
   m_PrefabInstance: {fileID: 7327639943820358102}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &220897814 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7157997792843182797, guid: 9e2fe2526c95ca749ad8f894c1c8e299, type: 3}
+  m_PrefabInstance: {fileID: 7157997792420455512}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &220897819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220897814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!4 &253143209 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3900058541309864478, guid: 63d8c9a514f89744fae365d7b27422ee, type: 3}
@@ -1276,9 +1317,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -3096923569255133051, guid: 8aebd827844932d4385ae6fb1cc1aca6, type: 3}
     - target: {fileID: 1116364944466607581, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4f7335c40e4f868459c0f7cd4d48b185, type: 2}
+    - target: {fileID: 1116364944466607581, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
       propertyPath: m_Materials.Array.data[3]
       value: 
       objectReference: {fileID: 2100000, guid: 8f2e6761010b23e4da9df861ed01b5a2, type: 2}
+    - target: {fileID: 2118787709694253846, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
+      propertyPath: m_Name
+      value: Renderer
+      objectReference: {fileID: 0}
     - target: {fileID: 4803110067405742477, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
       propertyPath: m_Radius
       value: 0.10915383
@@ -1291,6 +1340,10 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0.07999998
       objectReference: {fileID: 0}
+    - target: {fileID: 6814647889816275393, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 580a9205fb39d8542ad5fb12dd1e1760, type: 2}
     - target: {fileID: 7078454415989947629, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.3
@@ -1370,6 +1423,10 @@ PrefabInstance:
     - target: {fileID: 7327639943798813669, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
       propertyPath: m_Name
       value: PinkyMobile
+      objectReference: {fileID: 0}
+    - target: {fileID: 8893189830291417881, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}

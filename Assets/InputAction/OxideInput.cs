@@ -49,6 +49,14 @@ public class @OxideInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Brake"",
+                    ""type"": ""Button"",
+                    ""id"": ""7171dc6c-7064-4d0d-bd0e-3cc3a333e3a3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -291,6 +299,28 @@ public class @OxideInput : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Prrr"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2390c029-5cbc-4c21-846f-c1994339894d"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""54777c11-75f2-41eb-ab5c-46b5fa736c2d"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Brake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -872,6 +902,7 @@ public class @OxideInput : IInputActionCollection, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Gas = m_Player.FindAction("Gas", throwIfNotFound: true);
         m_Player_Prrr = m_Player.FindAction("Prrr", throwIfNotFound: true);
+        m_Player_Brake = m_Player.FindAction("Brake", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -937,6 +968,7 @@ public class @OxideInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Gas;
     private readonly InputAction m_Player_Prrr;
+    private readonly InputAction m_Player_Brake;
     public struct PlayerActions
     {
         private @OxideInput m_Wrapper;
@@ -945,6 +977,7 @@ public class @OxideInput : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Gas => m_Wrapper.m_Player_Gas;
         public InputAction @Prrr => m_Wrapper.m_Player_Prrr;
+        public InputAction @Brake => m_Wrapper.m_Player_Brake;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -966,6 +999,9 @@ public class @OxideInput : IInputActionCollection, IDisposable
                 @Prrr.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrrr;
                 @Prrr.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrrr;
                 @Prrr.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrrr;
+                @Brake.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBrake;
+                @Brake.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBrake;
+                @Brake.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBrake;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -982,6 +1018,9 @@ public class @OxideInput : IInputActionCollection, IDisposable
                 @Prrr.started += instance.OnPrrr;
                 @Prrr.performed += instance.OnPrrr;
                 @Prrr.canceled += instance.OnPrrr;
+                @Brake.started += instance.OnBrake;
+                @Brake.performed += instance.OnBrake;
+                @Brake.canceled += instance.OnBrake;
             }
         }
     }
@@ -1142,6 +1181,7 @@ public class @OxideInput : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnGas(InputAction.CallbackContext context);
         void OnPrrr(InputAction.CallbackContext context);
+        void OnBrake(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

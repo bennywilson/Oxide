@@ -1,5 +1,5 @@
 {
-    "name": "Oxide",
+    "name": "OxideInput",
     "maps": [
         {
             "name": "Player",
@@ -33,6 +33,14 @@
                     "name": "Prrr",
                     "type": "Button",
                     "id": "c398e81f-c9c1-4f8d-8470-9dadc84cf22a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Brake",
+                    "type": "Button",
+                    "id": "7171dc6c-7064-4d0d-bd0e-3cc3a333e3a3",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -278,6 +286,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Prrr",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2390c029-5cbc-4c21-846f-c1994339894d",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54777c11-75f2-41eb-ab5c-46b5fa736c2d",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Brake",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

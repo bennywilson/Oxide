@@ -33,7 +33,7 @@ public class Vehicle : VehicleBase
     {
         if (Input.WantsToPurr)
         {
-            Input.WantsToPurr = false;
+        //   Input.WantsToPurr = false;
             
             var anim = Driver.GetComponentInChildren<Animation>();
             anim.enabled = true;

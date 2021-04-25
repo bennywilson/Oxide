@@ -10,6 +10,7 @@ public class CarPhysicsObject : VehicleBase
 
     public struct CarVisualData
     {
+        public SkinnedMeshRenderer renderer;
         public Transform leftFrontWheel;
         public Transform rightFrontWheel;
         public Transform leftBackWheel;
@@ -34,11 +35,19 @@ public class CarPhysicsObject : VehicleBase
         _visualData.rightFrontWheel = GameObject.Find("RWheel").transform;
         _visualData.leftBackWheel = GameObject.Find("LBack").transform;
         _visualData.rightBackWheel = GameObject.Find("RBack").transform;
+        _visualData.renderer = GetComponentInChildren<SkinnedMeshRenderer>() as SkinnedMeshRenderer;
     }
 
     void FixedUpdate()
     {
         float deltaTime = Time.deltaTime;
+
+        // OXIDE BEGIN - bwilson - todo
+        if (Input.Brake > 0)
+        {
+            _body.velocity *= 0.95f;
+        }
+        // OXIDE - END
 
         // As a -1 to 1 ratio relative to turn angle, which way do our wheels point now?
         _currentSteering = Mathf.MoveTowards(_currentSteering, Mathf.Clamp(Input.Steering, -1, 1), _settings.SteeringSpeed * deltaTime);
@@ -105,5 +114,14 @@ public class CarPhysicsObject : VehicleBase
 
         _visualData.leftBackWheel.Rotate(new Vector3(0.0f, _visualData.wheelSpin, 0.0f));
         _visualData.rightBackWheel.Rotate(new Vector3(0.0f, _visualData.wheelSpin, 0.0f));
+
+        if (Input.Brake > 0)
+        {
+            _visualData.renderer.materials[2].SetColor("ColorMultiplier", new Color(55, 1, 1));
+        }
+        else
+        {
+            _visualData.renderer.materials[2].SetColor("ColorMultiplier", new Color(1, 1, 1));
+        }
     }
 }

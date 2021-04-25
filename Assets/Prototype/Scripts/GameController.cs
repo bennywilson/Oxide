@@ -39,7 +39,7 @@ public class GameController : MonoBehaviour
                 return;
 
             var vInput = GetInput();
-            vInput.WantsToPurr = true;
+           //    vInput.WantsToPurr = true;
             SetInput(vInput);
         };
     }
@@ -73,7 +73,8 @@ public class GameController : MonoBehaviour
 
         vInput.Steering = playerInput.Move.ReadValue<Vector2>().x;
         vInput.Gas = playerInput.Gas.ReadValue<float>();
-        
+        vInput.Brake = playerInput.Brake.ReadValue<float>();
+
         SetInput(vInput);
     }
 }
