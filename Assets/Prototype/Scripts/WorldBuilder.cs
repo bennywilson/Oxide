@@ -90,7 +90,7 @@ public class WorldBuilder : MonoBehaviour
             var nextPoint = lastPoint + forward * _segmentSpacing;
             var placeRotation = Quaternion.LookRotation(nextPoint - lastPoint);
 
-            nextPoint += placeRotation * Vector3.right * Random.Range(-_segmentSpacing, _segmentSpacing);
+            nextPoint += placeRotation * Vector3.right * Random.Range(-_randomOffsetX, _randomOffsetX);
             points.Add(nextPoint);
             lastPoint = nextPoint;
             forward = placeRotation * Vector3.forward;
