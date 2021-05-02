@@ -909,7 +909,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.7490566, g: 0.9563992, b: 1, a: 1}
+  m_Color: {r: 0.16504094, g: 0.62211645, b: 0.7169812, a: 1}
   m_Intensity: 0
   m_Range: 10
   m_SpotAngle: 30
@@ -1235,7 +1235,7 @@ MonoBehaviour:
   _lightSun: {fileID: 1463214321}
   _lightMoon: {fileID: 985772875}
   _maxSunIntensity: 1
-  _maxMoonIntensity: 0.5
+  _maxMoonIntensity: 0.25
 --- !u!4 &1579150512 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 935725734001310485, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
