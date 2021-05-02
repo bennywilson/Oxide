@@ -9,6 +9,13 @@ public class WorldBuilder : MonoBehaviour
     [SerializeField] float _segmentSpacing = 10f;
     [SerializeField] int _segments = 100;
 
+    [SerializeField] GameObject[] _propPrefabs = null;
+
+    [SerializeField] float _propOffsetFromRoad = 2f;
+    [SerializeField] float _propRandomOffset = 0.5f;
+    [SerializeField] float _minPropSpacing = 0.75f;
+    [SerializeField] float _maxPropSpacing = 1f;
+
     public GameObject MakeRoadPiece(Vector3 position, Quaternion rotation, List<Vector3> localPoints)
     {
         if (_roadPrefab == null)
@@ -74,6 +81,24 @@ public class WorldBuilder : MonoBehaviour
         return road;
     }
 
+    void MakeRoadsideProp(Vector3 position, Quaternion rotation)
+    {
+        if (_propPrefabs == null)
+            return;
+
+        var prop = _propPrefabs[Random.Range(0, _propPrefabs.Length)];
+        if (prop == null)
+            return;
+
+        Instantiate(prop, position, rotation);
+    }
+
+    Vector3 RandomHorizontalOffset(float maxRadius)
+    {
+        var randomInside = Random.insideUnitCircle;
+
+        return new Vector3(randomInside.x*maxRadius, 0, randomInside.y*maxRadius);
+    }
 
     void Start()
     {
@@ -90,12 +115,34 @@ public class WorldBuilder : MonoBehaviour
             var nextPoint = lastPoint + forward * _segmentSpacing;
             var placeRotation = Quaternion.LookRotation(nextPoint - lastPoint);
 
-            nextPoint += placeRotation * Vector3.right * Random.Range(-_segmentSpacing, _segmentSpacing);
+            nextPoint += placeRotation * Vector3.right * Random.Range(-_randomOffsetX, _randomOffsetX);
             points.Add(nextPoint);
             lastPoint = nextPoint;
             forward = placeRotation * Vector3.forward;
         }
 
-        MakeRoadPiece(transform.position, rotation, points);
+        var road = MakeRoadPiece(transform.position, rotation, points);
+        var up = Vector3.up;
+
+        var spline = road.GetComponent<Spline>();
+        // For our generated road segment, seed a bunch of props.
+        if (spline != null)
+        {
+            float length = spline.Length;
+            for (float distance = 0; distance < length; distance += Random.Range(_minPropSpacing, _maxPropSpacing))
+            {
+                var sample = spline.GetSampleAtDistance(distance);
+                var roadTangent = Vector3.ProjectOnPlane(sample.tangent, up);
+                roadTangent = Vector3.Cross(roadTangent, up);
+
+                var roadPoint = road.transform.TransformPoint(sample.location);
+
+                // To the right
+                MakeRoadsideProp(roadPoint + (roadTangent * _propOffsetFromRoad) + RandomHorizontalOffset(_propRandomOffset), Quaternion.AngleAxis(Random.value*360f, up));
+
+                // To the left
+                MakeRoadsideProp(roadPoint - (roadTangent * _propOffsetFromRoad) + RandomHorizontalOffset(_propRandomOffset), Quaternion.AngleAxis(Random.value * 360f, up));
+            }
+        }
     }
 }
