@@ -134,11 +134,8 @@ public class WorldBuilder : MonoBehaviour
                 var sample = spline.GetSampleAtDistance(distance);
                 var roadTangent = Vector3.ProjectOnPlane(sample.tangent, up);
                 roadTangent = Vector3.Cross(roadTangent, up);
-                //roadTangent = Quaternion.LookRotation(roadTangent, up) * Vector3.right;
 
                 var roadPoint = road.transform.TransformPoint(sample.location);
-
-                Debug.DrawRay(roadPoint, roadTangent * 10, Color.blue, 10f);
 
                 // To the right
                 MakeRoadsideProp(roadPoint + (roadTangent * _propOffsetFromRoad) + RandomHorizontalOffset(_propRandomOffset), Quaternion.AngleAxis(Random.value*360f, up));
