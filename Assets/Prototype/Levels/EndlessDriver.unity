@@ -1231,7 +1231,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13fb62683a7910949a5b63dfacd47b7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cycleDurationSeconds: 30
+  _cycleDurationSeconds: 180
+  _cycleStartRatio: 0.1
   _lightSun: {fileID: 1463214321}
   _lightMoon: {fileID: 985772875}
   _maxSunIntensity: 1

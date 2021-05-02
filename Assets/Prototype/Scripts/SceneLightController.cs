@@ -6,6 +6,7 @@ using UnityEngine;
 public class SceneLightController : MonoBehaviour
 {
     [SerializeField] float _cycleDurationSeconds = 30f;
+    [SerializeField] float _cycleStartRatio = 0.5f;
 
     [SerializeField] Light _lightSun = null;
     [SerializeField] Light _lightMoon = null;
@@ -20,6 +21,7 @@ public class SceneLightController : MonoBehaviour
     void Start()
     {
         forward = transform.forward;
+        _currentCycleDuration = _cycleStartRatio * _cycleDurationSeconds;
     }
 
     void Update()
