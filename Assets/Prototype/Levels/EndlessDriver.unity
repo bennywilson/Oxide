@@ -463,8 +463,12 @@ MonoBehaviour:
   - {fileID: 4412615012747410805, guid: 353d5ea76d9e096449c459f1e7287faf, type: 3}
   _propOffsetFromRoad: 2
   _propRandomOffset: 0.5
-  _minPropSpacing: 0.75
-  _maxPropSpacing: 1
+  _minPropSpacing: 2
+  _maxPropSpacing: 4
+  _carPrefabs:
+  - {fileID: 3340018649835065890, guid: f98f967cc5308fb4a9b364f5f3d85845, type: 3}
+  _minCarSpacing: 3
+  _maxCarSpacing: 7
 --- !u!4 &467844542 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3193391744813272542, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
@@ -1132,7 +1136,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.3
     m_Bias: 0.01
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -1685,6 +1689,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -888092086286659565, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
+      propertyPath: _settings.TopSpeed
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1116364944466607581, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
       propertyPath: m_Enabled
       value: 1

@@ -22,6 +22,13 @@ public class CarCamera : MonoBehaviour
         return Mathf.Sign(deltaTarget) * Mathf.Sqrt(acceleration * 2f * Mathf.Abs(deltaTarget));
     }
 
+    void Start()
+    {
+        // Clear color between frames so it's easier to debug in Renderdoc
+        Camera cam = gameObject.GetComponent<Camera>();
+        cam.clearFlags = CameraClearFlags.Skybox;
+    }
+
     void LateUpdate()
     {
         // Can't do anything if we don't have target.

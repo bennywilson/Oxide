@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PinkMat
+  m_Name: Silver
   m_Shader: {fileID: -6465566751694194690, guid: d71f978723edbe647b1acb6a156fd0ea, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -125,7 +125,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - BaseColor: {r: 0.31092027, g: 0.34815565, b: 0.4811321, a: 0}
+    - BaseColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
     - ColorTile: {r: 1, g: 1, b: 0, a: 0}
     - NoiseColor: {r: 1, g: 1, b: 1, a: 0}
     - NoiseTile: {r: 1, g: 1, b: 0, a: 0}

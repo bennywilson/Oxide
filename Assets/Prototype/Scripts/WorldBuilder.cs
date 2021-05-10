@@ -16,6 +16,10 @@ public class WorldBuilder : MonoBehaviour
     [SerializeField] float _minPropSpacing = 0.75f;
     [SerializeField] float _maxPropSpacing = 1f;
 
+    [SerializeField] GameObject[] _carPrefabs = null;
+    [SerializeField] float _minCarSpacing = 5f;
+    [SerializeField] float _maxCarSpacing = 10f;
+
     public GameObject MakeRoadPiece(Vector3 position, Quaternion rotation, List<Vector3> localPoints)
     {
         if (_roadPrefab == null)
@@ -93,6 +97,24 @@ public class WorldBuilder : MonoBehaviour
         Instantiate(prop, position, rotation);
     }
 
+    void PlaceCar(Vector3 position, Quaternion rotation)
+    {
+        if (_carPrefabs == null)
+            return;
+
+        var car = _carPrefabs[Random.Range(0, _carPrefabs.Length)];
+        if (car == null)
+            return;
+
+        GameObject spawnedCar = Instantiate(car, position, rotation);
+        MeshRenderer Mesh = spawnedCar.GetComponentInChildren<MeshRenderer>();
+
+        Vector3 randomColor = Random.insideUnitSphere;
+        randomColor.Normalize();
+
+        Mesh.materials[0].SetVector("BaseColor", randomColor);
+    }
+
     Vector3 RandomHorizontalOffset(float maxRadius)
     {
         var randomInside = Random.insideUnitCircle;
@@ -142,6 +164,19 @@ public class WorldBuilder : MonoBehaviour
 
                 // To the left
                 MakeRoadsideProp(roadPoint - (roadTangent * _propOffsetFromRoad) + RandomHorizontalOffset(_propRandomOffset), Quaternion.AngleAxis(Random.value * 360f, up));
+            }
+
+            for (float distance = 0; distance < length; distance += Random.Range(_minCarSpacing, _maxCarSpacing))
+            {
+                var sample = spline.GetSampleAtDistance(distance);
+                var roadTangent = Vector3.ProjectOnPlane(sample.tangent, up);
+                roadTangent = Vector3.Cross(roadTangent, up);
+
+                var roadPoint = road.transform.TransformPoint(sample.location);
+
+                // To the right
+                PlaceCar(roadPoint + RandomHorizontalOffset(1), Quaternion.LookRotation(roadTangent));
+
             }
         }
     }
