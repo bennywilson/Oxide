@@ -14,6 +14,9 @@ public class SceneLightController : MonoBehaviour
     [SerializeField] float _maxSunIntensity = 1f;
     [SerializeField] float _maxMoonIntensity = 0.5f;
 
+    [SerializeField] float _SunAmbientIntensity = 0.2f;
+    [SerializeField] float _MoonAmbientIntensity = 0.2f;
+
     float _currentCycleDuration = 0f;
 
     Vector3 forward = Vector3.forward;
@@ -44,6 +47,9 @@ public class SceneLightController : MonoBehaviour
             _lightMoon.intensity = Mathf.Max(0, moonIntensity);
             _lightMoon.enabled = moonIntensity > 0;
         }
+
+        float ambientIntensity = Mathf.Lerp(_MoonAmbientIntensity, _SunAmbientIntensity, (cycleSine * 2.0f) - 1.0f);
+        RenderSettings.ambientIntensity = ambientIntensity;
 
         transform.rotation = Quaternion.AngleAxis(360f * _currentCycleDuration / _cycleDurationSeconds, forward);
     }

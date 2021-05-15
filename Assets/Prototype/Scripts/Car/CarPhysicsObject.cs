@@ -21,6 +21,26 @@ public class CarPhysicsObject : VehicleBase
 
     CarVisualData _visualData;
 
+    Transform RecursiveFindChild(Transform parent, string childName)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == childName)
+            {
+                return child;
+            }
+            else
+            {
+                Transform found = RecursiveFindChild(child, childName);
+                if (found != null)
+                {
+                    return found;
+                }
+            }
+        } 
+        return null;
+    }
+
     void Start()
     {
         _body = GetComponent<Rigidbody>();
@@ -31,10 +51,11 @@ public class CarPhysicsObject : VehicleBase
             Debug.LogErrorFormat("{0} needs a Rigidbody component to function!", name);
         }
 
-        _visualData.leftFrontWheel = GameObject.Find("LWheel").transform;
-        _visualData.rightFrontWheel = GameObject.Find("RWheel").transform;
-        _visualData.leftBackWheel = GameObject.Find("LBack").transform;
-        _visualData.rightBackWheel = GameObject.Find("RBack").transform;
+        //    GameObject parent = transform.parent.gameObject;
+        _visualData.leftFrontWheel = RecursiveFindChild(gameObject.transform, "LWheel").transform;
+        _visualData.rightFrontWheel = RecursiveFindChild(gameObject.transform, "RWheel").transform;
+        _visualData.leftBackWheel = RecursiveFindChild(gameObject.transform, "LBack").transform;
+        _visualData.rightBackWheel = RecursiveFindChild(gameObject.transform, "RBack").transform;
         _visualData.renderer = GetComponentInChildren<SkinnedMeshRenderer>() as SkinnedMeshRenderer;
     }
 
@@ -103,12 +124,14 @@ public class CarPhysicsObject : VehicleBase
     void UpdateVisuals(float deltaTime, Vector3 velocity)
     {
         _visualData.wheelSteering = Mathf.MoveTowards(_visualData.wheelSteering, Mathf.Clamp(Input.Steering, -1, 1), deltaTime * 5.0f);
-
+        _visualData.wheelSpin += deltaTime * velocity.magnitude * 500;
         float wheelYaw = _visualData.wheelSteering * 25.0f;
         _visualData.rightFrontWheel.localEulerAngles = new Vector3(-wheelYaw, 0, wheelYaw);
         _visualData.leftFrontWheel.localEulerAngles = new Vector3(-wheelYaw, 0, -wheelYaw);
 
-        _visualData.wheelSpin += deltaTime * -velocity.magnitude * 500;
+        Debug.Log(Time.time + " -- " + wheelYaw);
+
+        
         _visualData.rightFrontWheel.Rotate(new Vector3(0.0f, _visualData.wheelSpin, 0.0f));
         _visualData.leftFrontWheel.Rotate(new Vector3(0.0f, _visualData.wheelSpin, 0.0f));
 

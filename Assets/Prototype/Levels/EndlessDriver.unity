@@ -1247,6 +1247,8 @@ MonoBehaviour:
   _lightMoon: {fileID: 985772875}
   _maxSunIntensity: 1
   _maxMoonIntensity: 0.25
+  _SunAmbientIntensity: 1
+  _MoonAmbientIntensity: 1
 --- !u!4 &1579150512 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 935725734001310485, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
