@@ -128,9 +128,6 @@ public class CarPhysicsObject : VehicleBase
         float wheelYaw = _visualData.wheelSteering * 25.0f;
         _visualData.rightFrontWheel.localEulerAngles = new Vector3(-wheelYaw, 0, wheelYaw);
         _visualData.leftFrontWheel.localEulerAngles = new Vector3(-wheelYaw, 0, -wheelYaw);
-
-        Debug.Log(Time.time + " -- " + wheelYaw);
-
         
         _visualData.rightFrontWheel.Rotate(new Vector3(0.0f, _visualData.wheelSpin, 0.0f));
         _visualData.leftFrontWheel.Rotate(new Vector3(0.0f, _visualData.wheelSpin, 0.0f));

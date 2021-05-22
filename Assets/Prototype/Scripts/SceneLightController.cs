@@ -25,6 +25,8 @@ public class SceneLightController : MonoBehaviour
     {
         forward = transform.forward;
         _currentCycleDuration = _cycleStartRatio * _cycleDurationSeconds;
+
+        gameObject.transform.rotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
     }
 
     void Update()

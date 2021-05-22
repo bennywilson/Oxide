@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class WorldBuilder : MonoBehaviour
 {
+    [SerializeField] bool _generateNewTrackAtRuntime = false;
+    [SerializeField] bool _generateNewTrackNow = false;
+
     [SerializeField] GameObject _roadPrefab = null;
     [SerializeField] float _randomOffsetX = 10f;
     [SerializeField] float _segmentSpacing = 10f;
@@ -20,26 +23,29 @@ public class WorldBuilder : MonoBehaviour
     [SerializeField] float _minCarSpacing = 5f;
     [SerializeField] float _maxCarSpacing = 10f;
 
-    public GameObject MakeRoadPiece(Vector3 position, Quaternion rotation, List<Vector3> localPoints)
+    GameObject _generatedWorldObjects = null;
+    GameObject _road = null;
+
+    public void MakeRoadPiece(Vector3 position, Quaternion rotation, List<Vector3> localPoints)
     {
         if (_roadPrefab == null)
         {
             Debug.LogErrorFormat("WorldBuilder::MakeRoadPiece: Can't because no road prefab!");
-            return null;
+            return;
         }
 
         if (localPoints == null || localPoints.Count < 2)
         {
             Debug.LogErrorFormat("WorldBuilder::MakeRoadPiece: Can't unlesswe have at least 2 points!");
-            return null;
+            return;
         }
 
-        var road = Instantiate(_roadPrefab, position, rotation);
+        _road = Instantiate(_roadPrefab, position, rotation, _generatedWorldObjects.transform);
 
-        var spline = road.GetComponent<Spline>();
+        var spline = _road.GetComponent<Spline>();
         if (spline == null)
         {
-            Debug.LogErrorFormat("WorldBuilder::MAkeRoadPiece: Can't configure it unless we have a Spline component!");
+            Debug.LogErrorFormat("WorldBuilder::MakeRoadPiece: Can't configure it unless we have a Spline component!");
         }
         else
         {
@@ -81,8 +87,6 @@ public class WorldBuilder : MonoBehaviour
                 }
             }
         }
-
-        return road;
     }
 
     void MakeRoadsideProp(Vector3 position, Quaternion rotation)
@@ -94,7 +98,7 @@ public class WorldBuilder : MonoBehaviour
         if (prop == null)
             return;
 
-        Instantiate(prop, position, rotation);
+        Instantiate(prop, position, rotation, _generatedWorldObjects.transform);
     }
 
     void PlaceCar(Vector3 position, Quaternion rotation)
@@ -106,7 +110,7 @@ public class WorldBuilder : MonoBehaviour
         if (car == null)
             return;
 
-        GameObject spawnedCar = Instantiate(car, position, rotation);
+        GameObject spawnedCar = Instantiate(car, position, rotation, _generatedWorldObjects.transform);
         MeshRenderer Mesh = spawnedCar.GetComponentInChildren<MeshRenderer>();
 
         Vector3 randomColor = Random.insideUnitSphere;
@@ -122,8 +126,66 @@ public class WorldBuilder : MonoBehaviour
         return new Vector3(randomInside.x*maxRadius, 0, randomInside.y*maxRadius);
     }
 
+    private void OnValidate()
+    {
+        if (_generateNewTrackNow)
+        {
+            UnityEditor.EditorApplication.delayCall += () =>
+            {
+                ClearTrack();
+                BuildTrack();
+            };
+        }
+        _generateNewTrackNow = false;
+    }
+
     void Start()
     {
+        if (_generateNewTrackAtRuntime)
+        {
+            ClearTrack();
+            BuildTrack();
+        }
+
+        var up = Vector3.up;
+
+        if (_road != null)
+        {
+            var spline = _road.GetComponent<Spline>();
+            // For our generated road segment, seed a bunch of props.
+            if (spline != null)
+            {
+                float length = spline.Length;
+                for (float distance = 0; distance < length; distance += Random.Range(_minCarSpacing, _maxCarSpacing))
+                {
+                    var sample = spline.GetSampleAtDistance(distance);
+                    var roadTangent = Vector3.ProjectOnPlane(sample.tangent, up);
+                    roadTangent = Vector3.Cross(roadTangent, up);
+
+                    var roadPoint = _road.transform.TransformPoint(sample.location);
+
+                    // To the right
+                    PlaceCar(roadPoint + RandomHorizontalOffset(1), Quaternion.LookRotation(roadTangent));
+                }
+            }
+        }
+    }
+    void ClearTrack()
+    {
+        if (_generatedWorldObjects != null)
+        {
+            GameObject.DestroyImmediate(_generatedWorldObjects);
+        }
+
+        _generatedWorldObjects = new GameObject();
+        _generatedWorldObjects.name = "World Objects";
+        _generatedWorldObjects.transform.parent = transform;
+    }
+
+    void BuildTrack()
+    {
+        ClearTrack();
+
         var points = new List<Vector3>();
 
         var position = transform.position;
@@ -143,10 +205,11 @@ public class WorldBuilder : MonoBehaviour
             forward = placeRotation * Vector3.forward;
         }
 
-        var road = MakeRoadPiece(transform.position, rotation, points);
+        MakeRoadPiece(transform.position, rotation, points);
+
         var up = Vector3.up;
 
-        var spline = road.GetComponent<Spline>();
+        var spline = _road.GetComponent<Spline>();
         // For our generated road segment, seed a bunch of props.
         if (spline != null)
         {
@@ -157,26 +220,13 @@ public class WorldBuilder : MonoBehaviour
                 var roadTangent = Vector3.ProjectOnPlane(sample.tangent, up);
                 roadTangent = Vector3.Cross(roadTangent, up);
 
-                var roadPoint = road.transform.TransformPoint(sample.location);
+                var roadPoint = _road.transform.TransformPoint(sample.location);
 
                 // To the right
-                MakeRoadsideProp(roadPoint + (roadTangent * _propOffsetFromRoad) + RandomHorizontalOffset(_propRandomOffset), Quaternion.AngleAxis(Random.value*360f, up));
+                MakeRoadsideProp(roadPoint + (roadTangent * _propOffsetFromRoad) + RandomHorizontalOffset(_propRandomOffset), Quaternion.AngleAxis(Random.value * 360f, up));
 
                 // To the left
                 MakeRoadsideProp(roadPoint - (roadTangent * _propOffsetFromRoad) + RandomHorizontalOffset(_propRandomOffset), Quaternion.AngleAxis(Random.value * 360f, up));
-            }
-
-            for (float distance = 0; distance < length; distance += Random.Range(_minCarSpacing, _maxCarSpacing))
-            {
-                var sample = spline.GetSampleAtDistance(distance);
-                var roadTangent = Vector3.ProjectOnPlane(sample.tangent, up);
-                roadTangent = Vector3.Cross(roadTangent, up);
-
-                var roadPoint = road.transform.TransformPoint(sample.location);
-
-                // To the right
-                PlaceCar(roadPoint + RandomHorizontalOffset(1), Quaternion.LookRotation(roadTangent));
-
             }
         }
     }
