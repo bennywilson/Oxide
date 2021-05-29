@@ -126,6 +126,7 @@ public class WorldBuilder : MonoBehaviour
         return new Vector3(randomInside.x*maxRadius, 0, randomInside.y*maxRadius);
     }
 
+#if UNITY_EDITOR
     private void OnValidate()
     {
         if (_generateNewTrackNow)
@@ -138,6 +139,7 @@ public class WorldBuilder : MonoBehaviour
         }
         _generateNewTrackNow = false;
     }
+#endif
 
     void Start()
     {
@@ -145,6 +147,19 @@ public class WorldBuilder : MonoBehaviour
         {
             ClearTrack();
             BuildTrack();
+        }
+        else
+        {
+            Transform genWorldObjXForm = gameObject.transform.Find("Generated World Objects");
+            if (genWorldObjXForm != null)
+            {
+                _generatedWorldObjects = genWorldObjXForm.gameObject;
+                Transform roadXForm = _generatedWorldObjects.transform.Find("ProceduralRoadPiece(Clone)");
+                if (roadXForm != null)
+                {
+                    _road = roadXForm.gameObject;
+                }
+            }
         }
 
         var up = Vector3.up;
@@ -172,13 +187,16 @@ public class WorldBuilder : MonoBehaviour
     }
     void ClearTrack()
     {
-        if (_generatedWorldObjects != null)
+        foreach (Transform child in transform)
         {
-            GameObject.DestroyImmediate(_generatedWorldObjects);
+            if (child.name == "Generated World Objects")
+            {
+                GameObject.DestroyImmediate(child.gameObject);
+            }
         }
 
         _generatedWorldObjects = new GameObject();
-        _generatedWorldObjects.name = "World Objects";
+        _generatedWorldObjects.name = "Generated World Objects";
         _generatedWorldObjects.transform.parent = transform;
     }
 

@@ -128,7 +128,7 @@ MonoBehaviour:
       physicMaterial: {fileID: 13400000, guid: a9d8b0fbd8818d74ca2636f565214232, type: 2}
       translation: {x: 0, y: 0, z: 0}
       rotation: {x: -90, y: 0, z: 0}
-      scale: {x: 200, y: 200, z: 400}
+      scale: {x: 200, y: 200, z: 200}
   - transformedMeshes: []
   updateInPlayMode: 0
 --- !u!1 &208676880743588505

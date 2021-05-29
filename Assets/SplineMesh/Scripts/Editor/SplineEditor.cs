@@ -7,6 +7,14 @@ namespace SplineMesh {
     [CustomEditor(typeof(Spline))]
     public class SplineEditor : Editor {
 
+        static void Swap<T>(ref T lhs, ref T rhs)
+        {
+            T temp;
+            temp = lhs;
+            lhs = rhs;
+            rhs = temp;
+        }
+
         private const int QUAD_SIZE = 12;
         private static Color CURVE_COLOR = new Color(0.8f, 0.8f, 0.8f);
         private static Color CURVE_BUTTON_COLOR = new Color(0.8f, 0.8f, 0.8f);
@@ -286,24 +294,26 @@ namespace SplineMesh {
 
             if (firstSelection != null && lastSelection != null)
             {
+                int firstIndex = spline.nodes.IndexOf(firstSelection);
+                int lastIndex = spline.nodes.IndexOf(lastSelection);
+
+                Debug.Log(Time.time + "Indexes are " + firstIndex + " and " + lastIndex);
+                if (lastIndex < firstIndex)
+                {
+                    Swap(ref firstIndex, ref lastIndex);
+                   // Swap(ref firstSelection, ref lastSelection);
+
+                }
+  
+                Vector3 FirstPosition = firstSelection.Position;
+                Vector3 FirstDirection = (lastSelection.Position - firstSelection.Position).normalized;
+                float distBetweenNodes = ((firstSelection.Position - lastSelection.Position).magnitude) / (lastIndex - firstIndex);
+
                 if (GUILayout.Button("Align range to first"))
                 {
-                    Undo.RecordObject(spline, "straight node range");
+                    Debug.Log("Aligning: firstIndex = " + firstIndex + ", lastIndex = " + lastIndex);
 
-                    Vector3 FirstPosition = firstSelection.Position;
-                    Vector3 FirstDirection = (lastSelection.Position - firstSelection.Position).normalized;// firstSelection.Direction - FirstPosition;
-
-                    int firstIndex = spline.nodes.IndexOf(firstSelection);
-                    int lastIndex = spline.nodes.IndexOf(lastSelection);
-
-                    if (lastIndex < firstIndex)
-                    {
-                        int temp = firstIndex;
-                        firstIndex = lastIndex;
-                        lastIndex = temp;
-                    }
-
-                    float distBetweenNodes = ((firstSelection.Position - lastSelection.Position).magnitude) / (lastIndex - firstIndex);
+                    Undo.RecordObject(spline, "Align range to first");
 
                     for (int i = firstIndex + 1; i < lastIndex; i++)
                     {
@@ -313,6 +323,60 @@ namespace SplineMesh {
                     }
                     serializedObject.Update();
                     EditorUtility.SetDirty(target);
+                }
+                else
+                {
+                    if (GUILayout.Button("Align range Along X"))
+                    {
+                        Undo.RecordObject(spline, "Align range Along X");
+
+                        for (int i = firstIndex + 1; i < lastIndex; i++)
+                        {
+                            SplineNode curNode = spline.nodes[i];
+                            curNode.Position = new Vector3(FirstPosition.x, curNode.Position.y, curNode.Position.z);
+                        }
+
+                        serializedObject.Update();
+                        EditorUtility.SetDirty(target);
+                    }
+                    else if (GUILayout.Button("Align range Along Y"))
+                    {
+                        Undo.RecordObject(spline, "Align range Along Y");
+
+                        for (int i = firstIndex + 1; i < lastIndex; i++)
+                        {
+                            SplineNode curNode = spline.nodes[i];
+                            curNode.Position = new Vector3(curNode.Position.x, FirstPosition.y, curNode.Position.z);
+                        }
+                        serializedObject.Update();
+                        EditorUtility.SetDirty(target);
+                    }
+                    else if (GUILayout.Button("Align range Along Z"))
+                    {
+                        Undo.RecordObject(spline, "Align range Along Z");
+
+                        for (int i = firstIndex + 1; i < lastIndex; i++)
+                        {
+                            SplineNode curNode = spline.nodes[i];
+                            curNode.Position = new Vector3(curNode.Position.x, curNode.Position.y, FirstPosition.z);
+                        }
+                        serializedObject.Update();
+                        EditorUtility.SetDirty(target);
+                    }
+
+                    for (int i = firstIndex; i < lastIndex && i < spline.nodes.Count; i++)
+                    {
+                        SplineNode curNode = spline.nodes[i];
+
+                        if (i < lastIndex - 1)
+                        {
+                            curNode.Direction = curNode.Position + (spline.nodes[i + 1].Position - spline.nodes[i].Position).normalized;
+                        }
+                        else
+                        {
+                            curNode.Direction = curNode.Position + (spline.nodes[i].Position - spline.nodes[i-1].Position).normalized;
+                        }
+                    }
                 }
             }
 
