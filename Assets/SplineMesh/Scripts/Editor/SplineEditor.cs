@@ -7,6 +7,7 @@ namespace SplineMesh {
     [CustomEditor(typeof(Spline))]
     public class SplineEditor : Editor {
 
+        // todo: Move to utility file?
         static void Swap<T>(ref T lhs, ref T rhs)
         {
             T temp;
@@ -14,6 +15,9 @@ namespace SplineMesh {
             lhs = rhs;
             rhs = temp;
         }
+
+        public readonly Vector3 UpEpsilon = new Vector3(0.0f, 0.01f, 0.0f);
+        // end
 
         private const int QUAD_SIZE = 12;
         private static Color CURVE_COLOR = new Color(0.8f, 0.8f, 0.8f);
@@ -119,38 +123,46 @@ namespace SplineMesh {
             if (!spline.enabled)
                 return;
 
-            // draw the selection handles
-            switch (selectionType) {
-                case SelectionType.Node:
-                    // place a handle on the node and manage position change
+            if (firstSelection != null)
+            {
+                // draw the selection handles
+                switch (selectionType)
+                {
+                    case SelectionType.Node:
+                        // place a handle on the node and manage position change
 
-                    // TODO place the handle depending on user params (local or world)
-                    Vector3 newPosition = spline.transform.InverseTransformPoint(Handles.PositionHandle(spline.transform.TransformPoint(firstSelection.Position), spline.transform.rotation));
-                    if (newPosition != firstSelection.Position) {
-                        // position handle has been moved
-                        if (mustCreateNewNode) {
-                            mustCreateNewNode = false;
-                            firstSelection = AddClonedNode(firstSelection);
-                            firstSelection.Direction += newPosition - firstSelection.Position;
-                            firstSelection.Position = newPosition;
-                        } else {
-                            firstSelection.Direction += newPosition - firstSelection.Position;
-                            firstSelection.Position = newPosition;
+                        // TODO place the handle depending on user params (local or world)
+                        Vector3 newPosition = spline.transform.InverseTransformPoint(Handles.PositionHandle(spline.transform.TransformPoint(firstSelection.Position), spline.transform.rotation));
+                        if (newPosition != firstSelection.Position)
+                        {
+                            // position handle has been moved
+                            if (mustCreateNewNode)
+                            {
+                                mustCreateNewNode = false;
+                                firstSelection = AddClonedNode(firstSelection);
+                                firstSelection.Direction += newPosition - firstSelection.Position;
+                                firstSelection.Position = newPosition;
+                            }
+                            else
+                            {
+                                firstSelection.Direction += newPosition - firstSelection.Position;
+                                firstSelection.Position = newPosition;
+                            }
                         }
-                    }
-                    break;
-                case SelectionType.Direction:
-                    var result = Handles.PositionHandle(spline.transform.TransformPoint(firstSelection.Direction), Quaternion.identity);
-                    firstSelection.Direction = spline.transform.InverseTransformPoint(result);
-                    break;
-                case SelectionType.InverseDirection:
-                    result = Handles.PositionHandle(2 * spline.transform.TransformPoint(firstSelection.Position) - spline.transform.TransformPoint(firstSelection.Direction), Quaternion.identity);
-                    firstSelection.Direction = 2 * firstSelection.Position - spline.transform.InverseTransformPoint(result);
-                    break;
-                case SelectionType.Up:
-                    result = Handles.PositionHandle(spline.transform.TransformPoint(firstSelection.Position + firstSelection.Up), Quaternion.LookRotation(firstSelection.Direction - firstSelection.Position));
-                    firstSelection.Up = (spline.transform.InverseTransformPoint(result) - firstSelection.Position).normalized;
-                    break;
+                        break;
+                    case SelectionType.Direction:
+                        var result = Handles.PositionHandle(spline.transform.TransformPoint(firstSelection.Direction), Quaternion.identity);
+                        firstSelection.Direction = spline.transform.InverseTransformPoint(result);
+                        break;
+                    case SelectionType.InverseDirection:
+                        result = Handles.PositionHandle(2 * spline.transform.TransformPoint(firstSelection.Position) - spline.transform.TransformPoint(firstSelection.Direction), Quaternion.identity);
+                        firstSelection.Direction = 2 * firstSelection.Position - spline.transform.InverseTransformPoint(result);
+                        break;
+                    case SelectionType.Up:
+                        result = Handles.PositionHandle(spline.transform.TransformPoint(firstSelection.Position + firstSelection.Up), Quaternion.LookRotation(firstSelection.Direction - firstSelection.Position));
+                        firstSelection.Up = (spline.transform.InverseTransformPoint(result) - firstSelection.Position).normalized;
+                        break;
+                }
             }
 
             // draw the handles of all nodes, and manage selection motion
@@ -265,6 +277,7 @@ namespace SplineMesh {
             if (firstSelection == null) {
                 GUI.enabled = false;
             }
+
             if (GUILayout.Button("Add node after selected")) {
                 Undo.RecordObject(spline, "add spline node");
                 SplineNode newNode = new SplineNode(firstSelection.Direction, firstSelection.Direction + firstSelection.Direction - firstSelection.Position);
@@ -297,32 +310,61 @@ namespace SplineMesh {
                 int firstIndex = spline.nodes.IndexOf(firstSelection);
                 int lastIndex = spline.nodes.IndexOf(lastSelection);
 
-                Debug.Log(Time.time + "Indexes are " + firstIndex + " and " + lastIndex);
                 if (lastIndex < firstIndex)
                 {
                     Swap(ref firstIndex, ref lastIndex);
-                   // Swap(ref firstSelection, ref lastSelection);
-
                 }
   
                 Vector3 FirstPosition = firstSelection.Position;
                 Vector3 FirstDirection = (lastSelection.Position - firstSelection.Position).normalized;
                 float distBetweenNodes = ((firstSelection.Position - lastSelection.Position).magnitude) / (lastIndex - firstIndex);
 
-                if (GUILayout.Button("Align range to first"))
-                {
-                    Debug.Log("Aligning: firstIndex = " + firstIndex + ", lastIndex = " + lastIndex);
+                bool bSplineUpdated = false;
 
+                if (GUILayout.Button("Place selected objects along road"))
+                {
+
+                    Debug.Log("World Build!");
+                    if (Selection.activeGameObject != null)
+                    {
+                        Debug.Log("     Active");
+                        GameObject WorldBuilder = GameObject.Find("WorldBuilder");
+                        if (WorldBuilder != null)
+                        {
+                            WorldBuilder.GetComponent<WorldBuilder>().PlacePropAlongSpline(firstIndex, lastIndex, Selection.activeGameObject);
+                        }
+                    }
+                }
+                else if (GUILayout.Button("Align range to first"))
+                {
                     Undo.RecordObject(spline, "Align range to first");
 
                     for (int i = firstIndex + 1; i < lastIndex; i++)
                     {
                         SplineNode curNode = spline.nodes[i];
                         curNode.Position = FirstPosition + FirstDirection * (i - firstIndex) * distBetweenNodes;
-                        curNode.Direction = curNode.Position + FirstDirection;
+                        //curNode.Direction = curNode.Position + FirstDirection;
                     }
-                    serializedObject.Update();
-                    EditorUtility.SetDirty(target);
+
+                    bSplineUpdated = true;
+                }
+                else if (GUILayout.Button("Align to ground"))
+                {
+                    Undo.RecordObject(spline, "Align to ground");
+                    Debug.Log("Last Index = " + lastIndex);
+                    for (int i = firstIndex; i <= lastIndex && i < spline.nodes.Count; i++)
+                    {
+                        Vector3 rayStart = spline.nodes[i].Position + new Vector3(0.0f, 20.0f, 0.0f);
+                        RaycastHit hitInfo = new RaycastHit();
+                        if (Physics.Linecast(rayStart, spline.nodes[i].Position - new Vector3(0.0f, 20.0f, 0.0f), out hitInfo))
+                        {
+                            spline.nodes[i].Position = hitInfo.point + UpEpsilon;
+                           // Debug.DrawLine(spline.nodes[i].Position, spline.nodes[i].Position + new Vector3(0.0f, 20.0f, 0.0f), Color.red, 0.01f);
+                            // if (hitInfo.col.
+                        }
+                    }
+
+                    bSplineUpdated = true;
                 }
                 else
                 {
@@ -330,53 +372,45 @@ namespace SplineMesh {
                     {
                         Undo.RecordObject(spline, "Align range Along X");
 
-                        for (int i = firstIndex + 1; i < lastIndex; i++)
+                        for (int i = firstIndex + 1; i <= lastIndex && i < spline.nodes.Count; i++)
                         {
                             SplineNode curNode = spline.nodes[i];
                             curNode.Position = new Vector3(FirstPosition.x, curNode.Position.y, curNode.Position.z);
                         }
 
-                        serializedObject.Update();
-                        EditorUtility.SetDirty(target);
+                        bSplineUpdated = true;
                     }
                     else if (GUILayout.Button("Align range Along Y"))
                     {
                         Undo.RecordObject(spline, "Align range Along Y");
 
-                        for (int i = firstIndex + 1; i < lastIndex; i++)
+                        for (int i = firstIndex + 1; i <= lastIndex && i < spline.nodes.Count; i++)
                         {
                             SplineNode curNode = spline.nodes[i];
                             curNode.Position = new Vector3(curNode.Position.x, FirstPosition.y, curNode.Position.z);
                         }
-                        serializedObject.Update();
-                        EditorUtility.SetDirty(target);
-                    }
-                    else if (GUILayout.Button("Align range Along Z"))
-                    {
-                        Undo.RecordObject(spline, "Align range Along Z");
 
-                        for (int i = firstIndex + 1; i < lastIndex; i++)
-                        {
-                            SplineNode curNode = spline.nodes[i];
-                            curNode.Position = new Vector3(curNode.Position.x, curNode.Position.y, FirstPosition.z);
-                        }
-                        serializedObject.Update();
-                        EditorUtility.SetDirty(target);
+                        bSplineUpdated = true;
                     }
+                }
 
-                    for (int i = firstIndex; i < lastIndex && i < spline.nodes.Count; i++)
+                if (bSplineUpdated)
+                {
+                    for (int i = firstIndex; i <= lastIndex && i < spline.nodes.Count; i++)
                     {
                         SplineNode curNode = spline.nodes[i];
-
                         if (i < lastIndex - 1)
                         {
                             curNode.Direction = curNode.Position + (spline.nodes[i + 1].Position - spline.nodes[i].Position).normalized;
                         }
                         else
                         {
-                            curNode.Direction = curNode.Position + (spline.nodes[i].Position - spline.nodes[i-1].Position).normalized;
+                            curNode.Direction = curNode.Position + (spline.nodes[i].Position - spline.nodes[i - 1].Position).normalized;
                         }
                     }
+
+                    serializedObject.Update();
+                    EditorUtility.SetDirty(target);
                 }
             }
 
