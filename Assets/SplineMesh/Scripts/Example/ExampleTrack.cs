@@ -146,11 +146,29 @@ namespace SplineMesh {
     /// <summary>
     /// This class store any data associated with a spline segment.
     /// In this example, a list of meshes.
+    /// In this example, a list of meshes.
     /// It is intended to be edited in the inspector.
     /// </summary>
     [Serializable]
     public class TrackSegment {
         public List<TransformedMesh> transformedMeshes = new List<TransformedMesh>();
+        public void CopySegment(TrackSegment destSegment)
+        {
+            destSegment.transformedMeshes.Clear();
+
+            for (int i = 0; i < transformedMeshes.Count; i++)
+            {
+                TransformedMesh srcMesh = transformedMeshes[i];
+                TransformedMesh destMesh = new TransformedMesh();
+                destMesh.mesh = srcMesh.mesh;
+                destMesh.material = srcMesh.material;
+                destMesh.physicMaterial = srcMesh.physicMaterial;
+                destMesh.translation = srcMesh.translation;
+                destMesh.rotation = srcMesh.rotation;
+                destMesh.scale = srcMesh.scale;
+                destSegment.transformedMeshes.Add(destMesh);
+            }
+        }
     }
 
     /// <summary>
