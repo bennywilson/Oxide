@@ -1,10 +1,90 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System;
 using UnityEditor;
 using UnityEngine;
 
 namespace SplineMesh {
-    [CustomEditor(typeof(Spline))]
+
+    [CustomEditor(typeof(RoadSpline))]
+    public class RoadSplineEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
+
+            RoadSpline rs = serializedObject.targetObject as RoadSpline;
+            EditorGUILayout.LabelField("Segments");
+            SerializedProperty serializedSegments = serializedObject.FindProperty("segments");
+
+            List<int> selectedIndex = new List<int>();
+
+            bool ReplacePrefabs = false;
+            if (GUILayout.Button("Match segments to First"))
+            {
+                Undo.RecordObject(rs, "Match segments to First");
+                ReplacePrefabs = true;
+            }
+
+            for (int i = 0; i < Selection.objects.Length; i++)
+            {
+                var name = Selection.objects[i].name.Substring(8, Selection.objects[i].name.Length - 8);
+                if (name == String.Empty)
+                {
+                    continue;
+                }
+
+                int lastIdx = name.IndexOf(' ');
+                if (lastIdx < 0)
+                {
+                    continue;
+                }
+
+                name = name.Substring(0, lastIdx);
+                int outInt;
+                Int32.TryParse(name, out outInt);
+                selectedIndex.Add(outInt);
+            }
+            
+            int[] segmentToControlID = new int[rs.segments.Count];
+            TrackSegment firstSegment = null;
+
+            for (int i = 0; i < rs.segments.Count; i++)
+            {
+                Color oldColor = GUI.color;
+                if (selectedIndex.Contains(i))
+                {
+                    if (firstSegment == null)
+                    {
+                        GUI.color = new Color(1.0f, 2.0f, 1.0f);
+                        firstSegment = rs.segments[i];
+                    }
+                    else
+                    {
+                        GUI.color = new Color(1.0f, 1.0f, 2.0f);
+                        if (ReplacePrefabs)
+                        {
+                            firstSegment.CopySegment(rs.segments[i]);
+                        }
+                    }
+                }
+
+                var customLabel = new GUIContent("Index[" + i + "]");
+                var controlId = EditorGUIUtility.GetControlID(customLabel, FocusType.Passive);
+                segmentToControlID[i] = controlId;
+                SerializedProperty curSegment = serializedSegments.GetArrayElementAtIndex(i);
+
+                EditorGUILayout.PropertyField(curSegment, customLabel);
+                GUI.color = oldColor;
+            }
+            if (ReplacePrefabs)
+            {
+                rs.MarkDirty(true);
+                serializedObject.Update();
+                EditorUtility.SetDirty(target);
+            }
+        }
+    }
+        [CustomEditor(typeof(Spline))]
     public class SplineEditor : Editor {
 
         // todo: Move to utility file?
@@ -266,10 +346,14 @@ namespace SplineMesh {
             return 0;
         }
 
+        List<TrackSegment> a;
+
         public override void OnInspectorGUI() {
             serializedObject.Update();
 
-            if(spline.nodes.IndexOf(firstSelection) < 0) {
+
+    
+            if (spline.nodes.IndexOf(firstSelection) < 0) {
                 firstSelection = null;
             }
 
@@ -314,26 +398,38 @@ namespace SplineMesh {
                 {
                     Swap(ref firstIndex, ref lastIndex);
                 }
-  
+
                 Vector3 FirstPosition = firstSelection.Position;
                 Vector3 FirstDirection = (lastSelection.Position - firstSelection.Position).normalized;
                 float distBetweenNodes = ((firstSelection.Position - lastSelection.Position).magnitude) / (lastIndex - firstIndex);
 
                 bool bSplineUpdated = false;
-
+                GameObject WorldBuilder = GameObject.Find("WorldBuilder");
+                Transform roadPiece = WorldBuilder.transform.Find("Generated World Objects/ProceduralRoadPiece(Clone)");
+                RoadSpline roadSpline = roadPiece.GetComponent<RoadSpline>();
                 if (GUILayout.Button("Place selected objects along road"))
                 {
-
-                    Debug.Log("World Build!");
                     if (Selection.activeGameObject != null)
                     {
-                        Debug.Log("     Active");
-                        GameObject WorldBuilder = GameObject.Find("WorldBuilder");
                         if (WorldBuilder != null)
                         {
                             WorldBuilder.GetComponent<WorldBuilder>().PlacePropAlongSpline(firstIndex, lastIndex, Selection.activeGameObject);
                         }
                     }
+                }
+                else if (GUILayout.Button("Replace range with selected prefab"))
+                {
+                    var so = new SerializedObject(roadSpline);
+                    var segs = so.FindProperty("segments");
+
+                    for (int i = firstIndex + 1; i < lastIndex; i++)
+                    {
+                        roadSpline.segments[firstIndex].CopySegment(roadSpline.segments[i]);
+                    }
+
+                    roadSpline.MarkDirty();
+
+                    bSplineUpdated = true;
                 }
                 else if (GUILayout.Button("Align range to first"))
                 {
@@ -343,7 +439,6 @@ namespace SplineMesh {
                     {
                         SplineNode curNode = spline.nodes[i];
                         curNode.Position = FirstPosition + FirstDirection * (i - firstIndex) * distBetweenNodes;
-                        //curNode.Direction = curNode.Position + FirstDirection;
                     }
 
                     bSplineUpdated = true;
@@ -359,8 +454,6 @@ namespace SplineMesh {
                         if (Physics.Linecast(rayStart, spline.nodes[i].Position - new Vector3(0.0f, 20.0f, 0.0f), out hitInfo))
                         {
                             spline.nodes[i].Position = hitInfo.point + UpEpsilon;
-                           // Debug.DrawLine(spline.nodes[i].Position, spline.nodes[i].Position + new Vector3(0.0f, 20.0f, 0.0f), Color.red, 0.01f);
-                            // if (hitInfo.col.
                         }
                     }
 

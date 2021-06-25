@@ -1,8 +1,13 @@
 using UnityEngine;
+using SplineMesh;
 
 public class CarPhysicsObject : VehicleBase
 {
     [SerializeField] CarPhysicsSettings _settings = default;
+
+    [SerializeField] bool _autoDrive = false;
+
+    [SerializeField] float _autoDriveSpeed = 0.05f;
 
     Rigidbody _body;
 
@@ -62,6 +67,12 @@ public class CarPhysicsObject : VehicleBase
     void FixedUpdate()
     {
         float deltaTime = Time.deltaTime;
+
+        if (_autoDrive)
+        {
+            AutoDrive();
+            return;
+        }
 
         // OXIDE BEGIN - bwilson - todo
         if (Input.Brake > 0)
@@ -142,6 +153,39 @@ public class CarPhysicsObject : VehicleBase
         else
         {
             _visualData.renderer.materials[2].SetColor("ColorMultiplier", new Color(1, 1, 1));
+        }
+    }
+
+    float distance = 0;
+    Vector3 targetDir;
+
+    void AutoDrive()
+    {
+        Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            Rigidbody.Destroy(rb);
+        }
+
+        GameObject road = GameObject.Find("ProceduralRoadPiece(Clone)");
+        var spline = road.GetComponent<Spline>();
+        // For our generated road segment, seed a bunch of props.
+        if (spline != null)
+        {
+            distance += _autoDriveSpeed * Time.fixedDeltaTime;
+            var sample = spline.GetSampleAtDistance(distance);
+            targetDir = Vector3.ProjectOnPlane(sample.tangent, Vector3.up);
+            Vector3 curDir = transform.rotation * Vector3.forward;
+
+            curDir = Vector3.MoveTowards(curDir, targetDir, 0.01f);
+
+            Vector3 tangent = Vector3.Cross(curDir, Vector3.up);
+            tangent.y = 0.0f;
+            tangent.Normalize();
+            var roadPoint = road.transform.TransformPoint(sample.location) - tangent * 0.77f;
+
+            transform.position = roadPoint;
+            transform.rotation = Quaternion.LookRotation(curDir);
         }
     }
 }

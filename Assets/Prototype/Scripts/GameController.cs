@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
 {
     VehicleBase PlayerVehicle;
     OxideInput _oxideInput;
+    public AudioSource Music;
 
     VehicleInput GetInput()
     {
@@ -47,6 +48,12 @@ public class GameController : MonoBehaviour
     void OnEnable()
     {
         _oxideInput.Enable();
+
+        if (Music != null)
+        {
+            Music.loop = true;
+            Music.Play();
+        }
     }
 
     void OnDisable()
