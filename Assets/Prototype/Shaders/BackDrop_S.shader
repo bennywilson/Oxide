@@ -2,7 +2,10 @@ Shader "Oxide/BackDrop_S"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _AfternoonBackdropTex ("Afternoon Backdrop", 2D) = "white" {}
+        _SunsetBackdropTex ("Sunset Backdrop", 2D) = "white" {}
+        _HorizonClipSpaceY ("HorizonClipSpaceY", float) = 1
+        _TextureWidth( "TextureWidth", float) = 1024
     }
     SubShader
     {
@@ -32,16 +35,29 @@ Shader "Oxide/BackDrop_S"
                 float4 vertex : SV_POSITION;
             };
 
-            sampler2D _MainTex;
+            sampler2D _AfternoonBackdropTex;
+            sampler2D _SunsetBackdropTex;
             float4 _MainTex_ST;
+            half _HorizonClipSpaceY;
+            float _TimeOfDay;
+            float _TextureWidth;
 
             v2f vert (appdata v)
             {
                 v2f o;
-               // o.vertex = UnityObjectToClipPos(v.vertex);
-                o.vertex = float4(v.vertex.xy * float2(2.0f, 1.0f) + float2(0.0f, 0.5f), 0.f, 1.0f);
-              //  o.vertex.y *= -1;
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+
+                float YScale = (1.0f - _HorizonClipSpaceY) * 0.5f;
+                float YBias = 1.0f - YScale;
+                
+                const float XScale = YScale * 2.0f * ((_TextureWidth / _ScreenParams.x) * 2.0f - 1.0f);
+
+                float3 vertPos = normalize(v.vertex.xyz);
+                o.vertex.x = sign(vertPos.x) *  XScale;
+                o.vertex.y = v.vertex.y * -YScale + YBias;
+                o.vertex.z = 0.0f;
+                o.vertex.w = 1.0f;
+
+                o.uv = v.uv;
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
@@ -49,7 +65,10 @@ Shader "Oxide/BackDrop_S"
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
+                float4 afternoonColor = tex2D(_AfternoonBackdropTex, i.uv);
+                float4 sunsetColor = tex2D(_SunsetBackdropTex, i.uv);
+                float3 col = lerp(afternoonColor, sunsetColor, _TimeOfDay);
+
                 // apply fog
                 //UNITY_APPLY_FOG(i.fogCoord, col);
                 return float4(col.xyz,1);

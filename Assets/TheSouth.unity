@@ -38391,6 +38391,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2019689868}
     m_Modifications:
+    - target: {fileID: 2254670058753245623, guid: 9e320a36a9649de428ba5fc65be7f627, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 7262386725490909450, guid: 47bf010da56c5884b9f5fef8f4e92945, type: 3}
     - target: {fileID: 2571055388024444072, guid: 9e320a36a9649de428ba5fc65be7f627, type: 3}
       propertyPath: m_Name
       value: Sky
@@ -53157,7 +53161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -888092086286659565, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
       propertyPath: _autoDriveSpeed
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -888092086286659565, guid: d5948590665c08144a9f5f11f2bed70a, type: 3}
       propertyPath: _settings.TopSpeed

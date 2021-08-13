@@ -8,14 +8,10 @@ public class SceneLightController : MonoBehaviour
     [SerializeField] float _cycleDurationSeconds = 30f;
     [SerializeField] float _cycleStartRatio = 0.5f;
 
+    [SerializeField] Color _startColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+    [SerializeField] Color _endColor = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+
     [SerializeField] Light _lightSun = null;
-    [SerializeField] Light _lightMoon = null;
-
-    [SerializeField] float _maxSunIntensity = 1f;
-    [SerializeField] float _maxMoonIntensity = 0.5f;
-
-    [SerializeField] float _SunAmbientIntensity = 0.2f;
-    [SerializeField] float _MoonAmbientIntensity = 0.2f;
 
     float _currentCycleDuration = 0f;
 
@@ -32,27 +28,12 @@ public class SceneLightController : MonoBehaviour
     void Update()
     {
         _currentCycleDuration += Time.deltaTime;
-        _currentCycleDuration %= _cycleDurationSeconds;
+        float lerpAmt = Mathf.Clamp(_currentCycleDuration / _cycleDurationSeconds, 0.0f, 1.0f);
 
-        float cycleSine = Mathf.Sin(Mathf.PI * 2 * _currentCycleDuration / _cycleDurationSeconds);
+        Color currentLightColor = Color.Lerp(_startColor, _endColor, lerpAmt);
 
-        if (_lightSun != null)
-        {
-            float sunItensity = cycleSine * _maxSunIntensity;
-            _lightSun.intensity = Mathf.Max(0, sunItensity);
-            _lightSun.enabled = sunItensity > 0;
-        }
-
-        if (_lightMoon != null)
-        {
-            float moonIntensity = -cycleSine * _maxMoonIntensity;
-            _lightMoon.intensity = Mathf.Max(0, moonIntensity);
-            _lightMoon.enabled = moonIntensity > 0;
-        }
-
-        float ambientIntensity = Mathf.Lerp(_MoonAmbientIntensity, _SunAmbientIntensity, (cycleSine * 2.0f) - 1.0f);
-        RenderSettings.ambientIntensity = ambientIntensity;
-
-        transform.rotation = Quaternion.AngleAxis(360f * _currentCycleDuration / _cycleDurationSeconds, forward);
+        _lightSun.intensity = currentLightColor.a;
+        _lightSun.color = new Color(currentLightColor.r, currentLightColor.g, currentLightColor.b, 1.0f);
+        Shader.SetGlobalFloat("_TimeOfDay", lerpAmt);
     }
 }
