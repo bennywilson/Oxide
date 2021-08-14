@@ -9,9 +9,9 @@ Shader "Oxide\Backdrop"
   }
     SubShader
   {
-      Tags { "RenderType" = "Opaque" }
+      Tags { "RenderType" = "Transparent" }
       LOD 100
-
+       Blend SrcAlpha OneMinusSrcAlpha
       Pass
       {
       cull off
@@ -46,8 +46,6 @@ Shader "Oxide\Backdrop"
 
           v2f vert(appdata v)
           {
-
-
               float4 vertPos = v.vertex;
               vertPos.y *= -1.0f;
               vertPos.xy = vertPos.xy * _ScaleBias.xy + _ScaleBias.zw;
