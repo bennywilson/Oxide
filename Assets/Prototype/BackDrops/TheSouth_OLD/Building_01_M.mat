@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BackDrop_M
+  m_Name: Building_01_M
   m_Shader: {fileID: 4800000, guid: 928efca123797984fbd64f8c3d0843a4, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4

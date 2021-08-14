@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BackDrop_M
+  m_Name: BackDrop_M 1
   m_Shader: {fileID: 4800000, guid: 928efca123797984fbd64f8c3d0843a4, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -24,7 +24,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AfternoonBackdropTex:
-        m_Texture: {fileID: 2800000, guid: 5d2daef1ae1499943a932cb020e1d67e, type: 3}
+        m_Texture: {fileID: 2800000, guid: d103c2d4e67438e4bb3ad547f2285acc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -72,7 +72,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SunsetBackdropTex:
-        m_Texture: {fileID: 2800000, guid: 3fc1476da2bff234cabe62308e4de1c5, type: 3}
+        m_Texture: {fileID: 2800000, guid: d103c2d4e67438e4bb3ad547f2285acc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureA:
@@ -128,7 +128,7 @@ Material:
     - _SrcBlend: 1
     - _Surface: 0
     - _TextureBlend: 0
-    - _TextureWidth: 2048
+    - _TextureWidth: 512
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _timeOfDay: 0

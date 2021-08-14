@@ -5,6 +5,9 @@ public class BackgroundPiece : MonoBehaviour
 {
     static List<BackgroundPiece> _allPieces = new List<BackgroundPiece>();
 
+    [SerializeField]
+    GameObject _PlayerCamera;
+
     public static int GetPieceCount() => _allPieces.Count;
     public static BackgroundPiece GetPieceAt(int index) => _allPieces[index];
 
@@ -30,6 +33,10 @@ public class BackgroundPiece : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        transform.position = new Vector3(transform.position.x, transform.position.y, _PlayerCamera.transform.position.z + 100.0f);
+    }
     void OnDisable()
     {
         _allPieces.Remove(this);

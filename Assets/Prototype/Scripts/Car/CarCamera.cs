@@ -66,5 +66,7 @@ public class CarCamera : MonoBehaviour
         var position = pivotPosition + rotation * _boomOffset;
 
         transform.SetPositionAndRotation(position, rotation);
+
+        Shader.SetGlobalVector("_PlayerCameraRight", transform.right);
     }
 }
