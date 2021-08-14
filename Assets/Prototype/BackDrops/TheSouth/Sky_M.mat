@@ -60,6 +60,7 @@ Material:
     - _HorizonClipSpaceY: 0.5
     - _ScrollMagnitude: 15
     - _TextureWidth: 1024
+    - _UseTint: 0
     m_Colors:
-    - _ScaleBias: {r: 250, g: 40, b: 0, a: 74}
+    - _ScaleBias: {r: 250, g: 43, b: 0, a: 76}
   m_BuildTextureStacks: []

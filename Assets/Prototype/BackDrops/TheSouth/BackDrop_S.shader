@@ -6,6 +6,7 @@ Shader "Oxide\Backdrop"
       _EndBackdropTex("End Backdrop Tex", 2D) = "white" {}
       _ScaleBias("Scale And Bias", Vector) = (1,1,0,0)
       _ScrollMagnitude("Scroll Magnitude", Float) = 50
+      _UseTint("Use Tint", Int) = 0
   }
     SubShader
   {
@@ -43,6 +44,8 @@ Shader "Oxide\Backdrop"
           float4 _ScaleBias;
           float4 _PlayerCameraRight;
           float _ScrollMagnitude;
+          float4 _BackgroundTintColor;
+          int _UseTint;
 
           v2f vert(appdata v)
           {
@@ -67,6 +70,10 @@ Shader "Oxide\Backdrop"
             float4 endCol = tex2D(_EndBackdropTex, i.uv);
             float4 finalCol = lerp(startCol, endCol, _TimeOfDay);
 
+            if (_UseTint)
+            {
+              finalCol.xyz *= _BackgroundTintColor.xyz;
+            }
             return finalCol;
       }
       ENDCG
