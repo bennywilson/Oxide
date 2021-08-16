@@ -362,7 +362,17 @@ namespace SplineMesh {
                 GUI.enabled = false;
             }
 
-            if (GUILayout.Button("Add node after selected")) {
+            GameObject WorldBuilder = GameObject.Find("WorldBuilder");
+            Transform roadPiece = WorldBuilder.transform.Find("Generated World Objects/ProceduralRoadPiece(Clone)");
+            RoadSpline roadSpline = roadPiece.GetComponent<RoadSpline>();
+            if (GUILayout.Button("Refresh Derfomed Meshes"))
+            {
+                roadSpline.MarkDirty(true);
+                roadSpline.CreateMeshes();
+                serializedObject.Update();
+                EditorUtility.SetDirty(target);
+            }
+            else if (GUILayout.Button("Add node after selected")) {
                 Undo.RecordObject(spline, "add spline node");
                 SplineNode newNode = new SplineNode(firstSelection.Direction, firstSelection.Direction + firstSelection.Direction - firstSelection.Position);
                 var index = spline.nodes.IndexOf(firstSelection);
@@ -404,9 +414,7 @@ namespace SplineMesh {
                 float distBetweenNodes = ((firstSelection.Position - lastSelection.Position).magnitude) / (lastIndex - firstIndex);
 
                 bool bSplineUpdated = false;
-                GameObject WorldBuilder = GameObject.Find("WorldBuilder");
-                Transform roadPiece = WorldBuilder.transform.Find("Generated World Objects/ProceduralRoadPiece(Clone)");
-                RoadSpline roadSpline = roadPiece.GetComponent<RoadSpline>();
+
                 if (GUILayout.Button("Place selected objects along road"))
                 {
                     if (Selection.activeGameObject != null)
