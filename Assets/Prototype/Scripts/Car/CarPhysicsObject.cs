@@ -98,8 +98,20 @@ public class CarPhysicsObject : VehicleBase
         var wheelTurnRotation = Quaternion.AngleAxis(_currentSteering * maxWheelAngle, Vector3.up);
         var steeringForward = rotation * wheelTurnRotation * Vector3.forward;
 
-        // Figure out velocity relative to where our wheels are facing now.
-        var forwardVelocity = Vector3.Project(horizontalVelocity, steeringForward);
+        if (Mathf.Abs(Vector3.Dot(steeringForward, Vector3.forward)) < 0.1f)
+        {
+            if (steeringForward.x < 0)
+            {
+                steeringForward = new Vector3(-0.9934924f, 0.0f, 0.1f);
+            }
+            else
+            {
+                steeringForward = new Vector3(0.9934924f, 0.0f, 0.1f);
+            }
+            steeringForward.Normalize();
+         }
+            // Figure out velocity relative to where our wheels are facing now.
+            var forwardVelocity = Vector3.Project(horizontalVelocity, steeringForward);
         var drift = horizontalVelocity - forwardVelocity;
 
         var targetForwardVelocity = steeringForward * Mathf.Clamp(Input.Gas, -1, 1) * _settings.TopSpeed;
