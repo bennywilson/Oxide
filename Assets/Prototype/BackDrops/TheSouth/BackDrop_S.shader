@@ -5,17 +5,20 @@ Shader "Oxide\Backdrop"
       _StartBackdropTex("Start Backdrop Tex", 2D) = "white" {}
       _EndBackdropTex("End Backdrop Tex", 2D) = "white" {}
       _ScaleBias("Scale And Bias", Vector) = (1,1,0,0)
+      _FinalScaleBias("Final Scale And Bias", Vector) = (1,1,0,0)
       _ScrollMagnitude("Scroll Magnitude", Float) = 50
       _UseTint("Use Tint", Int) = 0
+      _BlendScaleBias("Blend Scale/Bias", Int) = 0
   }
     SubShader
-  {
+    {
       Tags { "RenderType" = "Transparent" }
       LOD 100
-       Blend SrcAlpha OneMinusSrcAlpha
+      Blend SrcAlpha OneMinusSrcAlpha
+
       Pass
       {
-      cull off
+          cull off
 
           CGPROGRAM
           #pragma vertex vert
@@ -42,16 +45,25 @@ Shader "Oxide\Backdrop"
           sampler2D _EndBackdropTex;
           float _TimeOfDay;
           float4 _ScaleBias;
+          float4 _FinalScaleBias;
           float4 _PlayerCameraRight;
           float _ScrollMagnitude;
           float4 _BackgroundTintColor;
           int _UseTint;
+          int _BlendScaleBias;
 
           v2f vert(appdata v)
           {
               float4 vertPos = v.vertex;
               vertPos.y *= -1.0f;
-              vertPos.xy = vertPos.xy * _ScaleBias.xy + _ScaleBias.zw;
+
+              float4 targetScaleAndBias = _ScaleBias;
+              if (_BlendScaleBias)
+              {
+                targetScaleAndBias = lerp(_ScaleBias, _FinalScaleBias, _TimeOfDay);
+              }
+
+              vertPos.xy = vertPos.xy * targetScaleAndBias.xy + targetScaleAndBias.zw;
 
               float theDot = dot(float3(0.0f, 0.0f, 1.0f), _PlayerCameraRight);
               vertPos.x += theDot * _ScrollMagnitude;
@@ -77,6 +89,6 @@ Shader "Oxide\Backdrop"
             return finalCol;
       }
       ENDCG
-  }
+    }
   }
 }

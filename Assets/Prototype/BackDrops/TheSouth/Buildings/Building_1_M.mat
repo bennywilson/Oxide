@@ -62,5 +62,5 @@ Material:
     - _TextureWidth: 1024
     - _UseTint: 1
     m_Colors:
-    - _ScaleBias: {r: 7.8, g: 20.4, b: -45, a: 55}
+    - _ScaleBias: {r: 7.8, g: 20.4, b: -45, a: 53}
   m_BuildTextureStacks: []
