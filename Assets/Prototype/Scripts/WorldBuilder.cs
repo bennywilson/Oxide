@@ -28,6 +28,7 @@ public class WorldBuilder : MonoBehaviour
 
     [SerializeField] bool _placeCars = true;
 
+    [SerializeField] bool _disableCollision = false;
     GameObject _generatedWorldObjects = null;
     GameObject _road = null;
 
@@ -169,7 +170,8 @@ public class WorldBuilder : MonoBehaviour
                 }
             }
 
-           // if (Application.isPlaying)
+           // if (Application.isPlaying
+            if (_disableCollision == false)
             {
                 GameObject road = GameObject.Find("ProceduralRoadPiece(Clone)");
                 var spline = road.GetComponent<Spline>();
