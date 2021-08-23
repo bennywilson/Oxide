@@ -8,6 +8,14 @@ public class GameController : MonoBehaviour
     VehicleBase PlayerVehicle;
     OxideInput _oxideInput;
     public AudioSource Music;
+    public Texture TitleScreen;
+
+    enum GameState
+    {
+        TitleScreen = 0,
+        Playing
+    };
+    GameState _currentState = GameState.TitleScreen;
 
     VehicleInput GetInput()
     {
@@ -48,12 +56,6 @@ public class GameController : MonoBehaviour
     void OnEnable()
     {
         _oxideInput.Enable();
-
-        if (Music != null)
-        {
-            Music.loop = true;
-            Music.Play();
-        }
     }
 
     void OnDisable()
@@ -72,16 +74,47 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        if (!GetCanUseInput())
-            return;
+        if (_currentState == GameState.TitleScreen)
+        {
+            var playerInput = _oxideInput.Player;
+            if (playerInput.Gas.ReadValue<float>() > 0)
+            {
+                _currentState = GameState.Playing;
+                if (Music != null)
+                {
+                    Music.loop = true;
+                    Music.Play();
+                }
+            }
+        }
+        else if (_currentState == GameState.Playing)
+        {
+            if (!GetCanUseInput())
+                return;
 
-        var playerInput = _oxideInput.Player;
-        var vInput = GetInput();
+            var playerInput = _oxideInput.Player;
+            var vInput = GetInput();
 
-        vInput.Steering = playerInput.Move.ReadValue<Vector2>().x;
-        vInput.Gas = playerInput.Gas.ReadValue<float>();
-        vInput.Brake = playerInput.Brake.ReadValue<float>();
+            vInput.Steering = playerInput.Move.ReadValue<Vector2>().x;
+            vInput.Gas = playerInput.Gas.ReadValue<float>();
+            vInput.Brake = playerInput.Brake.ReadValue<float>();
 
-        SetInput(vInput);
+            SetInput(vInput);
+        }
+    }
+
+    private void OnGUI()
+    {
+        if (_currentState == GameState.TitleScreen)
+        {
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), TitleScreen);
+//            GUI.DrawTexture(new Rect(0, 0, 960, 600), TitleScreen, ScaleMode.ScaleToFit, false);// true, 10.0F);
+        }
+        else if (_currentState == GameState.Playing)
+        {
+
+        }
+
+
     }
 }
