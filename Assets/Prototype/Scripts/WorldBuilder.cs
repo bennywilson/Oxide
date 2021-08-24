@@ -110,7 +110,7 @@ public class WorldBuilder : MonoBehaviour
         return gameObj;
     }
 
-    void PlaceCar(Vector3 position, Quaternion rotation)
+    void PlaceCar(Vector3 position, Quaternion rotation, float distance)
     {
         if (_carPrefabs == null)
             return;
@@ -125,6 +125,8 @@ public class WorldBuilder : MonoBehaviour
         Vector3 randomColor = Random.insideUnitSphere;
         randomColor.Normalize();
 
+        VehicleAI carAI = spawnedCar.GetComponentInChildren<VehicleAI>();
+        carAI._distance = distance;
         Mesh.materials[0].SetVector("BaseColor", randomColor);
     }
 
@@ -254,7 +256,7 @@ public class WorldBuilder : MonoBehaviour
                     // To the right
                     if (_placeCars)
                     {
-                        PlaceCar(roadPoint + RandomHorizontalOffset(1), Quaternion.LookRotation(roadTangent));
+                        PlaceCar(roadPoint + RandomHorizontalOffset(1), Quaternion.LookRotation(roadTangent), distance);
                     }
                 }
             }
