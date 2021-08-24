@@ -57,10 +57,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BlendScaleBias: 0
     - _HorizonClipSpaceY: 0.5
     - _ScrollMagnitude: 20
     - _TextureWidth: 1024
     - _UseTint: 1
     m_Colors:
-    - _ScaleBias: {r: 24, g: 4, b: 15, a: 65}
+    - _FinalScaleBias: {r: 1, g: 1, b: 0, a: 0}
+    - _ScaleBias: {r: 24, g: 4, b: 18, a: 65}
   m_BuildTextureStacks: []
