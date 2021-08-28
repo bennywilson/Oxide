@@ -5,11 +5,13 @@ using UnityEngine.InputSystem;
 
 public class GameController : MonoBehaviour
 {
-    VehicleBase PlayerVehicle;
+    VehicleBase _playerVehicle;
     OxideInput _oxideInput;
-    public AudioSource Music;
-    public Texture TitleScreenTex;
-    public Texture BlackBordersTex;
+    public AudioSource _music;
+    public Texture _titleScreenTex;
+    public Texture _blackBordersTex;
+
+    VehicleAIManager _vehicleAIManager;
 
     public enum GameState
     {
@@ -21,23 +23,25 @@ public class GameController : MonoBehaviour
 
     VehicleInput GetInput()
     {
-        if (PlayerVehicle != null)
-            return PlayerVehicle.Input;
+        if (_playerVehicle != null)
+        {
+            return _playerVehicle.Input;
+        }
 
         return default;
     }
 
     void SetInput(VehicleInput input)
     {
-        if (PlayerVehicle == null)
+        if (_playerVehicle == null)
             return;
 
-        PlayerVehicle.Input = input;
+        _playerVehicle.Input = input;
     }
 
     bool GetCanUseInput()
     {
-        return PlayerVehicle != null && PlayerVehicle.gameObject.activeInHierarchy;
+        return _playerVehicle != null && _playerVehicle.gameObject.activeInHierarchy;
     }
 
     void Awake()
@@ -53,6 +57,10 @@ public class GameController : MonoBehaviour
            //    vInput.WantsToPurr = true;
             SetInput(vInput);
         };
+    }
+    public VehicleBase GetPlayer()
+    {
+        return _playerVehicle;
     }
 
     void OnEnable()
@@ -71,31 +79,34 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerVehicle = FindObjectOfType<VehicleBase>();
+        _playerVehicle = FindObjectOfType<VehicleBase>();
+        _vehicleAIManager = gameObject.GetComponent<VehicleAIManager>();
+        _vehicleAIManager.SetGameController(this);
+
     }
 
     void Update()
     {
         if (_currentState == GameState.TitleScreen)
         {
-            PlayerVehicle.GetComponent<CapsuleCollider>().enabled = false;
-            PlayerVehicle.GetComponent<Rigidbody>().useGravity = false;
+            _playerVehicle.GetComponent<CapsuleCollider>().enabled = false;
+            _playerVehicle.GetComponent<Rigidbody>().useGravity = false;
 
             var playerInput = _oxideInput.Player;
             if (playerInput.Gas.ReadValue<float>() > 0)
             {
                 _currentState = GameState.Playing;
-                if (Music != null)
+                if (_music != null)
                 {
-                    Music.loop = true;
-                    Music.Play();
+                    _music.loop = true;
+                    _music.Play();
                 }
             }
         }
         else if (_currentState == GameState.Playing)
         {
-            PlayerVehicle.GetComponent<CapsuleCollider>().enabled = true;
-            PlayerVehicle.GetComponent<Rigidbody>().useGravity = true;
+            _playerVehicle.GetComponent<CapsuleCollider>().enabled = true;
+            _playerVehicle.GetComponent<Rigidbody>().useGravity = true;
 
             if (!GetCanUseInput())
                 return;
@@ -108,6 +119,8 @@ public class GameController : MonoBehaviour
             vInput.Brake = playerInput.Brake.ReadValue<float>();
 
             SetInput(vInput);
+
+            _vehicleAIManager.UpdateController();
         }
     }
 
@@ -122,7 +135,7 @@ public class GameController : MonoBehaviour
             float textureY = 0;
             float textureWidth = Screen.width;
             float textureHeight = Screen.height;
-            Debug.Log("asdasdasd");
+
             if (screenAspect < textureAspect)
             {
                 textureWidth = Screen.width;
@@ -136,8 +149,8 @@ public class GameController : MonoBehaviour
                 textureX = Mathf.Abs(Screen.width - textureWidth) / 2.0f;
             }
            
-            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), BlackBordersTex);
-            GUI.DrawTexture(new Rect(textureX, textureY, textureWidth, textureHeight), TitleScreenTex);
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), _blackBordersTex);
+            GUI.DrawTexture(new Rect(textureX, textureY, textureWidth, textureHeight), _titleScreenTex);
         }
         else if (_currentState == GameState.Playing)
         {

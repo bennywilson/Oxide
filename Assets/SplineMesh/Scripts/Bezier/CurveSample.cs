@@ -18,6 +18,7 @@ namespace SplineMesh {
         public readonly float distanceInCurve;
         public readonly float timeInCurve;
         public readonly CubicBezierCurve curve;
+        public float distanceAlongSpline;
 
         private Quaternion rotation;
 
@@ -44,6 +45,7 @@ namespace SplineMesh {
             this.timeInCurve = timeInCurve;
             this.curve = curve;
             rotation = Quaternion.identity;
+            distanceAlongSpline = 0;
         }
 
         public override bool Equals(object obj) {

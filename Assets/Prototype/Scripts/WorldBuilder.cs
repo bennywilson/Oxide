@@ -5,7 +5,6 @@ using UnityEditor;
 
 public class WorldBuilder : MonoBehaviour
 {
-    [SerializeField] bool _generateNewTrackAtRuntime = false;
 #if UNITY_EDITOR
     [SerializeField] bool _generateNewTrackNow = false;
 #endif
@@ -25,8 +24,6 @@ public class WorldBuilder : MonoBehaviour
     [SerializeField] GameObject[] _carPrefabs = null;
     [SerializeField] float _minCarSpacing = 5f;
     [SerializeField] float _maxCarSpacing = 10f;
-
-    [SerializeField] bool _placeCars = true;
 
     [SerializeField] bool _disableCollision = false;
     GameObject _generatedWorldObjects = null;
@@ -110,26 +107,6 @@ public class WorldBuilder : MonoBehaviour
         return gameObj;
     }
 
-    void PlaceCar(Vector3 position, Quaternion rotation, float distance)
-    {
-        if (_carPrefabs == null)
-            return;
-
-        var car = _carPrefabs[Random.Range(0, _carPrefabs.Length)];
-        if (car == null)
-            return;
-
-        GameObject spawnedCar = Instantiate(car, position, rotation, _generatedWorldObjects.transform);
-        MeshRenderer Mesh = spawnedCar.GetComponentInChildren<MeshRenderer>();
-
-        Vector3 randomColor = Random.insideUnitSphere;
-        randomColor.Normalize();
-
-        VehicleAI carAI = spawnedCar.GetComponentInChildren<VehicleAI>();
-        carAI._distance = distance;
-        Mesh.materials[0].SetVector("BaseColor", randomColor);
-    }
-
     Vector3 RandomHorizontalOffset(float maxRadius)
     {
         var randomInside = Random.insideUnitCircle;
@@ -154,111 +131,76 @@ public class WorldBuilder : MonoBehaviour
 
     void Start()
     {
-        if (_generateNewTrackAtRuntime)
+        Transform genWorldObjXForm = gameObject.transform.Find("Generated World Objects");
+        if (genWorldObjXForm != null)
         {
-            ClearTrack();
-            BuildTrack(true);
-        }
-        else
-        {
-            Transform genWorldObjXForm = gameObject.transform.Find("Generated World Objects");
-            if (genWorldObjXForm != null)
+            _generatedWorldObjects = genWorldObjXForm.gameObject;
+            Transform roadXForm = _generatedWorldObjects.transform.Find("ProceduralRoadPiece(Clone)");
+            if (roadXForm != null)
             {
-                _generatedWorldObjects = genWorldObjXForm.gameObject;
-                Transform roadXForm = _generatedWorldObjects.transform.Find("ProceduralRoadPiece(Clone)");
-                if (roadXForm != null)
-                {
-                    _road = roadXForm.gameObject;
-                }
-            }
-
-           // if (Application.isPlaying
-            if (_disableCollision == false)
-            {
-                GameObject road = GameObject.Find("ProceduralRoadPiece(Clone)");
-                var spline = road.GetComponent<Spline>();
-                if (spline != null)
-                {
-                    float length = spline.Length;
-
-                    GameObject CollisionBase = new GameObject();
-                    CollisionBase.transform.SetParent(transform);
-
-                    for (float distance = 0; distance < length; distance += 1.5f)
-                    {
-                        var sample = spline.GetSampleAtDistance(distance);
-                        var roadTangent = Vector3.ProjectOnPlane(sample.tangent, Vector3.up);
-                        roadTangent = Vector3.Cross(roadTangent, Vector3.up);
-
-                        var roadPoint = _road.transform.TransformPoint(sample.location);
-
-                        {
-                            GameObject newColliderGO = new GameObject();
-                            newColliderGO.transform.position = roadPoint + roadTangent * 2.15f;
-                            newColliderGO.transform.rotation = Quaternion.LookRotation(sample.tangent);
-                            newColliderGO.transform.SetParent(CollisionBase.transform);
-
-                            var CapsuleCollider = newColliderGO.AddComponent<CapsuleCollider>();
-                            CapsuleCollider.center = Vector3.zero;// 0.0f;// roadPoint + roadTangent * 2.5f;
-                            CapsuleCollider.radius = 1.0f;
-                            CapsuleCollider.height = 3.0f;
-                            CapsuleCollider.direction = 2;
-                            newColliderGO.transform.rotation = Quaternion.LookRotation(sample.tangent);
-                        }
-                        {
-                            GameObject newColliderGO = new GameObject();
-                            newColliderGO.transform.position = roadPoint + roadTangent * -2.15f;
-                            newColliderGO.transform.rotation = Quaternion.LookRotation(sample.tangent);
-                            newColliderGO.transform.SetParent(CollisionBase.transform);
-
-                            var CapsuleCollider = newColliderGO.AddComponent<CapsuleCollider>();
-                            CapsuleCollider.center = Vector3.zero;// 0.0f;// roadPoint + roadTangent * 2.5f;
-                            CapsuleCollider.radius = 1.0f;
-                            CapsuleCollider.height = 3.0f;
-                            CapsuleCollider.direction = 2;
-                            newColliderGO.transform.rotation = Quaternion.LookRotation(sample.tangent);
-                        }
-                        // BoxCollider.radius = 1.0f;
-                    }
-                    /* for (float distance = 0; distance < length; distance += 1.5f)
-                     {
-                         var sample = spline.GetSampleAtDistance(distance);
-                         var roadTangent = Vector3.ProjectOnPlane(sample.tangent, Vector3.up);
-                         roadTangent = Vector3.Cross(roadTangent, Vector3.up);
-
-                         var roadPoint = _road.transform.TransformPoint(sample.location);
-
-                         var SphereCollider = gameObject.AddComponent<SphereCollider>();
-                         SphereCollider.center = roadPoint + roadTangent * 2.5f;
-                         SphereCollider.radius = 1.0f;
-                     }*/
-                }
+                _road = roadXForm.gameObject;
             }
         }
 
-        var up = Vector3.up;
-
-        if (_road != null)
+        if (_disableCollision == false)
         {
-            var spline = _road.GetComponent<Spline>();
-            // For our generated road segment, seed a bunch of props.
+            GameObject road = GameObject.Find("ProceduralRoadPiece(Clone)");
+            var spline = road.GetComponent<Spline>();
             if (spline != null)
             {
                 float length = spline.Length;
-                for (float distance = 0; distance < length; distance += Random.Range(_minCarSpacing, _maxCarSpacing))
+
+                GameObject CollisionBase = new GameObject();
+                CollisionBase.transform.SetParent(transform);
+
+                for (float distance = 0; distance < length; distance += 1.5f)
                 {
                     var sample = spline.GetSampleAtDistance(distance);
-                    var roadTangent = Vector3.ProjectOnPlane(sample.tangent, up);
-                    roadTangent = Vector3.Cross(roadTangent, up);
+                    var roadTangent = Vector3.ProjectOnPlane(sample.tangent, Vector3.up);
+                    roadTangent = Vector3.Cross(roadTangent, Vector3.up);
 
                     var roadPoint = _road.transform.TransformPoint(sample.location);
 
-                    // To the right
-                    if (_placeCars)
                     {
-                        PlaceCar(roadPoint + RandomHorizontalOffset(1), Quaternion.LookRotation(roadTangent), distance);
+                        GameObject newColliderGO = new GameObject();
+                        newColliderGO.transform.position = roadPoint + roadTangent * 2.15f;
+                        newColliderGO.transform.rotation = Quaternion.LookRotation(sample.tangent);
+                        newColliderGO.transform.SetParent(CollisionBase.transform);
+
+                        var CapsuleCollider = newColliderGO.AddComponent<CapsuleCollider>();
+                        CapsuleCollider.center = Vector3.zero;// 0.0f;// roadPoint + roadTangent * 2.5f;
+                        CapsuleCollider.radius = 1.0f;
+                        CapsuleCollider.height = 3.0f;
+                        CapsuleCollider.direction = 2;
+                        newColliderGO.transform.rotation = Quaternion.LookRotation(sample.tangent);
                     }
+                    {
+                        GameObject newColliderGO = new GameObject();
+                        newColliderGO.transform.position = roadPoint + roadTangent * -2.15f;
+                        newColliderGO.transform.rotation = Quaternion.LookRotation(sample.tangent);
+                        newColliderGO.transform.SetParent(CollisionBase.transform);
+
+                        var CapsuleCollider = newColliderGO.AddComponent<CapsuleCollider>();
+                        CapsuleCollider.center = Vector3.zero;// 0.0f;// roadPoint + roadTangent * 2.5f;
+                        CapsuleCollider.radius = 1.0f;
+                        CapsuleCollider.height = 3.0f;
+                        CapsuleCollider.direction = 2;
+                        newColliderGO.transform.rotation = Quaternion.LookRotation(sample.tangent);
+                    }
+                    // BoxCollider.radius = 1.0f;
                 }
+                /* for (float distance = 0; distance < length; distance += 1.5f)
+                 {
+                     var sample = spline.GetSampleAtDistance(distance);
+                     var roadTangent = Vector3.ProjectOnPlane(sample.tangent, Vector3.up);
+                     roadTangent = Vector3.Cross(roadTangent, Vector3.up);
+
+                     var roadPoint = _road.transform.TransformPoint(sample.location);
+
+                     var SphereCollider = gameObject.AddComponent<SphereCollider>();
+                     SphereCollider.center = roadPoint + roadTangent * 2.5f;
+                     SphereCollider.radius = 1.0f;
+                 }*/
             }
         }
     }

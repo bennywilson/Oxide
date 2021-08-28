@@ -286,19 +286,28 @@ namespace SplineMesh {
         public CurveSample GetProjectionSample(Vector3 pointToProject) {
             CurveSample closest = default(CurveSample);
             float minSqrDistance = float.MaxValue;
-            foreach (var curve in curves) {
+            float totalDistanceAlongSpline = 0;
+
+            for (int i = 0; i < curves.Count; i++) {// curve in curves) {
+                var curve = curves[i];
                 var projection = curve.GetProjectionSample(pointToProject);
+
                 if (curve == curves[0]) {
                     closest = projection;
                     minSqrDistance = (projection.location - pointToProject).sqrMagnitude;
+                    closest.distanceAlongSpline = 0;
                     continue;
                 }
+                totalDistanceAlongSpline += curves[i - 1].Length;
                 var sqrDist = (projection.location - pointToProject).sqrMagnitude;
                 if (sqrDist < minSqrDistance) {
                     minSqrDistance = sqrDist;
                     closest = projection;
+                    closest.distanceAlongSpline = totalDistanceAlongSpline;
                 }
             }
+
+            closest.distanceAlongSpline += closest.distanceInCurve;
             return closest;
         }
     }
