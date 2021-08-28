@@ -8,7 +8,8 @@ public class GameController : MonoBehaviour
     VehicleBase PlayerVehicle;
     OxideInput _oxideInput;
     public AudioSource Music;
-    public Texture TitleScreen;
+    public Texture TitleScreenTex;
+    public Texture BlackBordersTex;
 
     public enum GameState
     {
@@ -114,14 +115,33 @@ public class GameController : MonoBehaviour
     {
         if (_currentState == GameState.TitleScreen)
         {
-            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), TitleScreen);
-//            GUI.DrawTexture(new Rect(0, 0, 960, 600), TitleScreen, ScaleMode.ScaleToFit, false);// true, 10.0F);
+            float textureAspect = 1920.0f / 1080.0f;
+            float oneOverTextureAspect = 1.0f / textureAspect;
+            float screenAspect = Screen.width / (float) Screen.height;
+            float textureX = 0;
+            float textureY = 0;
+            float textureWidth = Screen.width;
+            float textureHeight = Screen.height;
+            Debug.Log("asdasdasd");
+            if (screenAspect < textureAspect)
+            {
+                textureWidth = Screen.width;
+                textureHeight = textureWidth * oneOverTextureAspect;
+                textureY = Mathf.Abs(Screen.height - textureHeight) / 2.0f;
+            }
+            else
+            {
+                textureHeight = Screen.height;
+                textureWidth = textureHeight * textureAspect;
+                textureX = Mathf.Abs(Screen.width - textureWidth) / 2.0f;
+            }
+           
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), BlackBordersTex);
+            GUI.DrawTexture(new Rect(textureX, textureY, textureWidth, textureHeight), TitleScreenTex);
         }
         else if (_currentState == GameState.Playing)
         {
 
         }
-
-
     }
 }

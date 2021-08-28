@@ -27,10 +27,9 @@ public class VehicleAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _laneOffset = Random.Range(-0.75f, 0.75f);
+        _laneOffset = Random.Range(-1.0f, 1.0f);
         _movementPattern = (MovementPatten)Random.Range(0, (int)MovementPatten.Num);
         _laneSwitchSpeed = Random.Range(_laneSwitchMinSpeed, _laneSwitchMaxSpeed);
-        Debug.Log("Movement pattern = " + _movementPattern);
     }
 
     // Update is called once per frame
