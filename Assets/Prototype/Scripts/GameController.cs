@@ -10,12 +10,13 @@ public class GameController : MonoBehaviour
     public AudioSource Music;
     public Texture TitleScreen;
 
-    enum GameState
+    public enum GameState
     {
         TitleScreen = 0,
         Playing
     };
     GameState _currentState = GameState.TitleScreen;
+    public GameState GetGameState() { return _currentState; }
 
     VehicleInput GetInput()
     {
@@ -76,6 +77,9 @@ public class GameController : MonoBehaviour
     {
         if (_currentState == GameState.TitleScreen)
         {
+            PlayerVehicle.GetComponent<CapsuleCollider>().enabled = false;
+            PlayerVehicle.GetComponent<Rigidbody>().useGravity = false;
+
             var playerInput = _oxideInput.Player;
             if (playerInput.Gas.ReadValue<float>() > 0)
             {
@@ -89,6 +93,9 @@ public class GameController : MonoBehaviour
         }
         else if (_currentState == GameState.Playing)
         {
+            PlayerVehicle.GetComponent<CapsuleCollider>().enabled = true;
+            PlayerVehicle.GetComponent<Rigidbody>().useGravity = true;
+
             if (!GetCanUseInput())
                 return;
 
