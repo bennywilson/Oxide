@@ -119,7 +119,9 @@ public class GameController : MonoBehaviour
 
             vInput.Steering = playerInput.Move.ReadValue<Vector2>().x;
             vInput.Gas = playerInput.Gas.ReadValue<float>();
-            vInput.Brake = playerInput.Brake.ReadValue<float>();
+            vInput.WantsToPurr = playerInput.Prrr.ReadValue<float>() > 0;
+          //  Debug.Log(Time.time + " " + vInput.WantsToPurr);
+          //  vInput.Brake = playerInput.Brake.ReadValue<float>();
 
             SetInput(vInput);
 

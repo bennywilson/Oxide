@@ -178,6 +178,16 @@ public class CarPhysicsObject : VehicleBase
         {
             _visualData.renderer.materials[2].SetColor("ColorMultiplier", new Color(1, 1, 1));
         }
+
+        if (Input.WantsToPurr)
+        {
+            Debug.Log("prrr");
+            Input.WantsToPurr = false;
+
+            var anim = Passenger.GetComponentInChildren<Animation>();
+            anim.enabled = true;
+            anim.Play();
+        }
     }
 
     float distance = 0;

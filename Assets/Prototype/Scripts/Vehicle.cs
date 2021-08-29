@@ -31,9 +31,11 @@ public class Vehicle : VehicleBase
 
     void Update()
     {
+        Debug.Log("Update - " + Input.WantsToPurr);
         if (Input.WantsToPurr)
         {
-        //   Input.WantsToPurr = false;
+            Debug.Log("prrr");
+           Input.WantsToPurr = false;
             
             var anim = Driver.GetComponentInChildren<Animation>();
             anim.enabled = true;
