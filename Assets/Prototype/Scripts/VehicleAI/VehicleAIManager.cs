@@ -16,6 +16,10 @@ public class VehicleAIManager : MonoBehaviour
     {
 
     }
+    virtual public void OnRaceStart()
+    {
+
+    }
 
     // Update is called once per frame
     public virtual void UpdateController()

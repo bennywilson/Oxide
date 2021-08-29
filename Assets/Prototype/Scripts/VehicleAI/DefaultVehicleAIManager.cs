@@ -38,8 +38,27 @@ public class DefaultVehicleAIManager : VehicleAIManager
     // Start is called before the first frame update
     void Start()
     {
+
+    }
+
+    float GetRandomDistanceBetweenVehicleAI()
+    {
+        return Random.Range(_minDistanceBetweenVehicleAI, _maxDistanceBehindVehicleAI);
+    }
+
+    public override void OnRaceStart()
+    {
         _road = GameObject.Find("ProceduralRoadPiece(Clone)");
         _roadSpline = _road.GetComponent<Spline>();
+
+        _gameController = gameObject.GetComponent<GameController>();
+        VehicleBase Player = _gameController.GetPlayer();
+        float PlayerDist = Player.DistanceAlongSpline;
+
+        for (float distance = PlayerDist + GetRandomDistanceBetweenVehicleAI(); distance < PlayerDist + _spawnAIAheadDistance - _minDistanceBetweenVehicleAI; distance += GetRandomDistanceBetweenVehicleAI())
+        {
+            SpawnCar(distance);
+        }
     }
 
     void FixedUpdate()
@@ -54,32 +73,35 @@ public class DefaultVehicleAIManager : VehicleAIManager
         VehicleAI FrontVehicle = (_vehicleAIList.First == null) ? (null) : (_vehicleAIList.First.Value);
         VehicleAI LastVehicle = (_vehicleAIList.Last == null) ? (null) : (_vehicleAIList.Last.Value);
 
-        if (_vehicleAIList.Count < _maxNumAIVehicles)
+        if (PlayerDist < _roadSpline.Length - _spawnAIAheadDistance)
         {
-            if (FrontVehicle == null || FrontVehicle.Distance < (PlayerDist + _spawnAIAheadDistance - _minDistanceBetweenVehicleAI))
+            if (_vehicleAIList.Count < _maxNumAIVehicles)
             {
-                VehicleAI newCar = SpawnCar(PlayerDist + _spawnAIAheadDistance);
-                if (newCar != null)
+                if (FrontVehicle == null || FrontVehicle.Distance < (PlayerDist + _spawnAIAheadDistance - _minDistanceBetweenVehicleAI))
                 {
-                    _vehicleAIList.AddFirst(newCar);
-                    FrontVehicle = _vehicleAIList.First.Value;
+                    VehicleAI newCar = SpawnCar(PlayerDist + _spawnAIAheadDistance + Random.Range(0, _maxDistanceBehindVehicleAI - _minDistanceBetweenVehicleAI));
+                    if (newCar != null)
+                    {
+                        _vehicleAIList.AddFirst(newCar);
+                        FrontVehicle = _vehicleAIList.First.Value;
+                    }
                 }
-            }
 
 
-            LastVehicle = (_vehicleAIList.Last == null) ? (null) : (_vehicleAIList.Last.Value);
+                LastVehicle = (_vehicleAIList.Last == null) ? (null) : (_vehicleAIList.Last.Value);
 
-            if (LastVehicle != null && LastVehicle.Distance > PlayerDist)
-            {
-                VehicleAI newCar = SpawnCar(Mathf.Clamp(PlayerDist - _spawnAIBehindDistance, 0, _roadSpline.Length));
-                if (newCar != null)
+                if (LastVehicle != null && LastVehicle.Distance > PlayerDist)
                 {
-                    _vehicleAIList.AddLast(newCar);
-                    LastVehicle = _vehicleAIList.Last.Value;
+                    VehicleAI newCar = SpawnCar(Mathf.Clamp(PlayerDist - _spawnAIBehindDistance + Random.Range(0, _maxDistanceBehindVehicleAI - _minDistanceBetweenVehicleAI), 0, _roadSpline.Length));
+                    if (newCar != null)
+                    {
+                        _vehicleAIList.AddLast(newCar);
+                        LastVehicle = _vehicleAIList.Last.Value;
+                    }
                 }
             }
         }
-        
+
         if (FrontVehicle.Distance > PlayerDist + _maxAIAheadDistance)
         {
             _vehicleAIList.RemoveFirst();

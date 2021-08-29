@@ -82,7 +82,7 @@ public class GameController : MonoBehaviour
         _playerVehicle = FindObjectOfType<VehicleBase>();
         _vehicleAIManager = gameObject.GetComponent<VehicleAIManager>();
         _vehicleAIManager.SetGameController(this);
-
+        _vehicleAIManager.enabled = false;
     }
 
     void Update()
@@ -101,7 +101,10 @@ public class GameController : MonoBehaviour
                     _music.loop = true;
                     _music.Play();
                 }
+                _vehicleAIManager.enabled = true;
+                _vehicleAIManager.OnRaceStart();
             }
+
         }
         else if (_currentState == GameState.Playing)
         {
