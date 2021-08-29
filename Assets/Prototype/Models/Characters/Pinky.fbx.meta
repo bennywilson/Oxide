@@ -9,6 +9,15 @@ ModelImporter:
   - first:
       74: -1422011007694221501
     second: Armature|ArmatureAction.001
+  - first:
+      74: -1825286588512009131
+    second: PinkyArmature|T-Pose
+  - first:
+      74: -5567307452374385989
+    second: PinkyArmature|TitlePose_Pinky
+  - first:
+      74: -6940561938960296729
+    second: PinkyArmature|TitlePose_Stiltz
   externalObjects: {}
   materials:
     materialImportMode: 2
