@@ -24,7 +24,19 @@ public class VehicleAI : MonoBehaviour
         }
     }
 
-    float _curDriveSpeed = 1;
+    private float _driveSpeed = 1;
+    public float Speed
+    {
+        get
+        {
+            return _driveSpeed;
+        }
+        set
+        {
+            _driveSpeed = value;
+        }
+    }
+
     Vector3 _targetDir;
     float _laneOffset;
     enum MovementPatten
@@ -45,7 +57,7 @@ public class VehicleAI : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
      /*   Rigidbody rb = gameObject.GetComponent<Rigidbody>();
         if (rb != null)
@@ -59,7 +71,7 @@ public class VehicleAI : MonoBehaviour
         // For our generated road segment, seed a bunch of props.
         if (spline != null)
         {
-            _distance += _curDriveSpeed * Time.fixedDeltaTime;
+            _distance += _driveSpeed * Time.fixedDeltaTime;
             if (_distance >= spline.Length)
             {
                 return;

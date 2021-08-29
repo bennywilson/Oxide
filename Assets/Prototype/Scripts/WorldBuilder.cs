@@ -21,10 +21,6 @@ public class WorldBuilder : MonoBehaviour
     [SerializeField] float _minPropSpacing = 0.75f;
     [SerializeField] float _maxPropSpacing = 1f;
 
-    [SerializeField] GameObject[] _carPrefabs = null;
-    [SerializeField] float _minCarSpacing = 5f;
-    [SerializeField] float _maxCarSpacing = 10f;
-
     [SerializeField] bool _disableCollision = false;
     GameObject _generatedWorldObjects = null;
     GameObject _road = null;

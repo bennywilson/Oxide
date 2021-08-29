@@ -42,8 +42,7 @@ public class DefaultVehicleAIManager : VehicleAIManager
         _roadSpline = _road.GetComponent<Spline>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (_gameController == null)
         {
@@ -115,8 +114,6 @@ public class DefaultVehicleAIManager : VehicleAIManager
 
         var roadPoint = _road.transform.TransformPoint(sample.location) + RandomHorizontalOffset(1);
 
-
-
         var carPos = RandomHorizontalOffset(1);
         GameObject spawnedCar = Instantiate(car, carPos, Quaternion.LookRotation(sample.tangent), transform);
         MeshRenderer Mesh = spawnedCar.GetComponentInChildren<MeshRenderer>();
@@ -128,6 +125,8 @@ public class DefaultVehicleAIManager : VehicleAIManager
         carAI.Distance = splineDist;
 
         Mesh.materials[0].SetVector("BaseColor", randomColor);
+
+        carAI.Speed = _AISpeed;
         return carAI;
     }
         
