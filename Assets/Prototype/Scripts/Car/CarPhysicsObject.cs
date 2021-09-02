@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using SplineMesh;
 
 public class CarPhysicsObject : VehicleBase
@@ -8,6 +9,12 @@ public class CarPhysicsObject : VehicleBase
     [SerializeField] bool _autoDrive = false;
 
     [SerializeField] float _autoDriveSpeed = 0.05f;
+
+    [SerializeField]
+    GameObject _curseTextBubble1;
+
+    [SerializeField]
+    GameObject _curseTextBubble2;
 
     Rigidbody _body;
 
@@ -181,12 +188,28 @@ public class CarPhysicsObject : VehicleBase
 
         if (Input.WantsToPurr)
         {
-            Debug.Log("prrr");
+           // Debug.Log("prrr");
             Input.WantsToPurr = false;
 
             var anim = Passenger.GetComponentInChildren<Animation>();
             anim.enabled = true;
             anim.Play();
+            StartCoroutine("StiltzCurse");
+        }
+    }
+
+    private IEnumerator StiltzCurse()
+    {
+     //   while (true)
+        {
+            yield return new WaitForSeconds(0.65f);
+            _curseTextBubble1.active = true;
+            yield return new WaitForSeconds(0.45f);
+            _curseTextBubble1.active = false;
+            yield return new WaitForSeconds(0.25f);
+            _curseTextBubble2.active = true;
+            yield return new WaitForSeconds(0.55f);
+            _curseTextBubble2.active = false;
         }
     }
 

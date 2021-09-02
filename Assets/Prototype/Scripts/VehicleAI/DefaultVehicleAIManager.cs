@@ -92,7 +92,7 @@ public class DefaultVehicleAIManager : VehicleAIManager
 
                 if (LastVehicle != null && LastVehicle.Distance > PlayerDist)
                 {
-                    VehicleAI newCar = SpawnCar(Mathf.Clamp(PlayerDist - _spawnAIBehindDistance + Random.Range(0, _maxDistanceBehindVehicleAI - _minDistanceBetweenVehicleAI), 0, _roadSpline.Length));
+                    VehicleAI newCar = SpawnCar(Mathf.Clamp(PlayerDist - _spawnAIBehindDistance - Random.Range(0, _minDistanceBetweenVehicleAI), 0, _roadSpline.Length));
                     if (newCar != null)
                     {
                         _vehicleAIList.AddLast(newCar);
