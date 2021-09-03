@@ -58,11 +58,14 @@ Material:
     m_Ints: []
     m_Floats:
     - _BlendScaleBias: 1
+    - _BlendScaleBiasWithDistance: 0
+    - _BlendScaleBiasWithTimeOfDay: 1
     - _HorizonClipSpaceY: 0.5
     - _ScrollMagnitude: 15
     - _TextureWidth: 1024
     - _UseTint: 0
     m_Colors:
+    - _DistanceBlendSmoothStep: {r: 0, g: 1, b: 0, a: 0}
     - _FinalScaleBias: {r: 40, g: 40, b: 55, a: 74}
     - _ScaleBias: {r: 20, g: 20, b: 55, a: 117}
   m_BuildTextureStacks: []

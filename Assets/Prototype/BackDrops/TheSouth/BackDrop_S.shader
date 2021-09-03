@@ -8,7 +8,9 @@ Shader "Oxide\Backdrop"
       _FinalScaleBias("Final Scale And Bias", Vector) = (1,1,0,0)
       _ScrollMagnitude("Scroll Magnitude", Float) = 50
       _UseTint("Use Tint", Int) = 0
-      _BlendScaleBias("Blend Scale/Bias", Int) = 0
+      _BlendScaleBiasWithTimeOfDay("Blend Scale/Bias with Time Of Day", Int) = 0
+      _BlendScaleBiasWithDistance("Blend Scale/Bias with Distance", Int) = 0
+      _DistanceBlendSmoothStep("Distance Blend Smooth Step", Vector) = (0,1,0,0)
   }
     SubShader
     {
@@ -44,13 +46,16 @@ Shader "Oxide\Backdrop"
           sampler2D _StartBackdropTex;
           sampler2D _EndBackdropTex;
           float _TimeOfDay;
+          float _DistanceTravelled;
           float4 _ScaleBias;
           float4 _FinalScaleBias;
           float4 _PlayerCameraRight;
           float _ScrollMagnitude;
           float4 _BackgroundTintColor;
+          float4 _DistanceBlendSmoothStep;
           int _UseTint;
-          int _BlendScaleBias;
+          int _BlendScaleBiasWithTimeOfDay;
+          int _BlendScaleBiasWithDistance;
 
           v2f vert(appdata v)
           {
@@ -58,11 +63,22 @@ Shader "Oxide\Backdrop"
               vertPos.y *= -1.0f;
 
               float4 targetScaleAndBias = _ScaleBias;
-              if (_BlendScaleBias)
+              if (_BlendScaleBiasWithTimeOfDay)
               {
                 targetScaleAndBias = lerp(_ScaleBias, _FinalScaleBias, _TimeOfDay);
               }
-
+              else if (_BlendScaleBiasWithDistance)
+              {
+                  if (_DistanceTravelled < _DistanceBlendSmoothStep.x)
+                  {
+                      targetScaleAndBias = 0;
+                  }
+                  else
+                  {
+                      float dist = smoothstep(_DistanceBlendSmoothStep.x, _DistanceBlendSmoothStep.y, _DistanceTravelled);
+                      targetScaleAndBias = lerp(_ScaleBias, _FinalScaleBias, dist);
+                  }
+              }
               vertPos.xy = vertPos.xy * targetScaleAndBias.xy + targetScaleAndBias.zw;
 
               float theDot = dot(float3(0.0f, 0.0f, 1.0f), _PlayerCameraRight);

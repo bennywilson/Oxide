@@ -155,12 +155,14 @@ public class CarPhysicsObject : VehicleBase
         var curveSample = spline.GetProjectionSample(transform.position);
         DistanceAlongSpline = curveSample.distanceAlongSpline;
 
-      /*  var theLoc = spline.GetSampleAtDistance(DistanceAlongSpline);
-        var roadTangent = Vector3.ProjectOnPlane(theLoc.tangent, up);
-        roadTangent = Vector3.Cross(roadTangent, up);
+        Shader.SetGlobalFloat("_DistanceTravelled", DistanceAlongSpline / spline.Length);
+        Debug.Log(Time.time + "Dist Trave = " + DistanceAlongSpline / spline.Length);
+        /*  var theLoc = spline.GetSampleAtDistance(DistanceAlongSpline);
+          var roadTangent = Vector3.ProjectOnPlane(theLoc.tangent, up);
+          roadTangent = Vector3.Cross(roadTangent, up);
 
-        var roadPoint = road.transform.TransformPoint(theLoc.location);
-        Debug.DrawLine(roadPoint, roadPoint + new Vector3(0, 1000, 0));*/
+          var roadPoint = road.transform.TransformPoint(theLoc.location);
+          Debug.DrawLine(roadPoint, roadPoint + new Vector3(0, 1000, 0));*/
     }
 
     void UpdateVisuals(float deltaTime, Vector3 velocity)
