@@ -421,7 +421,7 @@ namespace SplineMesh {
                     {
                         if (WorldBuilder != null)
                         {
-                            WorldBuilder.GetComponent<WorldBuilder>().PlacePropAlongSpline(firstIndex, lastIndex, Selection.activeGameObject);
+                            WorldBuilder.GetComponent<WorldBuilder>().PlacePropAlongSpline(firstIndex, lastIndex);
                         }
                     }
                 }

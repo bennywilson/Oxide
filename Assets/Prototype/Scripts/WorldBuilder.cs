@@ -20,6 +20,10 @@ public class WorldBuilder : MonoBehaviour
     [SerializeField] float _propRandomOffset = 0.5f;
     [SerializeField] float _minPropSpacing = 0.75f;
     [SerializeField] float _maxPropSpacing = 1f;
+    [SerializeField] float _minPropLeftSideAngle = 0;
+    [SerializeField] float _maxPropLeftSideAngle = 360;
+    [SerializeField] float _minPropRightSideAngle = 0;
+    [SerializeField] float _maxPropRightSideAngle = 360;
 
     [SerializeField] bool _disableCollision = false;
     GameObject _generatedWorldObjects = null;
@@ -268,7 +272,7 @@ public class WorldBuilder : MonoBehaviour
         }
     }
 
-    public void PlacePropAlongSpline(int startIdx, int endIdx, GameObject Prop)
+    public void PlacePropAlongSpline(int startIdx, int endIdx)
     {
 #if UNITY_EDITOR
         float startDist = 0;
@@ -298,11 +302,20 @@ public class WorldBuilder : MonoBehaviour
             var roadPoint = _road.transform.TransformPoint(sample.location);
 
             // To the right
-            GameObject newObj = MakeRoadsideProp(roadPoint + (roadTangent * _propOffsetFromRoad) + RandomHorizontalOffset(_propRandomOffset), Quaternion.AngleAxis(Random.value * 360f, up));
+            GameObject newObj = MakeRoadsideProp(roadPoint + (roadTangent * _propOffsetFromRoad) + RandomHorizontalOffset(_propRandomOffset), Quaternion.AngleAxis(Random.Range(_minPropRightSideAngle, _maxPropRightSideAngle), up));
             Undo.RegisterCreatedObjectUndo(newObj, "Create object");
+        }
+
+        for (float distance = startDist + Random.Range(_minPropSpacing, _maxPropSpacing) * 0.5f; distance < endDist; distance += Random.Range(_minPropSpacing, _maxPropSpacing))
+        {
+            var sample = spline.GetSampleAtDistance(distance);
+            var roadTangent = Vector3.ProjectOnPlane(sample.tangent, up);
+            roadTangent = Vector3.Cross(roadTangent, up);
+
+            var roadPoint = _road.transform.TransformPoint(sample.location);
 
             // To the left
-            newObj = MakeRoadsideProp(roadPoint - (roadTangent * _propOffsetFromRoad) + RandomHorizontalOffset(_propRandomOffset), Quaternion.AngleAxis(Random.value * 360f, up));
+            GameObject newObj = MakeRoadsideProp(roadPoint - (roadTangent * _propOffsetFromRoad) + RandomHorizontalOffset(_propRandomOffset), Quaternion.AngleAxis(Random.Range(_minPropLeftSideAngle, _maxPropLeftSideAngle), up));
             Undo.RegisterCreatedObjectUndo(newObj, "Create object");
         }
 #endif
