@@ -104,7 +104,20 @@ public class GameController : MonoBehaviour
                 _vehicleAIManager.enabled = true;
                 _vehicleAIManager.OnRaceStart();
             }
+            else if (playerInput.Prrr.ReadValue<float>() > 0)
+            {
+                _currentState = GameState.Playing;
+                if (_music != null)
+                {
+                    _music.loop = true;
+                    _music.Play();
+                }
+                ((CarPhysicsObject)_playerVehicle).CheatWarp();
+                _vehicleAIManager.enabled = true;
+                _vehicleAIManager.OnRaceStart();
+            }
 
+         //   Debug.Log(Time.time + " playerInput.Prrr.ReadValue<bool>() = " + playerInput.Prrr.ReadValue<bool>());
         }
         else if (_currentState == GameState.Playing)
         {

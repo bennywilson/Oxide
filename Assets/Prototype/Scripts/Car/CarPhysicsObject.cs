@@ -156,7 +156,7 @@ public class CarPhysicsObject : VehicleBase
         DistanceAlongSpline = curveSample.distanceAlongSpline;
 
         Shader.SetGlobalFloat("_DistanceTravelled", DistanceAlongSpline / spline.Length);
-        Debug.Log(Time.time + "Dist Trave = " + DistanceAlongSpline / spline.Length);
+        //Debug.Log(Time.time + "Dist Traveled = " + DistanceAlongSpline + ", normalized dist traveled = " + DistanceAlongSpline / spline.Length);
         /*  var theLoc = spline.GetSampleAtDistance(DistanceAlongSpline);
           var roadTangent = Vector3.ProjectOnPlane(theLoc.tangent, up);
           roadTangent = Vector3.Cross(roadTangent, up);
@@ -190,7 +190,6 @@ public class CarPhysicsObject : VehicleBase
 
         if (Input.WantsToPurr)
         {
-           // Debug.Log("prrr");
             Input.WantsToPurr = false;
 
             var anim = Passenger.GetComponentInChildren<Animation>();
@@ -205,18 +204,31 @@ public class CarPhysicsObject : VehicleBase
      //   while (true)
         {
             yield return new WaitForSeconds(0.65f);
-            _curseTextBubble1.active = true;
+            _curseTextBubble1.SetActive(true);
             yield return new WaitForSeconds(0.45f);
-            _curseTextBubble1.active = false;
+            _curseTextBubble1.SetActive(false);
             yield return new WaitForSeconds(0.25f);
-            _curseTextBubble2.active = true;
+            _curseTextBubble2.SetActive(true);
             yield return new WaitForSeconds(0.55f);
-            _curseTextBubble2.active = false;
+            _curseTextBubble2.SetActive(false);
         }
     }
 
     float distance = 0;
     Vector3 targetDir;
+
+    public void CheatWarp()
+    {
+        GameObject road = GameObject.Find("ProceduralRoadPiece(Clone)");
+        var spline = road.GetComponent<Spline>();
+        var theLoc = spline.GetSampleAtDistance(328);
+        var roadTangent = Vector3.ProjectOnPlane(theLoc.tangent, Vector3.up);
+        roadTangent = Vector3.Cross(roadTangent, Vector3.up);
+
+        var roadPoint = road.transform.TransformPoint(theLoc.location);
+        transform.position = roadPoint;
+        //        Debug.DrawLine(roadPoint, roadPoint + new Vector3(0, 1000, 0)); 
+    }
 
     void AutoDrive()
     {

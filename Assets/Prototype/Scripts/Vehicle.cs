@@ -18,9 +18,6 @@ public class Vehicle : VehicleBase
     [SerializeField]
     float TurnFriction = 0.0f;
 
-    [SerializeField]
-    private GameObject Driver;
-
     // Start is called before the first frame update
     void Start()
     {

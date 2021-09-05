@@ -92,7 +92,6 @@ public class VehicleAI : MonoBehaviour
 
                 case MovementPatten.ZigZag:
                     {
-                        float zigZagRate = 1;
                         _laneOffset = Mathf.Sin(Time.time * _laneSwitchSpeed) * 0.77f;
                         break;
                     }
