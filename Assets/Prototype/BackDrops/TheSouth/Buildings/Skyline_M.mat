@@ -65,7 +65,7 @@ Material:
     - _TextureWidth: 1024
     - _UseTint: 1
     m_Colors:
-    - _DistanceBlendSmoothStep: {r: 0.22, g: 0.62, b: 0, a: 0}
+    - _DistanceBlendSmoothStep: {r: 0.33, g: 0.6, b: 0, a: 0}
     - _FinalScaleBias: {r: 75, g: 28, b: 0, a: 63}
-    - _ScaleBias: {r: 18.75, g: 7, b: 0, a: 42}
+    - _ScaleBias: {r: 1.875, g: 0.7, b: 0, a: 35.75}
   m_BuildTextureStacks: []

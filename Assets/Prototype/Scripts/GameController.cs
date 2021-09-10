@@ -90,7 +90,7 @@ public class GameController : MonoBehaviour
         if (_currentState == GameState.TitleScreen)
         {
             _playerVehicle.GetComponent<CapsuleCollider>().enabled = false;
-            _playerVehicle.GetComponent<Rigidbody>().useGravity = false;
+            _playerVehicle.GetComponent<Rigidbody>().constraints |= RigidbodyConstraints.FreezePositionY;
 
             var playerInput = _oxideInput.Player;
             if (playerInput.Gas.ReadValue<float>() > 0)
@@ -122,7 +122,7 @@ public class GameController : MonoBehaviour
         else if (_currentState == GameState.Playing)
         {
             _playerVehicle.GetComponent<CapsuleCollider>().enabled = true;
-            _playerVehicle.GetComponent<Rigidbody>().useGravity = true;
+            _playerVehicle.GetComponent<Rigidbody>().constraints &= ~RigidbodyConstraints.FreezePositionY;
 
             if (!GetCanUseInput())
                 return;

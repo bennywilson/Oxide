@@ -57,10 +57,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BlendScaleBiasWithDistance: 0
+    - _BlendScaleBiasWithTimeOfDay: 0
     - _HorizonClipSpaceY: 0.5
     - _ScrollMagnitude: 15
     - _TextureWidth: 1024
     - _UseTint: 0
     m_Colors:
+    - _DistanceBlendSmoothStep: {r: 0.3, g: 0.8, b: 0, a: 0}
+    - _FinalScaleBias: {r: 1, g: 1, b: 0, a: 0}
     - _ScaleBias: {r: 250, g: 43, b: 0, a: 76}
   m_BuildTextureStacks: []
