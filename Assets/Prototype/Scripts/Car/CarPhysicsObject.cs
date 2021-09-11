@@ -165,6 +165,8 @@ public class CarPhysicsObject : VehicleBase
           Debug.DrawLine(roadPoint, roadPoint + new Vector3(0, 1000, 0));*/
     }
 
+    bool bIsPrrrring = false;
+
     void UpdateVisuals(float deltaTime, Vector3 velocity)
     {
         _visualData.wheelSteering = Mathf.MoveTowards(_visualData.wheelSteering, Mathf.Clamp(Input.Steering, -1, 1), deltaTime * 5.0f);
@@ -188,8 +190,9 @@ public class CarPhysicsObject : VehicleBase
             _visualData.renderer.materials[2].SetColor("ColorMultiplier", new Color(1, 1, 1));
         }
 
-        if (Input.WantsToPurr)
+        if (Input.WantsToPurr && bIsPrrrring == false)
         {
+            bIsPrrrring = true;
             Input.WantsToPurr = false;
 
             var anim = Passenger.GetComponentInChildren<Animation>();
@@ -212,6 +215,17 @@ public class CarPhysicsObject : VehicleBase
             yield return new WaitForSeconds(0.55f);
             _curseTextBubble2.SetActive(false);
         }
+
+        var anim = Passenger.GetComponentInChildren<Animation>();
+        while (true)
+        {
+            if (anim.isPlaying == false)
+            {
+                break;
+            }
+            yield return new WaitForSeconds(1.0f);
+        }
+        bIsPrrrring = false;
     }
 
     float distance = 0;

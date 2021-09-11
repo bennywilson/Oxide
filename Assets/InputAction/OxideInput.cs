@@ -49,6 +49,14 @@ public class @OxideInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Music"",
+                    ""type"": ""Button"",
+                    ""id"": ""c99aeb2b-acbf-4d1b-8199-fbcf8f1dd488"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -291,6 +299,17 @@ public class @OxideInput : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Prrr"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de266d23-f8a5-4d42-b8a0-571fc5d1d904"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Music"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -872,6 +891,7 @@ public class @OxideInput : IInputActionCollection, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Gas = m_Player.FindAction("Gas", throwIfNotFound: true);
         m_Player_Prrr = m_Player.FindAction("Prrr", throwIfNotFound: true);
+        m_Player_Music = m_Player.FindAction("Music", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -937,6 +957,7 @@ public class @OxideInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Gas;
     private readonly InputAction m_Player_Prrr;
+    private readonly InputAction m_Player_Music;
     public struct PlayerActions
     {
         private @OxideInput m_Wrapper;
@@ -945,6 +966,7 @@ public class @OxideInput : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Gas => m_Wrapper.m_Player_Gas;
         public InputAction @Prrr => m_Wrapper.m_Player_Prrr;
+        public InputAction @Music => m_Wrapper.m_Player_Music;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -966,6 +988,9 @@ public class @OxideInput : IInputActionCollection, IDisposable
                 @Prrr.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrrr;
                 @Prrr.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrrr;
                 @Prrr.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrrr;
+                @Music.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMusic;
+                @Music.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMusic;
+                @Music.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMusic;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -982,6 +1007,9 @@ public class @OxideInput : IInputActionCollection, IDisposable
                 @Prrr.started += instance.OnPrrr;
                 @Prrr.performed += instance.OnPrrr;
                 @Prrr.canceled += instance.OnPrrr;
+                @Music.started += instance.OnMusic;
+                @Music.performed += instance.OnMusic;
+                @Music.canceled += instance.OnMusic;
             }
         }
     }
@@ -1142,6 +1170,7 @@ public class @OxideInput : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnGas(InputAction.CallbackContext context);
         void OnPrrr(InputAction.CallbackContext context);
+        void OnMusic(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

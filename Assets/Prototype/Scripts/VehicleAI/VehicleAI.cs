@@ -39,20 +39,20 @@ public class VehicleAI : MonoBehaviour
 
     Vector3 _targetDir;
     float _laneOffset;
-    enum MovementPatten
+    enum MovementPattern
     {
         DriveStraight,
         ZigZag,
         Num
     };
 
-    MovementPatten _movementPattern;
+    MovementPattern _movementPattern;
 
     // Start is called before the first frame update
     void Start()
     {
         _laneOffset = Random.Range(-1.0f, 1.0f);
-        _movementPattern = (MovementPatten)Random.Range(0, (int)MovementPatten.Num);
+        _movementPattern = (MovementPattern)Random.Range(0, (int)MovementPattern.Num);
         _laneSwitchSpeed = Random.Range(_laneSwitchMinSpeed, _laneSwitchMaxSpeed);
     }
 
@@ -85,12 +85,12 @@ public class VehicleAI : MonoBehaviour
 
             switch (_movementPattern)
             {
-                case MovementPatten.DriveStraight:
+                case MovementPattern.DriveStraight:
                     {
                         break;
                     }
 
-                case MovementPatten.ZigZag:
+                case MovementPattern.ZigZag:
                     {
                         _laneOffset = Mathf.Sin(Time.time * _laneSwitchSpeed) * 0.77f;
                         break;

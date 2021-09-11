@@ -138,7 +138,7 @@ public class DefaultVehicleAIManager : VehicleAIManager
 
         var carPos = RandomHorizontalOffset(1);
         GameObject spawnedCar = Instantiate(car, carPos, Quaternion.LookRotation(sample.tangent), transform);
-        MeshRenderer Mesh = spawnedCar.GetComponentInChildren<MeshRenderer>();
+        var Mesh = spawnedCar.GetComponentsInChildren<MeshRenderer>();
 
         Vector3 randomColor = Random.insideUnitSphere;
         randomColor.Normalize();
@@ -146,8 +146,8 @@ public class DefaultVehicleAIManager : VehicleAIManager
         VehicleAI carAI = spawnedCar.GetComponentInChildren<VehicleAI>();
         carAI.Distance = splineDist;
 
-        Mesh.materials[0].SetVector("BaseColor", randomColor);
-
+        Mesh[0].materials[0].SetVector("BaseColor", randomColor);
+        Mesh[1].materials[0].SetVector("OutlineColor", randomColor * 0.25f);
         carAI.Speed = _AISpeed;
         return carAI;
     }

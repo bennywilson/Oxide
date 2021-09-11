@@ -7,7 +7,8 @@ public class GameController : MonoBehaviour
 {
     VehicleBase _playerVehicle;
     OxideInput _oxideInput;
-    public AudioSource _music;
+    public AudioSource[] _music;
+    int _musicChannelIndex = 0;
     public Texture _titleScreenTex;
     public Texture _blackBordersTex;
 
@@ -85,49 +86,80 @@ public class GameController : MonoBehaviour
         _vehicleAIManager.enabled = false;
     }
 
-    void Update()
+    float lastSwitch = 0;
+    void FixedUpdate()
     {
+        var playerInput = _oxideInput.Player;
+
         if (_currentState == GameState.TitleScreen)
         {
             _playerVehicle.GetComponent<CapsuleCollider>().enabled = false;
             _playerVehicle.GetComponent<Rigidbody>().constraints |= RigidbodyConstraints.FreezePositionY;
 
-            var playerInput = _oxideInput.Player;
             if (playerInput.Gas.ReadValue<float>() > 0)
             {
                 _currentState = GameState.Playing;
                 if (_music != null)
                 {
-                    _music.loop = true;
-                    _music.Play();
+                    _music[_musicChannelIndex].Play();
                 }
                 _vehicleAIManager.enabled = true;
                 _vehicleAIManager.OnRaceStart();
             }
+#if UNITY_EDITOR
             else if (playerInput.Prrr.ReadValue<float>() > 0)
             {
                 _currentState = GameState.Playing;
                 if (_music != null)
                 {
-                    _music.loop = true;
-                    _music.Play();
+                    _music[_musicChannelIndex].loop = true;
+                    _music[_musicChannelIndex].Play();
                 }
                 ((CarPhysicsObject)_playerVehicle).CheatWarp();
                 _vehicleAIManager.enabled = true;
                 _vehicleAIManager.OnRaceStart();
             }
-
-         //   Debug.Log(Time.time + " playerInput.Prrr.ReadValue<bool>() = " + playerInput.Prrr.ReadValue<bool>());
+#endif
+            //   Debug.Log(Time.time + " playerInput.Prrr.ReadValue<bool>() = " + playerInput.Prrr.ReadValue<bool>());
         }
         else if (_currentState == GameState.Playing)
         {
             _playerVehicle.GetComponent<CapsuleCollider>().enabled = true;
             _playerVehicle.GetComponent<Rigidbody>().constraints &= ~RigidbodyConstraints.FreezePositionY;
 
+            if (playerInput.Music.ReadValue<float>() > 0.5f && Time.time > lastSwitch + 2.0f)
+            {
+                lastSwitch = Time.time;
+
+                if (_musicChannelIndex > -1)
+                {
+                    _music[_musicChannelIndex].Pause();
+                }
+
+                _musicChannelIndex++;
+                if (_musicChannelIndex < _music.Length)
+                {
+                    _music[_musicChannelIndex].Play();
+                }
+                else
+                {
+                    _musicChannelIndex = -1;
+                }
+                
+
+               /* if (_music.isPlaying)
+                {
+                    _music.Pause();
+                }
+                else
+                {
+                    _music.Play();
+                }*/
+            }
+
             if (!GetCanUseInput())
                 return;
 
-            var playerInput = _oxideInput.Player;
             var vInput = GetInput();
 
             vInput.Steering = playerInput.Move.ReadValue<Vector2>().x;
