@@ -7,8 +7,11 @@ public class GameController : MonoBehaviour
 {
     VehicleBase _playerVehicle;
     OxideInput _oxideInput;
+
     public AudioSource[] _music;
+    public AudioSource[] _staticSounds;
     int _musicChannelIndex = 0;
+
     public Texture _titleScreenTex;
     public Texture _blackBordersTex;
 
@@ -100,7 +103,7 @@ public class GameController : MonoBehaviour
             {
                 _currentState = GameState.Playing;
                 if (_music != null)
-                {
+                {   
                     _music[_musicChannelIndex].Play();
                 }
                 _vehicleAIManager.enabled = true;
@@ -130,31 +133,7 @@ public class GameController : MonoBehaviour
             if (playerInput.Music.ReadValue<float>() > 0.5f && Time.time > lastSwitch + 2.0f)
             {
                 lastSwitch = Time.time;
-
-                if (_musicChannelIndex > -1)
-                {
-                    _music[_musicChannelIndex].Pause();
-                }
-
-                _musicChannelIndex++;
-                if (_musicChannelIndex < _music.Length)
-                {
-                    _music[_musicChannelIndex].Play();
-                }
-                else
-                {
-                    _musicChannelIndex = -1;
-                }
-                
-
-               /* if (_music.isPlaying)
-                {
-                    _music.Pause();
-                }
-                else
-                {
-                    _music.Play();
-                }*/
+                StartCoroutine("ChangeChannel");
             }
 
             if (!GetCanUseInput())
@@ -171,6 +150,28 @@ public class GameController : MonoBehaviour
             SetInput(vInput);
 
             _vehicleAIManager.UpdateController();
+        }
+    }
+
+    private IEnumerator ChangeChannel()
+    {
+        if (_musicChannelIndex > -1)
+        {
+            _music[_musicChannelIndex].Pause();
+        }
+
+        _staticSounds[0].Play();
+        yield return new WaitForSeconds(Random.Range(0.25f, 0.35f));
+        _staticSounds[0].Pause();
+
+        _musicChannelIndex++;
+        if (_musicChannelIndex < _music.Length)
+        {
+            _music[_musicChannelIndex].Play();
+        }
+        else
+        {
+            _musicChannelIndex = -1;
         }
     }
 
