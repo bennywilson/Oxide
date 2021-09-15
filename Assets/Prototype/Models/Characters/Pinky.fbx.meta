@@ -18,6 +18,15 @@ ModelImporter:
   - first:
       74: -6940561938960296729
     second: PinkyArmature|TitlePose_Stiltz
+  - first:
+      74: 4665870269741194770
+    second: PinkyArmature|PinkyArmatureAction
+  - first:
+      74: -2769063538226339436
+    second: PinkyArmature|PinkyArmatureAction.001
+  - first:
+      74: -3145760950329747242
+    second: PinkyArmature|PinkyTalk1
   externalObjects: {}
   materials:
     materialImportMode: 2

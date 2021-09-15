@@ -15,6 +15,27 @@ ModelImporter:
   - first:
       74: 4665870269741194770
     second: PinkyArmature|PinkyArmatureAction
+  - first:
+      74: -6139244418925633319
+    second: StiltzMesh|T-Pose
+  - first:
+      74: -6784077819504152542
+    second: StiltzMesh|TitlePose_Pinky
+  - first:
+      74: -2689891064571046449
+    second: StiltzMesh|TitlePose_Stiltz
+  - first:
+      74: -3145760950329747242
+    second: PinkyArmature|PinkyTalk1
+  - first:
+      74: 7412734754490525485
+    second: PinkyArmature|StiltzTalk1
+  - first:
+      74: 3918017153233312895
+    second: PinkyArmature|Old
+  - first:
+      74: -7642949978014887694
+    second: PinkyArmature|StiltzCurse1
   externalObjects: {}
   materials:
     materialImportMode: 2

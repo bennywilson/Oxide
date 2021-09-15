@@ -11,14 +11,26 @@ public class CarPhysicsObject : VehicleBase
     [SerializeField] float _autoDriveSpeed = 0.05f;
 
     [SerializeField]
-    GameObject _curseTextBubble1;
+    GameObject[] _curseTextBubbles;
 
     [SerializeField]
-    GameObject _curseTextBubble2;
+    AudioSource _engineSound;
 
     Rigidbody _body;
 
     float _currentSteering;
+
+    public SkinnedMeshRenderer _carRenderer;
+
+    [System.Serializable]
+    public struct AnimationInfo
+    {
+        public string AnimName;
+        public float AnimSpeed;
+    }
+
+    [SerializeField] AnimationInfo[] _driverAnimInfo;
+    [SerializeField] AnimationInfo[] _passengerAnimInfo;
 
     public struct CarVisualData
     {
@@ -31,7 +43,7 @@ public class CarPhysicsObject : VehicleBase
         public float wheelSpin;
     }
 
-    CarVisualData _visualData;
+    public CarVisualData _visualData;
 
     Transform RecursiveFindChild(Transform parent, string childName)
     {
@@ -63,12 +75,24 @@ public class CarPhysicsObject : VehicleBase
             Debug.LogErrorFormat("{0} needs a Rigidbody component to function!", name);
         }
 
+        var anim = Driver.GetComponentInChildren<Animation>();
+        for (int i = 0; i < _driverAnimInfo.Length; i++)
+        {
+            anim[_driverAnimInfo[i].AnimName].speed = _driverAnimInfo[i].AnimSpeed;
+        }
+
+        anim = Passenger.GetComponentInChildren<Animation>();
+        for (int i = 0; i < _passengerAnimInfo.Length; i++)
+        {
+            anim[_passengerAnimInfo[i].AnimName].speed = _passengerAnimInfo[i].AnimSpeed;
+        }
+
         //    GameObject parent = transform.parent.gameObject;
         _visualData.leftFrontWheel = RecursiveFindChild(gameObject.transform, "LWheel").transform;
         _visualData.rightFrontWheel = RecursiveFindChild(gameObject.transform, "RWheel").transform;
         _visualData.leftBackWheel = RecursiveFindChild(gameObject.transform, "LBack").transform;
         _visualData.rightBackWheel = RecursiveFindChild(gameObject.transform, "RBack").transform;
-        _visualData.renderer = GetComponentInChildren<SkinnedMeshRenderer>() as SkinnedMeshRenderer;
+        _visualData.renderer = _carRenderer;// GetComponentInChildren<SkinnedMeshRenderer>() as SkinnedMeshRenderer;
     }
 
     void FixedUpdate()
@@ -86,6 +110,8 @@ public class CarPhysicsObject : VehicleBase
         {
             _body.velocity *= 0.95f;
         }
+//        Debug.Log(Time.time + " -> " + _body.velocity);
+        _engineSound.pitch = 2.0f * (_body.velocity.z / _settings.TopSpeed);
         // OXIDE - END
 
         // As a -1 to 1 ratio relative to turn angle, which way do our wheels point now?
@@ -197,7 +223,13 @@ public class CarPhysicsObject : VehicleBase
 
             var anim = Passenger.GetComponentInChildren<Animation>();
             anim.enabled = true;
-            anim.Play();
+            anim.Play("PinkyArmature|StiltzCurse1");
+//            anim.Play("PinkyArmature|StiltzTalk1");
+
+            anim = Driver.GetComponentInChildren<Animation>();
+            anim.enabled = true;
+            anim.Play("PinkyArmature|PinkyTalk1");
+
             StartCoroutine("StiltzCurse");
         }
     }
@@ -205,15 +237,14 @@ public class CarPhysicsObject : VehicleBase
     private IEnumerator StiltzCurse()
     {
      //   while (true)
+        if (_curseTextBubbles.Length > 0)
         {
-            yield return new WaitForSeconds(0.65f);
-            _curseTextBubble1.SetActive(true);
+            GameObject RandomBubble = _curseTextBubbles[Random.Range(0, _curseTextBubbles.Length - 1)];
+            yield return new WaitForSeconds(0.5f);
+       
+            RandomBubble.SetActive(true);
             yield return new WaitForSeconds(0.45f);
-            _curseTextBubble1.SetActive(false);
-            yield return new WaitForSeconds(0.25f);
-            _curseTextBubble2.SetActive(true);
-            yield return new WaitForSeconds(0.55f);
-            _curseTextBubble2.SetActive(false);
+            RandomBubble.SetActive(false);
         }
 
         var anim = Passenger.GetComponentInChildren<Animation>();
