@@ -1,3 +1,5 @@
+//#define DEBUG_BANTER 
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,11 +13,43 @@ public class GameController : MonoBehaviour
     public AudioSource[] _music;
     public AudioSource[] _staticSounds;
     int _musicChannelIndex = 0;
+    public float _musicTalkVolume = 0.4f;
 
     public Texture _titleScreenTex;
     public Texture _blackBordersTex;
 
     VehicleAIManager _vehicleAIManager;
+
+    [System.Serializable]
+    public struct BanterInfo
+    {
+        [System.Serializable]
+        public struct BanterScenario
+        {
+            [System.Serializable]
+            public struct BanterAction
+            {
+                public GameObject _banterTarget;
+                public string _animationToPlay;
+                public AudioSource _audioToPlay;
+                public float _animationSpeed;
+                public float _secsDelay;
+            }
+
+            public string _scenarioName;
+            public BanterAction[] Actions;
+        }
+
+        public string _banterName;
+        public float _distanceToPlayAt;
+        public BanterScenario[] _scenarios;
+    }
+
+    [SerializeField]
+    private BanterInfo[] _banterScenarios;
+    float _timeOfLastBanter = -10;
+    int _banterIndex;
+    bool _isBanterRunning;
 
     public enum GameState
     {
@@ -87,6 +121,70 @@ public class GameController : MonoBehaviour
         _vehicleAIManager = gameObject.GetComponent<VehicleAIManager>();
         _vehicleAIManager.SetGameController(this);
         _vehicleAIManager.enabled = false;
+    }
+
+    private void Update()
+    {
+        if (_isBanterRunning == false && _timeOfLastBanter < Time.time - 10.0f && _banterIndex < _banterScenarios.Length)
+        {
+            if (_playerVehicle.DistanceAlongSpline > _banterScenarios[_banterIndex]._distanceToPlayAt)
+            {
+#if DEBUG_BANTER
+                Debug.Log(Time.time + "Should be playing bannter!");
+#endif
+                _isBanterRunning = true;
+                StartCoroutine("PlayBanter");
+            }
+        }    
+    }
+
+    private IEnumerator PlayBanter()
+    {
+        int scenarioIndex = Random.Range(0, _banterScenarios[_banterIndex]._scenarios.Length - 1);
+        int currentAction = 0;
+        _music[_musicChannelIndex].volume = _musicTalkVolume;
+
+        while (true && currentAction < _banterScenarios[_banterIndex]._scenarios[scenarioIndex].Actions.Length)
+        {
+            float nextYield = UpdateBanter(_banterScenarios[_banterIndex]._scenarios[scenarioIndex].Actions[currentAction]);
+            currentAction++;
+            if (nextYield < 0)
+            {
+                break;
+            }
+
+            yield return new WaitForSeconds(nextYield);
+        }
+
+        _timeOfLastBanter = Time.time;
+        _banterIndex++;
+        _isBanterRunning = false;
+        _music[_musicChannelIndex].volume = 1.0f;
+#if DEBUG_BANTER
+        Debug.Log(Time.time + "Finished banter");
+#endif
+    }
+
+    float UpdateBanter(BanterInfo.BanterScenario.BanterAction action)
+    {
+        if (action._animationToPlay.Length > 0 && action._banterTarget != null)
+        {
+#if DEBUG_BANTER
+            Debug.Log(Time.time + "Playing anim " + action._animationToPlay);
+#endif
+            var anim = action._banterTarget.GetComponentInChildren<Animation>();
+            anim[action._animationToPlay].speed = action._animationSpeed;
+            anim.Play(action._animationToPlay);
+        }
+
+        if (action._audioToPlay != null)
+        {
+#if DEBUG_BANTER
+            Debug.Log(Time.time + "Playing audio " + action._audioToPlay);
+#endif
+            action._audioToPlay.Play();
+        }
+        return action._secsDelay;
     }
 
     float lastSwitch = 0;
@@ -168,6 +266,15 @@ public class GameController : MonoBehaviour
         if (_musicChannelIndex < _music.Length)
         {
             _music[_musicChannelIndex].Play();
+
+            if (_isBanterRunning)
+            {
+                _music[_musicChannelIndex].volume = _musicTalkVolume;
+            }
+            else
+            {
+                _music[_musicChannelIndex].volume = 1.0f;
+            }
         }
         else
         {

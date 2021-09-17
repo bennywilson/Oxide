@@ -27,6 +27,15 @@ ModelImporter:
   - first:
       74: -3145760950329747242
     second: PinkyArmature|PinkyTalk1
+  - first:
+      74: -7642949978014887694
+    second: PinkyArmature|StiltzCurse1
+  - first:
+      74: 2158037670997501867
+    second: PinkyArmature|StiltzLookNod1
+  - first:
+      74: 7412734754490525485
+    second: PinkyArmature|StiltzTalk1
   externalObjects: {}
   materials:
     materialImportMode: 2

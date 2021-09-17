@@ -22,16 +22,6 @@ public class CarPhysicsObject : VehicleBase
 
     public SkinnedMeshRenderer _carRenderer;
 
-    [System.Serializable]
-    public struct AnimationInfo
-    {
-        public string AnimName;
-        public float AnimSpeed;
-    }
-
-    [SerializeField] AnimationInfo[] _driverAnimInfo;
-    [SerializeField] AnimationInfo[] _passengerAnimInfo;
-
     public struct CarVisualData
     {
         public SkinnedMeshRenderer renderer;
@@ -73,18 +63,6 @@ public class CarPhysicsObject : VehicleBase
         {
             enabled = false;
             Debug.LogErrorFormat("{0} needs a Rigidbody component to function!", name);
-        }
-
-        var anim = Driver.GetComponentInChildren<Animation>();
-        for (int i = 0; i < _driverAnimInfo.Length; i++)
-        {
-            anim[_driverAnimInfo[i].AnimName].speed = _driverAnimInfo[i].AnimSpeed;
-        }
-
-        anim = Passenger.GetComponentInChildren<Animation>();
-        for (int i = 0; i < _passengerAnimInfo.Length; i++)
-        {
-            anim[_passengerAnimInfo[i].AnimName].speed = _passengerAnimInfo[i].AnimSpeed;
         }
 
         //    GameObject parent = transform.parent.gameObject;
@@ -182,7 +160,7 @@ public class CarPhysicsObject : VehicleBase
         DistanceAlongSpline = curveSample.distanceAlongSpline;
 
         Shader.SetGlobalFloat("_DistanceTravelled", DistanceAlongSpline / spline.Length);
-        //Debug.Log(Time.time + "Dist Traveled = " + DistanceAlongSpline + ", normalized dist traveled = " + DistanceAlongSpline / spline.Length);
+      //      Debug.Log(Time.time + "Dist Traveled = " + DistanceAlongSpline + ", normalized dist traveled = " + DistanceAlongSpline / spline.Length);
         /*  var theLoc = spline.GetSampleAtDistance(DistanceAlongSpline);
           var roadTangent = Vector3.ProjectOnPlane(theLoc.tangent, up);
           roadTangent = Vector3.Cross(roadTangent, up);
