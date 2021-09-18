@@ -73,6 +73,25 @@ public class CarPhysicsObject : VehicleBase
         _visualData.renderer = _carRenderer;// GetComponentInChildren<SkinnedMeshRenderer>() as SkinnedMeshRenderer;
     }
 
+    public void SetEngineVolume(float newVolume)
+    {
+        _engineSound.volume = newVolume;
+    }
+
+    public void StartCar()
+    {
+        gameObject.SetActive(true);
+        GameObject road = GameObject.Find("ProceduralRoadPiece(Clone)");
+        var spline = road.GetComponent<Spline>();
+        var curveSample = spline.GetProjectionSample(transform.position);
+        DistanceAlongSpline = curveSample.distanceAlongSpline;
+    }
+    public void StopCar()
+    {
+        _engineSound.pitch = 0;
+        gameObject.SetActive(false);
+    }
+
     void FixedUpdate()
     {
         float deltaTime = Time.deltaTime;
@@ -160,7 +179,7 @@ public class CarPhysicsObject : VehicleBase
         DistanceAlongSpline = curveSample.distanceAlongSpline;
 
         Shader.SetGlobalFloat("_DistanceTravelled", DistanceAlongSpline / spline.Length);
-      //      Debug.Log(Time.time + "Dist Traveled = " + DistanceAlongSpline + ", normalized dist traveled = " + DistanceAlongSpline / spline.Length);
+            Debug.Log(Time.time + "Dist Traveled = " + DistanceAlongSpline + ", normalized dist traveled = " + DistanceAlongSpline / spline.Length);
         /*  var theLoc = spline.GetSampleAtDistance(DistanceAlongSpline);
           var roadTangent = Vector3.ProjectOnPlane(theLoc.tangent, up);
           roadTangent = Vector3.Cross(roadTangent, up);
@@ -196,7 +215,7 @@ public class CarPhysicsObject : VehicleBase
 
         if (Input.WantsToPurr && bIsPrrrring == false)
         {
-            bIsPrrrring = true;
+        /*    bIsPrrrring = true;
             Input.WantsToPurr = false;
 
             var anim = Passenger.GetComponentInChildren<Animation>();
@@ -208,7 +227,7 @@ public class CarPhysicsObject : VehicleBase
             anim.enabled = true;
             anim.Play("PinkyArmature|PinkyTalk1");
 
-            StartCoroutine("StiltzCurse");
+            StartCoroutine("StiltzCurse");*/    
         }
     }
 
@@ -240,11 +259,11 @@ public class CarPhysicsObject : VehicleBase
     float distance = 0;
     Vector3 targetDir;
 
-    public void CheatWarp()
+    public void CheatWarp(float dist)
     {
         GameObject road = GameObject.Find("ProceduralRoadPiece(Clone)");
         var spline = road.GetComponent<Spline>();
-        var theLoc = spline.GetSampleAtDistance(328);
+        var theLoc = spline.GetSampleAtDistance(dist);
         var roadTangent = Vector3.ProjectOnPlane(theLoc.tangent, Vector3.up);
         roadTangent = Vector3.Cross(roadTangent, Vector3.up);
 

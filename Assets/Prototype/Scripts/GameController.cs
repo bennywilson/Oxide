@@ -1,4 +1,4 @@
-//#define DEBUG_BANTER 
+#define DEBUG_BANTER 
 
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour
     public Texture _blackBordersTex;
 
     VehicleAIManager _vehicleAIManager;
+
+    float _endGameTime = 0.0f;
 
     [System.Serializable]
     public struct BanterInfo
@@ -54,7 +56,8 @@ public class GameController : MonoBehaviour
     public enum GameState
     {
         TitleScreen = 0,
-        Playing
+        Playing,
+        EndScreen
     };
     GameState _currentState = GameState.TitleScreen;
     public GameState GetGameState() { return _currentState; }
@@ -143,6 +146,7 @@ public class GameController : MonoBehaviour
         int scenarioIndex = Random.Range(0, _banterScenarios[_banterIndex]._scenarios.Length - 1);
         int currentAction = 0;
         _music[_musicChannelIndex].volume = _musicTalkVolume;
+        ((CarPhysicsObject)_playerVehicle).SetEngineVolume(0.05f);
 
         while (true && currentAction < _banterScenarios[_banterIndex]._scenarios[scenarioIndex].Actions.Length)
         {
@@ -160,6 +164,8 @@ public class GameController : MonoBehaviour
         _banterIndex++;
         _isBanterRunning = false;
         _music[_musicChannelIndex].volume = 1.0f;
+        ((CarPhysicsObject)_playerVehicle).SetEngineVolume(0.13f);
+
 #if DEBUG_BANTER
         Debug.Log(Time.time + "Finished banter");
 #endif
@@ -199,26 +205,47 @@ public class GameController : MonoBehaviour
 
             if (playerInput.Gas.ReadValue<float>() > 0)
             {
+
+                ((CarPhysicsObject)_playerVehicle).StartCar();
+
                 _currentState = GameState.Playing;
                 if (_music != null)
-                {   
+                {
                     _music[_musicChannelIndex].Play();
                 }
                 _vehicleAIManager.enabled = true;
                 _vehicleAIManager.OnRaceStart();
+                _banterIndex = 0;
             }
 #if UNITY_EDITOR
             else if (playerInput.Prrr.ReadValue<float>() > 0)
             {
+                ((CarPhysicsObject)_playerVehicle).StartCar();
+
                 _currentState = GameState.Playing;
                 if (_music != null)
                 {
                     _music[_musicChannelIndex].loop = true;
                     _music[_musicChannelIndex].Play();
                 }
-                ((CarPhysicsObject)_playerVehicle).CheatWarp();
+                ((CarPhysicsObject)_playerVehicle).CheatWarp(328);
                 _vehicleAIManager.enabled = true;
                 _vehicleAIManager.OnRaceStart();
+                _banterIndex = 1;
+            }
+            else if (playerInput.Music.ReadValue<float>() > 0)
+            {
+                ((CarPhysicsObject)_playerVehicle).StartCar();
+                _currentState = GameState.Playing;
+                if (_music != null)
+                {
+                    _music[_musicChannelIndex].loop = true;
+                    _music[_musicChannelIndex].Play();
+                }
+                ((CarPhysicsObject)_playerVehicle).CheatWarp(750);
+                _vehicleAIManager.enabled = true;
+                _vehicleAIManager.OnRaceStart();
+                _banterIndex = 2;
             }
 #endif
             //   Debug.Log(Time.time + " playerInput.Prrr.ReadValue<bool>() = " + playerInput.Prrr.ReadValue<bool>());
@@ -248,6 +275,30 @@ public class GameController : MonoBehaviour
             SetInput(vInput);
 
             _vehicleAIManager.UpdateController();
+
+            if (_playerVehicle.DistanceAlongSpline > 865.0f)
+            {
+                _currentState = GameState.EndScreen;
+
+             //   var vInput = GetInput();
+
+                vInput.Steering = 0;
+                vInput.Gas = 0;
+                vInput.WantsToPurr = false;
+                SetInput(vInput);
+                ((CarPhysicsObject)_playerVehicle).StopCar();
+
+                _endGameTime = Time.time;
+            }
+        }
+        else if (_currentState == GameState.EndScreen)
+        {
+            if (Time.time > _endGameTime + 5.0f)
+            {
+                _currentState = GameState.TitleScreen;
+                _playerVehicle.enabled = true;
+                _playerVehicle.transform.position = new Vector3(-0.66f, 0.0f, 9.24f);
+            }
         }
     }
 
@@ -284,7 +335,7 @@ public class GameController : MonoBehaviour
 
     private void OnGUI()
     {
-        if (_currentState == GameState.TitleScreen)
+        if (_currentState == GameState.TitleScreen || _currentState == GameState.EndScreen)
         {
             float textureAspect = 1920.0f / 1080.0f;
             float oneOverTextureAspect = 1.0f / textureAspect;
