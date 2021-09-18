@@ -179,7 +179,7 @@ public class CarPhysicsObject : VehicleBase
         DistanceAlongSpline = curveSample.distanceAlongSpline;
 
         Shader.SetGlobalFloat("_DistanceTravelled", DistanceAlongSpline / spline.Length);
-            Debug.Log(Time.time + "Dist Traveled = " + DistanceAlongSpline + ", normalized dist traveled = " + DistanceAlongSpline / spline.Length);
+         //   Debug.Log(Time.time + "Dist Traveled = " + DistanceAlongSpline + ", normalized dist traveled = " + DistanceAlongSpline / spline.Length);
         /*  var theLoc = spline.GetSampleAtDistance(DistanceAlongSpline);
           var roadTangent = Vector3.ProjectOnPlane(theLoc.tangent, up);
           roadTangent = Vector3.Cross(roadTangent, up);

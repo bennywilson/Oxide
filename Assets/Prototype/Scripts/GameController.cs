@@ -33,6 +33,7 @@ public class GameController : MonoBehaviour
             {
                 public GameObject _banterTarget;
                 public string _animationToPlay;
+                public int _animationLoopCount;
                 public AudioSource _audioToPlay;
                 public float _animationSpeed;
                 public float _secsDelay;
@@ -180,7 +181,14 @@ public class GameController : MonoBehaviour
 #endif
             var anim = action._banterTarget.GetComponentInChildren<Animation>();
             anim[action._animationToPlay].speed = action._animationSpeed;
-            anim.Play(action._animationToPlay);
+            anim[action._animationToPlay].blendMode = AnimationBlendMode.Blend;
+            anim.Blend(action._animationToPlay, 0.2f, 1.3f);
+
+            for (int i = 1; i < action._animationLoopCount; i++)
+            {
+                var animState = anim.PlayQueued(action._animationToPlay, QueueMode.CompleteOthers);
+                animState.speed = action._animationSpeed;
+            }
         }
 
         if (action._audioToPlay != null)

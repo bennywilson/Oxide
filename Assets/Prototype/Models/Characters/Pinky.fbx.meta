@@ -36,6 +36,12 @@ ModelImporter:
   - first:
       74: 7412734754490525485
     second: PinkyArmature|StiltzTalk1
+  - first:
+      74: -2569027654352800987
+    second: PinkyArmature|Drive
+  - first:
+      74: -6281475092468858857
+    second: PinkyArmature|HeadSway1
   externalObjects: {}
   materials:
     materialImportMode: 2

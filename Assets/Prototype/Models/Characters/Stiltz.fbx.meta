@@ -39,6 +39,21 @@ ModelImporter:
   - first:
       74: 2158037670997501867
     second: PinkyArmature|StiltzLookNod1
+  - first:
+      74: -6281475092468858857
+    second: PinkyArmature|HeadSway1
+  - first:
+      74: 5357046081517937760
+    second: PinkyArmature|HeadSway1.001
+  - first:
+      74: -3961848718304739814
+    second: HeadSway1
+  - first:
+      74: -2569027654352800987
+    second: PinkyArmature|Drive
+  - first:
+      74: 5525165185402664120
+    second: StiltzMesh|StiltzLookNod1
   externalObjects: {}
   materials:
     materialImportMode: 2
