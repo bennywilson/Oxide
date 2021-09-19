@@ -273,8 +273,10 @@ public class GameController : MonoBehaviour
         if (_currentState == GameState.TitleScreen)
         {
             _playerVehicle.GetComponent<CapsuleCollider>().enabled = false;
-            _playerVehicle.GetComponent<Rigidbody>().constraints |= RigidbodyConstraints.FreezePositionY;
-
+            if (_playerVehicle.GetComponent<Rigidbody>() != null)
+            {
+                _playerVehicle.GetComponent<Rigidbody>().constraints |= RigidbodyConstraints.FreezePositionY;
+            }
             if (playerInput.Gas.ReadValue<float>() > 0)
             {
 
@@ -325,7 +327,11 @@ public class GameController : MonoBehaviour
         else if (_currentState == GameState.Playing)
         {
             _playerVehicle.GetComponent<CapsuleCollider>().enabled = true;
-            _playerVehicle.GetComponent<Rigidbody>().constraints &= ~RigidbodyConstraints.FreezePositionY;
+
+            if (_playerVehicle.GetComponent<Rigidbody>() != null)
+            {
+                _playerVehicle.GetComponent<Rigidbody>().constraints &= ~RigidbodyConstraints.FreezePositionY;
+            }
 
             if (playerInput.Music.ReadValue<float>() > 0.5f && Time.time > lastSwitch + 2.0f)
             {

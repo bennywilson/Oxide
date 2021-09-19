@@ -16,6 +16,8 @@ public class CarCamera : MonoBehaviour
 
     float _yawVelocity;
 
+    bool bDebugRearview = false;
+
     // Copy-pasta from Astro Pirates physics code.
     static float GetTargetVelocity(float deltaTarget, float acceleration)
     {
@@ -67,6 +69,15 @@ public class CarCamera : MonoBehaviour
 
         transform.SetPositionAndRotation(position, rotation);
 
+        if (bDebugRearview)
+        {
+            position = pivotPosition + (targetForward * 0.6f) + new Vector3(0.0f, 0.23f, 0.0f);// pivotPosition + rotation * _boomOffset;
+            transform.position = position;// (position, rotation);
+
+            Quaternion quat = Quaternion.LookRotation((pivotPosition - position).normalized);
+            transform.SetPositionAndRotation(position, quat);
+            //        transform.rotation = Quaternion.LookRotation()
+        }
         Shader.SetGlobalVector("_PlayerCameraRight", transform.right);
     }
 }

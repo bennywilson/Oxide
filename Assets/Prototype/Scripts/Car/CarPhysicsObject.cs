@@ -96,6 +96,7 @@ public class CarPhysicsObject : VehicleBase
         if (_autoDrive)
         {
             AutoDrive();
+            UpdateVisuals(deltaTime, Vector3.zero);
             return;
         }
 
@@ -220,6 +221,7 @@ public class CarPhysicsObject : VehicleBase
             {
                 GameController.GetGameController().PlayDrivingBanter("StiltzYell1");
             }
+            //GameController.GetGameController().PlayDrivingBanter("HeadSway");
         }
     }
 
