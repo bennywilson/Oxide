@@ -11,9 +11,6 @@ public class CarPhysicsObject : VehicleBase
     [SerializeField] float _autoDriveSpeed = 0.05f;
 
     [SerializeField]
-    GameObject[] _curseTextBubbles;
-
-    [SerializeField]
     AudioSource _engineSound;
 
     Rigidbody _body;
@@ -188,8 +185,6 @@ public class CarPhysicsObject : VehicleBase
           Debug.DrawLine(roadPoint, roadPoint + new Vector3(0, 1000, 0));*/
     }
 
-    bool bIsPrrrring = false;
-
     void UpdateVisuals(float deltaTime, Vector3 velocity)
     {
         _visualData.wheelSteering = Mathf.MoveTowards(_visualData.wheelSteering, Mathf.Clamp(Input.Steering, -1, 1), deltaTime * 5.0f);
@@ -215,31 +210,16 @@ public class CarPhysicsObject : VehicleBase
 
         if (Input.WantsToPurr)
         {
-            GameController.GetGameController().PlayDrivingBanter("PinkyYell1");
-        }
-    }
+            int yellPicker = Random.Range((int)0, 2);
 
-    private IEnumerator StiltzCurse()
-    {
-     //   while (true)
-        if (_curseTextBubbles.Length > 0)
-        {
-            GameObject RandomBubble = _curseTextBubbles[Random.Range(0, _curseTextBubbles.Length - 1)];
-            yield return new WaitForSeconds(0.5f);
-       
-            RandomBubble.SetActive(true);
-            yield return new WaitForSeconds(0.45f);
-            RandomBubble.SetActive(false);
-        }
-
-        var anim = Passenger.GetComponentInChildren<Animation>();
-        while (true)
-        {
-            if (anim.isPlaying == false)
+            if (yellPicker == 0)
             {
-                break;
+                GameController.GetGameController().PlayDrivingBanter("PinkyYell1");
             }
-            yield return new WaitForSeconds(1.0f);
+            else if(yellPicker == 1)
+            {
+                GameController.GetGameController().PlayDrivingBanter("StiltzYell1");
+            }
         }
     }
 

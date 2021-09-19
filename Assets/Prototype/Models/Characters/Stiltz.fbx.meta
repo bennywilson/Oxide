@@ -54,6 +54,12 @@ ModelImporter:
   - first:
       74: 5525165185402664120
     second: StiltzMesh|StiltzLookNod1
+  - first:
+      74: -6805640631256947194
+    second: PinkyArmature|PinkyYell1
+  - first:
+      74: -1326713804129902008
+    second: PinkyArmature|StiltzYell1
   externalObjects: {}
   materials:
     materialImportMode: 2
