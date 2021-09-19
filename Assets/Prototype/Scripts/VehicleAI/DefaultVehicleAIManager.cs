@@ -22,10 +22,16 @@ public class DefaultVehicleAIManager : VehicleAIManager
     float _maxAIBehindDistance = 15;
 
     [SerializeField]
-    float _minDistanceBetweenVehicleAI = 10;
+    float _startingMinDistanceBetweenVehicleAI = 15;
 
     [SerializeField]
-    float _maxDistanceBehindVehicleAI = 10;
+    float _endingMinDistanceBetweenVehicleAI = 5;
+
+    [SerializeField]
+    float _startingMaxDistanceBetweenVehicleAI = 20;
+
+    [SerializeField]
+    float _endingMaxDistanceBetweenVehicleAI = 5;
 
     [SerializeField]
     float _AISpeed = 1;
@@ -43,7 +49,10 @@ public class DefaultVehicleAIManager : VehicleAIManager
 
     float GetRandomDistanceBetweenVehicleAI()
     {
-        return Random.Range(_minDistanceBetweenVehicleAI, _maxDistanceBehindVehicleAI);
+        float normalizedDistanceTravelled = _gameController.GetNormalizedDistanceTravelled();
+        float minVal = Mathf.Lerp(_startingMinDistanceBetweenVehicleAI, _endingMinDistanceBetweenVehicleAI, normalizedDistanceTravelled);
+        float maxVal = Mathf.Lerp(_startingMaxDistanceBetweenVehicleAI, _endingMaxDistanceBetweenVehicleAI, normalizedDistanceTravelled);
+        return Random.Range(minVal, maxVal);
     }
 
     public override void OnRaceStart()
@@ -55,7 +64,7 @@ public class DefaultVehicleAIManager : VehicleAIManager
         VehicleBase Player = _gameController.GetPlayer();
         float PlayerDist = Player.DistanceAlongSpline;
 
-        for (float distance = PlayerDist + GetRandomDistanceBetweenVehicleAI(); distance < PlayerDist + _spawnAIAheadDistance - _minDistanceBetweenVehicleAI; distance += GetRandomDistanceBetweenVehicleAI())
+        for (float distance = PlayerDist + GetRandomDistanceBetweenVehicleAI(); distance < PlayerDist + _spawnAIAheadDistance - _startingMinDistanceBetweenVehicleAI; distance += GetRandomDistanceBetweenVehicleAI())
         {
             SpawnCar(distance);
         }
@@ -73,13 +82,17 @@ public class DefaultVehicleAIManager : VehicleAIManager
         VehicleAI FrontVehicle = (_vehicleAIList.First == null) ? (null) : (_vehicleAIList.First.Value);
         VehicleAI LastVehicle = (_vehicleAIList.Last == null) ? (null) : (_vehicleAIList.Last.Value);
 
+        float normalizedDistanceTravelled = _gameController.GetNormalizedDistanceTravelled();
+        float minDistanceBetweenVehicleAI = Mathf.Lerp(_startingMinDistanceBetweenVehicleAI, _endingMinDistanceBetweenVehicleAI, normalizedDistanceTravelled);
+        float maxDistanceBetweenVehicleAI = Mathf.Lerp(_startingMaxDistanceBetweenVehicleAI, _endingMaxDistanceBetweenVehicleAI, normalizedDistanceTravelled);
+
         if (PlayerDist < _roadSpline.Length - _spawnAIAheadDistance)
         {
             if (_vehicleAIList.Count < _maxNumAIVehicles)
             {
-                if (FrontVehicle == null || FrontVehicle.Distance < (PlayerDist + _spawnAIAheadDistance - _minDistanceBetweenVehicleAI))
+                if (FrontVehicle == null || FrontVehicle.Distance < (PlayerDist + _spawnAIAheadDistance - minDistanceBetweenVehicleAI))
                 {
-                    VehicleAI newCar = SpawnCar(PlayerDist + _spawnAIAheadDistance + Random.Range(0, _maxDistanceBehindVehicleAI - _minDistanceBetweenVehicleAI));
+                    VehicleAI newCar = SpawnCar(PlayerDist + _spawnAIAheadDistance + Random.Range(0, maxDistanceBetweenVehicleAI - minDistanceBetweenVehicleAI));
                     if (newCar != null)
                     {
                         _vehicleAIList.AddFirst(newCar);
@@ -92,7 +105,7 @@ public class DefaultVehicleAIManager : VehicleAIManager
 
                 if (LastVehicle != null && LastVehicle.Distance > PlayerDist)
                 {
-                    VehicleAI newCar = SpawnCar(Mathf.Clamp(PlayerDist - _spawnAIBehindDistance - Random.Range(0, _minDistanceBetweenVehicleAI), 0, _roadSpline.Length));
+                    VehicleAI newCar = SpawnCar(Mathf.Clamp(PlayerDist - _spawnAIBehindDistance - Random.Range(0, minDistanceBetweenVehicleAI), 0, _roadSpline.Length));
                     if (newCar != null)
                     {
                         _vehicleAIList.AddLast(newCar);

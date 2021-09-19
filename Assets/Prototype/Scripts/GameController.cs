@@ -18,9 +18,16 @@ public class GameController : MonoBehaviour
     public Texture _titleScreenTex;
     public Texture _blackBordersTex;
 
+    [SerializeField] private float _TrackEndDist = 865.0f;
+
     VehicleAIManager _vehicleAIManager;
 
     float _endGameTime = 0.0f;
+
+    public float GetNormalizedDistanceTravelled()
+    {
+        return Mathf.Clamp01(_playerVehicle.DistanceAlongSpline / _TrackEndDist);
+    }
 
     [System.Serializable]
     public struct BanterInfo
