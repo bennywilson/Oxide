@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.Serialization;
 public class GameController : MonoBehaviour
 {
     VehicleBase _playerVehicle;
@@ -24,19 +24,14 @@ public class GameController : MonoBehaviour
 
     float _endGameTime = 0.0f;
 
-    public float GetNormalizedDistanceTravelled()
-    {
-        return Mathf.Clamp01(_playerVehicle.DistanceAlongSpline / _TrackEndDist);
-    }
-
     [System.Serializable]
-    public struct BanterInfo
+    public class BanterInfo
     {
         [System.Serializable]
-        public struct BanterScenario
+        public class BanterScenario
         {
             [System.Serializable]
-            public struct BanterAction
+            public class BanterAction
             {
                 public GameObject _banterTarget;
                 public string _animationToPlay;
@@ -44,9 +39,12 @@ public class GameController : MonoBehaviour
                 public AudioSource _audioToPlay;
                 public float _animationSpeed;
                 public float _secsDelay;
+                public GameObject _gameObjectToActivate;
+                public GameObject _gameObjectToDeactivate;
             }
 
             public string _scenarioName;
+            public bool _duckAudio;
             public BanterAction[] Actions;
         }
 
@@ -55,8 +53,13 @@ public class GameController : MonoBehaviour
         public BanterScenario[] _scenarios;
     }
 
-    [SerializeField]
-    private BanterInfo[] _banterScenarios;
+   // [SerializeField]
+    [FormerlySerializedAs("_banterScenarios")]
+    [SerializeField] private BanterInfo[] _historicalBanter;
+
+    [SerializeField] private BanterInfo[] _drivingBanter;
+
+
     float _timeOfLastBanter = -10;
     int _banterIndex;
     bool _isBanterRunning;
@@ -69,6 +72,16 @@ public class GameController : MonoBehaviour
     };
     GameState _currentState = GameState.TitleScreen;
     public GameState GetGameState() { return _currentState; }
+
+    static GameController s_GameController;
+    public static GameController GetGameController()
+    {
+        return s_GameController;
+    }
+    public float GetNormalizedDistanceTravelled()
+    {
+        return Mathf.Clamp01(_playerVehicle.DistanceAlongSpline / _TrackEndDist);
+    }
 
     VehicleInput GetInput()
     {
@@ -96,7 +109,7 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         _oxideInput = new OxideInput();
-
+        s_GameController = this;
         _oxideInput.Player.Prrr.performed += c =>
         {
             if (!GetCanUseInput())
@@ -136,29 +149,60 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if (_isBanterRunning == false && _timeOfLastBanter < Time.time - 10.0f && _banterIndex < _banterScenarios.Length)
+        if (_isBanterRunning == false && _timeOfLastBanter < Time.time - 10.0f && _banterIndex < _historicalBanter.Length)
         {
-            if (_playerVehicle.DistanceAlongSpline > _banterScenarios[_banterIndex]._distanceToPlayAt)
+            if (_playerVehicle.DistanceAlongSpline > _historicalBanter[_banterIndex]._distanceToPlayAt)
             {
 #if DEBUG_BANTER
-                Debug.Log(Time.time + "Should be playing bannter!");
+                Debug.Log(Time.time + "Should be playing banner!");
 #endif
                 _isBanterRunning = true;
-                StartCoroutine("PlayBanter");
+                int scenarioIndex = Random.Range(0, _historicalBanter[_banterIndex]._scenarios.Length - 1);
+                StartCoroutine(PlayBanterScript(_historicalBanter[_banterIndex]._scenarios[scenarioIndex]));
+                _banterIndex++;
             }
         }    
     }
 
-    private IEnumerator PlayBanter()
+    public void PlayDrivingBanter(string name)
     {
-        int scenarioIndex = Random.Range(0, _banterScenarios[_banterIndex]._scenarios.Length - 1);
-        int currentAction = 0;
-        _music[_musicChannelIndex].volume = _musicTalkVolume;
-        ((CarPhysicsObject)_playerVehicle).SetEngineVolume(0.05f);
-
-        while (true && currentAction < _banterScenarios[_banterIndex]._scenarios[scenarioIndex].Actions.Length)
+#if DEBUG_BANTER
+        Debug.Log(Time.time + "PlayDrivingBanter!");
+#endif
+        if (_isBanterRunning == true)
         {
-            float nextYield = UpdateBanter(_banterScenarios[_banterIndex]._scenarios[scenarioIndex].Actions[currentAction]);
+            return;
+        }
+
+        for (int i = 0; i < _drivingBanter.Length; i++)
+        {
+            if (_drivingBanter[i]._banterName == name)
+            {
+#if DEBUG_BANTER
+                Debug.Log(Time.time + "     Found " + name);
+
+#endif
+                int scenarioIndex = Random.Range(0, _drivingBanter[i]._scenarios.Length - 1);
+                _isBanterRunning = true;
+                StartCoroutine(PlayBanterScript(_drivingBanter[i]._scenarios[scenarioIndex]));
+                return;
+            }
+        }
+    }
+
+    private IEnumerator PlayBanterScript(BanterInfo.BanterScenario scenario)
+    {
+        int currentAction = 0;
+
+        if (scenario._duckAudio)
+        {
+            _music[_musicChannelIndex].volume = _musicTalkVolume;
+            ((CarPhysicsObject)_playerVehicle).SetEngineVolume(0.05f);
+        }
+
+        while (true && currentAction < scenario.Actions.Length)
+        {
+            float nextYield = UpdateBanter(scenario.Actions[currentAction]);
             currentAction++;
             if (nextYield < 0)
             {
@@ -169,10 +213,14 @@ public class GameController : MonoBehaviour
         }
 
         _timeOfLastBanter = Time.time;
-        _banterIndex++;
+
         _isBanterRunning = false;
-        _music[_musicChannelIndex].volume = 1.0f;
-        ((CarPhysicsObject)_playerVehicle).SetEngineVolume(0.13f);
+
+        if (scenario._duckAudio)
+        {
+            _music[_musicChannelIndex].volume = 1.0f;
+            ((CarPhysicsObject)_playerVehicle).SetEngineVolume(0.13f);
+        }
 
 #if DEBUG_BANTER
         Debug.Log(Time.time + "Finished banter");
@@ -196,6 +244,15 @@ public class GameController : MonoBehaviour
                 var animState = anim.PlayQueued(action._animationToPlay, QueueMode.CompleteOthers);
                 animState.speed = action._animationSpeed;
             }
+        }
+        if (action._gameObjectToActivate != null)
+        {
+            action._gameObjectToActivate.SetActive(true);
+        }
+
+        if (action._gameObjectToDeactivate != null)
+        {
+            action._gameObjectToDeactivate.SetActive(false);
         }
 
         if (action._audioToPlay != null)

@@ -213,21 +213,9 @@ public class CarPhysicsObject : VehicleBase
             _visualData.renderer.materials[2].SetColor("ColorMultiplier", new Color(1, 1, 1));
         }
 
-        if (Input.WantsToPurr && bIsPrrrring == false)
+        if (Input.WantsToPurr)
         {
-        /*    bIsPrrrring = true;
-            Input.WantsToPurr = false;
-
-            var anim = Passenger.GetComponentInChildren<Animation>();
-            anim.enabled = true;
-            anim.Play("PinkyArmature|StiltzCurse1");
-//            anim.Play("PinkyArmature|StiltzTalk1");
-
-            anim = Driver.GetComponentInChildren<Animation>();
-            anim.enabled = true;
-            anim.Play("PinkyArmature|PinkyTalk1");
-
-            StartCoroutine("StiltzCurse");*/    
+            GameController.GetGameController().PlayDrivingBanter("PinkyYell1");
         }
     }
 
@@ -253,7 +241,6 @@ public class CarPhysicsObject : VehicleBase
             }
             yield return new WaitForSeconds(1.0f);
         }
-        bIsPrrrring = false;
     }
 
     float distance = 0;

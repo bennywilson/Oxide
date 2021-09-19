@@ -42,6 +42,9 @@ ModelImporter:
   - first:
       74: -6281475092468858857
     second: PinkyArmature|HeadSway1
+  - first:
+      74: -6805640631256947194
+    second: PinkyArmature|PinkyYell1
   externalObjects: {}
   materials:
     materialImportMode: 2
