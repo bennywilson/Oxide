@@ -19,6 +19,10 @@ public class CarPhysicsObject : VehicleBase
 
     public SkinnedMeshRenderer _carRenderer;
 
+    // Boost
+    float BoostVelMultiplier = 1.0f;
+    float BoostAccelMultiplier = 1.0f;
+ 
     public struct CarVisualData
     {
         public SkinnedMeshRenderer renderer;
@@ -122,7 +126,10 @@ public class CarPhysicsObject : VehicleBase
         var horizontalVelocity = Vector3.ProjectOnPlane(velocity, up);
         velocity -= horizontalVelocity;
 
-        float maxWheelAngle = Mathf.Lerp(_settings.TurnAngleLowSpeed, _settings.TurnAngleTopSpeed, horizontalVelocity.magnitude / _settings.TopSpeed);
+        float topSpeed = _settings.TopSpeed * BoostVelMultiplier;
+        float topAccel = _settings.Acceleration * BoostAccelMultiplier;
+
+        float maxWheelAngle = Mathf.Lerp(_settings.TurnAngleLowSpeed, _settings.TurnAngleTopSpeed, horizontalVelocity.magnitude / topSpeed);
         var wheelTurnRotation = Quaternion.AngleAxis(_currentSteering * maxWheelAngle, Vector3.up);
         var steeringForward = rotation * wheelTurnRotation * Vector3.forward;
 
@@ -137,15 +144,16 @@ public class CarPhysicsObject : VehicleBase
                 steeringForward = new Vector3(0.9934924f, 0.0f, 0.1f);
             }
             steeringForward.Normalize();
-         }
-            // Figure out velocity relative to where our wheels are facing now.
-            var forwardVelocity = Vector3.Project(horizontalVelocity, steeringForward);
+        }
+
+        // Figure out velocity relative to where our wheels are facing now.
+        var forwardVelocity = Vector3.Project(horizontalVelocity, steeringForward);
         var drift = horizontalVelocity - forwardVelocity;
 
-        var targetForwardVelocity = steeringForward * Mathf.Clamp(Input.Gas, -1, 1) * _settings.TopSpeed;
+        var targetForwardVelocity = steeringForward * Mathf.Clamp(Input.Gas, -1, 1) * topSpeed;
 
         // Accelerate!
-        forwardVelocity = Vector3.MoveTowards(forwardVelocity, targetForwardVelocity, _settings.Acceleration * deltaTime);
+        forwardVelocity = Vector3.MoveTowards(forwardVelocity, targetForwardVelocity, topAccel * deltaTime);
 
         // Reduce our drift based on drift friction and our new forward speed.
 
@@ -159,7 +167,7 @@ public class CarPhysicsObject : VehicleBase
 
         // Instantly settings rotation speed based on correction.
 
-        float rotationSpeedMultiplier = Mathf.Clamp01(driftSpeedMeasure / _settings.TopSpeed);
+        float rotationSpeedMultiplier = Mathf.Clamp01(driftSpeedMeasure / topSpeed);
         localAngularVelocity.y = Vector3.SignedAngle(rotation*Vector3.forward, steeringForward, up)*_settings.CarRotationSpeedPerUnitOfOffset*rotationSpeedMultiplier;
 
         // Turn local angular velocity back into the global stuff.
@@ -269,5 +277,21 @@ public class CarPhysicsObject : VehicleBase
             transform.position = roadPoint;
             transform.rotation = Quaternion.LookRotation(curDir);
         }
+    }
+
+    public void StartSpeedBoost(float VelMultiplier, float AccelMultiplier, float BoostLengthSec)
+    {
+        BoostVelMultiplier = VelMultiplier;
+        BoostAccelMultiplier = AccelMultiplier;
+
+        StartCoroutine(SpeedBoost(BoostLengthSec));
+    }
+
+    IEnumerator SpeedBoost(float BoostLengthSec)
+    {
+        yield return new WaitForSeconds(BoostLengthSec);
+        BoostVelMultiplier = 1;
+        BoostAccelMultiplier = 1;
+
     }
 }
