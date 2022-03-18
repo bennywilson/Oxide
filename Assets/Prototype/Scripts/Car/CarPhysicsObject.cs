@@ -22,7 +22,8 @@ public class CarPhysicsObject : VehicleBase
     // Boost
     float BoostVelMultiplier = 1.0f;
     float BoostAccelMultiplier = 1.0f;
- 
+    float BoostStartTime = -1.0f;
+
     public struct CarVisualData
     {
         public SkinnedMeshRenderer renderer;
@@ -32,6 +33,10 @@ public class CarPhysicsObject : VehicleBase
         public Transform rightBackWheel;
         public float wheelSteering;
         public float wheelSpin;
+
+        public GameObject leftExhaustSpeedBoostFX;
+        public GameObject rightExhaustSpeedBoostFX;
+        public CarCamera carCam;
     }
 
     public CarVisualData _visualData;
@@ -72,6 +77,18 @@ public class CarPhysicsObject : VehicleBase
         _visualData.leftBackWheel = RecursiveFindChild(gameObject.transform, "LBack").transform;
         _visualData.rightBackWheel = RecursiveFindChild(gameObject.transform, "RBack").transform;
         _visualData.renderer = _carRenderer;// GetComponentInChildren<SkinnedMeshRenderer>() as SkinnedMeshRenderer;
+
+        GameObject LExhaust = RecursiveFindChild(gameObject.transform, "LExhaust").gameObject;
+        _visualData.leftExhaustSpeedBoostFX = LExhaust;//.GetComponents<ParticleSystem>();
+
+        GameObject RExhaust = RecursiveFindChild(gameObject.transform, "RExhaust").gameObject;
+        _visualData.rightExhaustSpeedBoostFX = RExhaust;//.GetComponents<ParticleSystem>();
+
+        GameObject carCamRig = GameObject.Find("CarCameraRig");
+        if (carCamRig != null)
+        {
+            _visualData.carCam = carCamRig.GetComponent<CarCamera>();
+        }
     }
 
     public void SetEngineVolume(float newVolume)
@@ -289,9 +306,41 @@ public class CarPhysicsObject : VehicleBase
 
     IEnumerator SpeedBoost(float BoostLengthSec)
     {
-        yield return new WaitForSeconds(BoostLengthSec);
+        //        Debug.Log("Woot!");
+        BoostStartTime = Time.realtimeSinceStartup;
+        _visualData.carCam._boomOffsetMultiplier = 1.25f;
+
+        _visualData.leftExhaustSpeedBoostFX.SetActive(true);
+        _visualData.rightExhaustSpeedBoostFX.SetActive(true);
+
+        float startTime = Time.realtimeSinceStartup;
+        float zoomOutLength = 0.2f;
+        float finalTime = startTime + BoostLengthSec;
+        float boomMax = 0.1f;
+        while (Time.realtimeSinceStartup < startTime + zoomOutLength)
+        {
+            float elapsedTime = Mathf.Clamp((Time.realtimeSinceStartup - startTime) / zoomOutLength, 0, 1.0f);
+            _visualData.carCam._boomOffsetMultiplier = 1.0f + elapsedTime * boomMax;
+            yield return null;
+        }
+        _visualData.carCam._boomOffsetMultiplier = 1 + boomMax;
+
+        float zoomInLength = zoomOutLength * 2.0f;
+        yield return new WaitForSeconds(finalTime - zoomInLength - Time.realtimeSinceStartup);
+
+        startTime = Time.realtimeSinceStartup;
+        while (Time.realtimeSinceStartup < finalTime)
+        {
+            float elapsedTime = 1.0f - Mathf.Clamp((Time.realtimeSinceStartup - startTime) / zoomInLength, 0, 1.0f);
+            _visualData.carCam._boomOffsetMultiplier = 1.0f + elapsedTime * boomMax;
+            yield return null;
+        }
+        _visualData.carCam._boomOffsetMultiplier = 1.0f;
+        //        yield return new WaitForSeconds(BoostLengthSec);
         BoostVelMultiplier = 1;
         BoostAccelMultiplier = 1;
 
+        _visualData.leftExhaustSpeedBoostFX.SetActive(false);
+        _visualData.rightExhaustSpeedBoostFX.SetActive(false);
     }
 }

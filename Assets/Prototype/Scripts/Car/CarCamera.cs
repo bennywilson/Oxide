@@ -7,6 +7,7 @@ public class CarCamera : MonoBehaviour
 {
     [Header("Camera Settings")]
     [SerializeField] Vector3 _boomOffset = new Vector3(0, 2, -10);
+    public float _boomOffsetMultiplier = 1;
     [SerializeField] float _boomPitch = 15f;
     [SerializeField] float _rotationAcceleration = 45f;
     [SerializeField] float _accelerationEstimationFactor = 0.75f; //Pretend like we're this ratio of our actual acceleration to reduce overshoot.
@@ -65,7 +66,7 @@ public class CarCamera : MonoBehaviour
         // Rotate based on our yaw velocity.
         rotation *= Quaternion.AngleAxis(_yawVelocity * deltaTime, Vector3.up);
 
-        var position = pivotPosition + rotation * _boomOffset;
+        var position = pivotPosition + rotation * _boomOffset * _boomOffsetMultiplier;
 
         transform.SetPositionAndRotation(position, rotation);
 

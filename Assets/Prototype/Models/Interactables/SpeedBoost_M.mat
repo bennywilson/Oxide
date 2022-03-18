@@ -45,12 +45,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - ColorRate: -3
+    - ColorRate: -0.9375
     - OutlineBias: 0
     - OutlineMax: 1
     - OutlineMin: 0
     - OutlineScale: 1
-    - ScrollRate: -2.5
+    - ScrollRate: -0.78125
     - _Float: 0.5
     m_Colors:
     - OutlineTint: {r: 0.3679245, g: 0.3679245, b: 0.3679245, a: 0}
