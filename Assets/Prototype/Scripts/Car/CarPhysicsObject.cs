@@ -308,7 +308,7 @@ public class CarPhysicsObject : VehicleBase
     {
         //        Debug.Log("Woot!");
         BoostStartTime = Time.realtimeSinceStartup;
-        _visualData.carCam._boomOffsetMultiplier = 1.25f;
+        _visualData.carCam._boomOffsetLerp = 0.0f;
 
         _visualData.leftExhaustSpeedBoostFX.SetActive(true);
         _visualData.rightExhaustSpeedBoostFX.SetActive(true);
@@ -319,11 +319,11 @@ public class CarPhysicsObject : VehicleBase
         float boomMax = 0.1f;
         while (Time.realtimeSinceStartup < startTime + zoomOutLength)
         {
-            float elapsedTime = Mathf.Clamp((Time.realtimeSinceStartup - startTime) / zoomOutLength, 0, 1.0f);
-            _visualData.carCam._boomOffsetMultiplier = 1.0f + elapsedTime * boomMax;
+            float lerpAmt = Mathf.Clamp((Time.realtimeSinceStartup - startTime) / zoomOutLength, 0, 1.0f);
+            _visualData.carCam._boomOffsetLerp = lerpAmt;
             yield return null;
         }
-        _visualData.carCam._boomOffsetMultiplier = 1 + boomMax;
+        _visualData.carCam._boomOffsetLerp = 1.0f;
 
         float zoomInLength = zoomOutLength * 2.0f;
         yield return new WaitForSeconds(finalTime - zoomInLength - Time.realtimeSinceStartup);
@@ -331,12 +331,12 @@ public class CarPhysicsObject : VehicleBase
         startTime = Time.realtimeSinceStartup;
         while (Time.realtimeSinceStartup < finalTime)
         {
-            float elapsedTime = 1.0f - Mathf.Clamp((Time.realtimeSinceStartup - startTime) / zoomInLength, 0, 1.0f);
-            _visualData.carCam._boomOffsetMultiplier = 1.0f + elapsedTime * boomMax;
+            float lerpAmt = 1.0f - Mathf.Clamp((Time.realtimeSinceStartup - startTime) / zoomInLength, 0, 1.0f);
+            _visualData.carCam._boomOffsetLerp = lerpAmt;
             yield return null;
         }
-        _visualData.carCam._boomOffsetMultiplier = 1.0f;
-        //        yield return new WaitForSeconds(BoostLengthSec);
+        _visualData.carCam._boomOffsetLerp = 0.0f;
+
         BoostVelMultiplier = 1;
         BoostAccelMultiplier = 1;
 
