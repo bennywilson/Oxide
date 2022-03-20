@@ -4,10 +4,10 @@ using System.Collections;
 public class SpeedBoost : MonoBehaviour
 {
     [SerializeField]
-    float BoostVelocityMultiplier = 100;
+    float BoostVelocity = 16;
 
     [SerializeField]
-    float BoostAccelerationMultiplier = 10;
+    float BoostAcceleration = 10;
 
     [SerializeField]
     float BoostLength = 3.0f;
@@ -25,6 +25,6 @@ public class SpeedBoost : MonoBehaviour
             return;
         }
 
-        CarPhys.StartSpeedBoost(BoostVelocityMultiplier, BoostAccelerationMultiplier, BoostLength);
+        CarPhys.StartSpeedBoost(BoostVelocity, BoostAcceleration, BoostLength);
     }
 }

@@ -20,8 +20,8 @@ public class CarPhysicsObject : VehicleBase
     public SkinnedMeshRenderer _carRenderer;
 
     // Boost
-    float BoostVelMultiplier = 1.0f;
-    float BoostAccelMultiplier = 1.0f;
+    float BoostVelocity = 0.0f;
+    float BoostAcceleration = 0.0f;
     float BoostStartTime = -1.0f;
 
     public struct CarVisualData
@@ -84,6 +84,8 @@ public class CarPhysicsObject : VehicleBase
         {
             _visualData.carCam = carCamRig.GetComponent<CarCamera>();
         }
+
+        Shader.SetGlobalFloat("SpeedBoostBlurStrength", 0);
     }
 
     public void SetEngineVolume(float newVolume)
@@ -138,9 +140,9 @@ public class CarPhysicsObject : VehicleBase
         var horizontalVelocity = Vector3.ProjectOnPlane(velocity, up);
         velocity -= horizontalVelocity;
 
-        float topSpeed = _settings.TopSpeed * BoostVelMultiplier;
-        float topAccel = _settings.Acceleration * BoostAccelMultiplier;
-
+        float topSpeed = Mathf.Max(_settings.TopSpeed, BoostVelocity);
+        float topAccel = Mathf.Max(_settings.Acceleration, BoostAcceleration);
+        float gas = Mathf.Max(Input.Gas, (BoostVelocity > 0.0f)?1.0f:0.0f);
         float maxWheelAngle = Mathf.Lerp(_settings.TurnAngleLowSpeed, _settings.TurnAngleTopSpeed, horizontalVelocity.magnitude / topSpeed);
         var wheelTurnRotation = Quaternion.AngleAxis(_currentSteering * maxWheelAngle, Vector3.up);
         var steeringForward = rotation * wheelTurnRotation * Vector3.forward;
@@ -162,7 +164,7 @@ public class CarPhysicsObject : VehicleBase
         var forwardVelocity = Vector3.Project(horizontalVelocity, steeringForward);
         var drift = horizontalVelocity - forwardVelocity;
 
-        var targetForwardVelocity = steeringForward * Mathf.Clamp(Input.Gas, -1, 1) * topSpeed;
+        var targetForwardVelocity = steeringForward * Mathf.Clamp(gas, -1, 1) * topSpeed;
 
         // Accelerate!
         forwardVelocity = Vector3.MoveTowards(forwardVelocity, targetForwardVelocity, topAccel * deltaTime);
@@ -291,10 +293,10 @@ public class CarPhysicsObject : VehicleBase
         }
     }
 
-    public void StartSpeedBoost(float VelMultiplier, float AccelMultiplier, float BoostLengthSec)
+    public void StartSpeedBoost(float BoostVel, float BoostAccel, float BoostLengthSec)
     {
-        BoostVelMultiplier = VelMultiplier;
-        BoostAccelMultiplier = AccelMultiplier;
+        BoostVelocity = BoostVel;
+        BoostAcceleration = BoostAccel;
 
         StartCoroutine(SpeedBoost(BoostLengthSec));
     }
@@ -306,7 +308,7 @@ public class CarPhysicsObject : VehicleBase
         _visualData.carCam._boomOffsetLerp = 0.0f;
 
         _visualData.SpeedBoostFX.SetActive(true);
-
+        
         float startTime = Time.realtimeSinceStartup;
         float zoomOutLength = 0.2f;
         float finalTime = startTime + BoostLengthSec;
@@ -315,8 +317,11 @@ public class CarPhysicsObject : VehicleBase
         {
             float lerpAmt = Mathf.Clamp((Time.realtimeSinceStartup - startTime) / zoomOutLength, 0, 1.0f);
             _visualData.carCam._boomOffsetLerp = lerpAmt;
+            Shader.SetGlobalFloat("SpeedBoostBlurStrength", lerpAmt);
             yield return null;
         }
+
+        Shader.SetGlobalFloat("SpeedBoostBlurStrength", 1);
         _visualData.carCam._boomOffsetLerp = 1.0f;
 
         float zoomInLength = zoomOutLength * 2.0f;
@@ -327,13 +332,14 @@ public class CarPhysicsObject : VehicleBase
         {
             float lerpAmt = 1.0f - Mathf.Clamp((Time.realtimeSinceStartup - startTime) / zoomInLength, 0, 1.0f);
             _visualData.carCam._boomOffsetLerp = lerpAmt;
+            Shader.SetGlobalFloat("SpeedBoostBlurStrength", lerpAmt);
             yield return null;
         }
         _visualData.carCam._boomOffsetLerp = 0.0f;
 
-        BoostVelMultiplier = 1;
-        BoostAccelMultiplier = 1;
-
+        BoostAcceleration = 0; 
+        BoostVelocity = 0;
+        Shader.SetGlobalFloat("SpeedBoostBlurStrength", 0);
         _visualData.SpeedBoostFX.SetActive(false);
     }
 }
