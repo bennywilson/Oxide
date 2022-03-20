@@ -34,8 +34,7 @@ public class CarPhysicsObject : VehicleBase
         public float wheelSteering;
         public float wheelSpin;
 
-        public GameObject leftExhaustSpeedBoostFX;
-        public GameObject rightExhaustSpeedBoostFX;
+        public GameObject SpeedBoostFX;
         public CarCamera carCam;
     }
 
@@ -78,11 +77,7 @@ public class CarPhysicsObject : VehicleBase
         _visualData.rightBackWheel = RecursiveFindChild(gameObject.transform, "RBack").transform;
         _visualData.renderer = _carRenderer;// GetComponentInChildren<SkinnedMeshRenderer>() as SkinnedMeshRenderer;
 
-        GameObject LExhaust = RecursiveFindChild(gameObject.transform, "LExhaust").gameObject;
-        _visualData.leftExhaustSpeedBoostFX = LExhaust;//.GetComponents<ParticleSystem>();
-
-        GameObject RExhaust = RecursiveFindChild(gameObject.transform, "RExhaust").gameObject;
-        _visualData.rightExhaustSpeedBoostFX = RExhaust;//.GetComponents<ParticleSystem>();
+        _visualData.SpeedBoostFX = RecursiveFindChild(gameObject.transform, "SpeedBoostFX").gameObject;
 
         GameObject carCamRig = GameObject.Find("CarCameraRig");
         if (carCamRig != null)
@@ -310,8 +305,7 @@ public class CarPhysicsObject : VehicleBase
         BoostStartTime = Time.realtimeSinceStartup;
         _visualData.carCam._boomOffsetLerp = 0.0f;
 
-        _visualData.leftExhaustSpeedBoostFX.SetActive(true);
-        _visualData.rightExhaustSpeedBoostFX.SetActive(true);
+        _visualData.SpeedBoostFX.SetActive(true);
 
         float startTime = Time.realtimeSinceStartup;
         float zoomOutLength = 0.2f;
@@ -340,7 +334,6 @@ public class CarPhysicsObject : VehicleBase
         BoostVelMultiplier = 1;
         BoostAccelMultiplier = 1;
 
-        _visualData.leftExhaustSpeedBoostFX.SetActive(false);
-        _visualData.rightExhaustSpeedBoostFX.SetActive(false);
+        _visualData.SpeedBoostFX.SetActive(false);
     }
 }

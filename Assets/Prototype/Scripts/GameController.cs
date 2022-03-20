@@ -49,6 +49,7 @@ public class GameController : MonoBehaviour
         }
 
         public string _banterName;
+        public bool _playOverMusic;
         public float _distanceToPlayAt;
         public BanterScenario[] _scenarios;
     }
@@ -154,11 +155,15 @@ public class GameController : MonoBehaviour
             if (_playerVehicle.DistanceAlongSpline > _historicalBanter[_banterIndex]._distanceToPlayAt)
             {
 #if DEBUG_BANTER
-                Debug.Log(Time.time + "Should be playing banner!");
+                Debug.Log(Time.time + "Should be playing banner!" + _musicChannelIndex);
 #endif
-                _isBanterRunning = true;
                 int scenarioIndex = Random.Range(0, _historicalBanter[_banterIndex]._scenarios.Length - 1);
-                StartCoroutine(PlayBanterScript(_historicalBanter[_banterIndex]._scenarios[scenarioIndex]));
+
+                if (_musicChannelIndex == -1 || _historicalBanter[_banterIndex]._playOverMusic)
+                {
+                    _isBanterRunning = true;
+                    StartCoroutine(PlayBanterScript(_historicalBanter[_banterIndex]._scenarios[scenarioIndex]));
+                }
                 _banterIndex++;
             }
         }    
@@ -182,8 +187,10 @@ public class GameController : MonoBehaviour
                 Debug.Log(Time.time + "     Found " + name);
 
 #endif
+
                 int scenarioIndex = Random.Range(0, _drivingBanter[i]._scenarios.Length - 1);
                 _isBanterRunning = true;
+
                 StartCoroutine(PlayBanterScript(_drivingBanter[i]._scenarios[scenarioIndex]));
                 return;
             }
@@ -193,10 +200,14 @@ public class GameController : MonoBehaviour
     private IEnumerator PlayBanterScript(BanterInfo.BanterScenario scenario)
     {
         int currentAction = 0;
+        int duckedChannel = _musicChannelIndex;
 
-        if (scenario._duckAudio)
+#if DEBUG_BANTER
+        Debug.Log(Time.time + " PLAYBANTERSCRIPT!");
+#endif
+        if (scenario._duckAudio && duckedChannel >= 0)
         {
-            _music[_musicChannelIndex].volume = _musicTalkVolume;
+            _music[duckedChannel].volume = _musicTalkVolume;
             ((CarPhysicsObject)_playerVehicle).SetEngineVolume(0.05f);
         }
 
@@ -216,9 +227,9 @@ public class GameController : MonoBehaviour
 
         _isBanterRunning = false;
 
-        if (scenario._duckAudio)
+        if (scenario._duckAudio && duckedChannel >= 0)
         {
-            _music[_musicChannelIndex].volume = 1.0f;
+            _music[duckedChannel].volume = 1.0f;
             ((CarPhysicsObject)_playerVehicle).SetEngineVolume(0.13f);
         }
 
