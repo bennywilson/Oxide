@@ -13,6 +13,9 @@ public class CarPhysicsObject : VehicleBase
     [SerializeField]
     AudioSource _engineSound;
 
+    [SerializeField]
+    AudioSource _boostSound;
+
     Rigidbody _body;
 
     float _currentSteering;
@@ -78,6 +81,7 @@ public class CarPhysicsObject : VehicleBase
         _visualData.renderer = _carRenderer;// GetComponentInChildren<SkinnedMeshRenderer>() as SkinnedMeshRenderer;
 
         _visualData.SpeedBoostFX = RecursiveFindChild(gameObject.transform, "SpeedBoostFX").gameObject;
+        _visualData.SpeedBoostFX.SetActive(false);
 
         GameObject carCamRig = GameObject.Find("CarCameraRig");
         if (carCamRig != null)
@@ -313,6 +317,12 @@ public class CarPhysicsObject : VehicleBase
         float zoomOutLength = 0.2f;
         float finalTime = startTime + BoostLengthSec;
         float boomMax = 0.1f;
+
+        if (_boostSound != null)
+        {
+            _boostSound.Play();
+        }
+
         while (Time.realtimeSinceStartup < startTime + zoomOutLength)
         {
             float lerpAmt = Mathf.Clamp((Time.realtimeSinceStartup - startTime) / zoomOutLength, 0, 1.0f);

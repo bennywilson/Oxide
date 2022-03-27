@@ -24,6 +24,9 @@ public class GameController : MonoBehaviour
 
     float _endGameTime = 0.0f;
 
+    [SerializeField]
+    bool _disableBanter;
+
     [System.Serializable]
     public class BanterInfo
     {
@@ -150,7 +153,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if (_isBanterRunning == false && _timeOfLastBanter < Time.time - 10.0f && _banterIndex < _historicalBanter.Length)
+        if (_disableBanter == false && _isBanterRunning == false && _timeOfLastBanter < Time.time - 10.0f && _banterIndex < _historicalBanter.Length)
         {
             if (_playerVehicle.DistanceAlongSpline > _historicalBanter[_banterIndex]._distanceToPlayAt)
             {
