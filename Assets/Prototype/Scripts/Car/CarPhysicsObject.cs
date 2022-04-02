@@ -90,6 +90,7 @@ public class CarPhysicsObject : VehicleBase
         }
 
         Shader.SetGlobalFloat("SpeedBoostBlurStrength", 0);
+        Shader.SetGlobalColor("SpeedBoostLinesColor", Color.black);
     }
 
     public void SetEngineVolume(float newVolume)
@@ -328,10 +329,13 @@ public class CarPhysicsObject : VehicleBase
             float lerpAmt = Mathf.Clamp((Time.realtimeSinceStartup - startTime) / zoomOutLength, 0, 1.0f);
             _visualData.carCam._boomOffsetLerp = lerpAmt;
             Shader.SetGlobalFloat("SpeedBoostBlurStrength", lerpAmt);
+            Shader.SetGlobalColor("SpeedBoostLinesColor", new Color(lerpAmt, lerpAmt, lerpAmt));
             yield return null;
         }
 
         Shader.SetGlobalFloat("SpeedBoostBlurStrength", 1);
+        Shader.SetGlobalColor("SpeedBoostLinesColor", Color.white);
+
         _visualData.carCam._boomOffsetLerp = 1.0f;
 
         float zoomInLength = zoomOutLength * 2.0f;
@@ -343,6 +347,7 @@ public class CarPhysicsObject : VehicleBase
             float lerpAmt = 1.0f - Mathf.Clamp((Time.realtimeSinceStartup - startTime) / zoomInLength, 0, 1.0f);
             _visualData.carCam._boomOffsetLerp = lerpAmt;
             Shader.SetGlobalFloat("SpeedBoostBlurStrength", lerpAmt);
+            Shader.SetGlobalColor("SpeedBoostLinesColor", new Color(lerpAmt, lerpAmt, lerpAmt));
             yield return null;
         }
         _visualData.carCam._boomOffsetLerp = 0.0f;
@@ -350,6 +355,7 @@ public class CarPhysicsObject : VehicleBase
         BoostAcceleration = 0; 
         BoostVelocity = 0;
         Shader.SetGlobalFloat("SpeedBoostBlurStrength", 0);
+        Shader.SetGlobalColor("SpeedBoostLinesColor", Color.black);
         _visualData.SpeedBoostFX.SetActive(false);
     }
 }
