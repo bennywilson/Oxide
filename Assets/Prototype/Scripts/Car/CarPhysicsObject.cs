@@ -39,6 +39,7 @@ public class CarPhysicsObject : VehicleBase
 
         public GameObject SpeedBoostFX;
         public CarCamera carCam;
+        public GameObject carSpeedLines;
     }
 
     public CarVisualData _visualData;
@@ -87,6 +88,7 @@ public class CarPhysicsObject : VehicleBase
         if (carCamRig != null)
         {
             _visualData.carCam = carCamRig.GetComponent<CarCamera>();
+            _visualData.carSpeedLines = RecursiveFindChild(_visualData.carCam.transform, "ScreenFX").gameObject;
         }
 
         Shader.SetGlobalFloat("SpeedBoostBlurStrength", 0);
@@ -332,6 +334,7 @@ public class CarPhysicsObject : VehicleBase
             Shader.SetGlobalColor("SpeedBoostLinesColor", new Color(lerpAmt, lerpAmt, lerpAmt));
             yield return null;
         }
+        _visualData.carSpeedLines.SetActive(true);
 
         Shader.SetGlobalFloat("SpeedBoostBlurStrength", 1);
         Shader.SetGlobalColor("SpeedBoostLinesColor", Color.white);
@@ -340,6 +343,8 @@ public class CarPhysicsObject : VehicleBase
 
         float zoomInLength = zoomOutLength * 2.0f;
         yield return new WaitForSeconds(finalTime - zoomInLength - Time.realtimeSinceStartup);
+
+        _visualData.carSpeedLines.SetActive(false);
 
         startTime = Time.realtimeSinceStartup;
         while (Time.realtimeSinceStartup < finalTime)
